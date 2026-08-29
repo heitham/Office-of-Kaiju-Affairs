@@ -1,6 +1,6 @@
 {
   "manifestVersion": "1.0",
-  "generatedAt": "2026-08-29T23:23:15.142Z",
+  "generatedAt": "2026-08-29T23:48:46.355Z",
   "generator": {
     "name": "RIFT CMS",
     "version": "dev"
@@ -9,7 +9,7 @@
     "id": "office-of-kaiju-affairs",
     "name": "Office of Kaiju Affairs",
     "shortName": "Office of Kaiju Affairs",
-    "baseUrl": "https://staging-office-of-kaiju-affairs.netlify.app",
+    "baseUrl": "https://office-of-kaiju-affairs-git-staging-heitham-ghariani-s-projects.vercel.app",
     "language": "en",
     "description": ""
   },
