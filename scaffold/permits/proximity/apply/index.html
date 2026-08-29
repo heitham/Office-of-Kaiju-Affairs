@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apply for a proximity construction permit — Office of Kaiju Affairs</title>
+<link rel="stylesheet" href="/arena/arena.css">
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json" data-debug="true"></script>
+<style>
+  .form-grid { display: grid; gap: 18px; max-width: 620px; }
+  .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+  .field input, .field select {
+    width: 100%; padding: 10px 12px; font: 15px var(--sans);
+    border: 1px solid var(--line); border-radius: 6px;
+    background: var(--paper-2); color: var(--ink);
+  }
+  .field.check { display: flex; gap: 10px; align-items: flex-start; }
+  .field.check input { width: auto; margin-top: 3px; }
+  .field.check label { font-weight: 400; }
+  .receipt { margin-top: 20px; padding: 14px 16px; border-radius: 8px; background: var(--accent-soft); border: 1px solid var(--accent); }
+</style>
+</head>
+<body>
+<header class="masthead"><div class="wrap">
+  <p class="eyebrow"><a href="/">Office of Kaiju Affairs</a> · Permits · Proximity construction</p>
+  <h1>Apply for a proximity construction permit</h1>
+  <p class="lede">
+    Required before building, extending or structurally altering any structure within
+    1,000 metres of a designated kaiju corridor centreline. Zone 4 sites require
+    reinforcement standard K-2; Zone 5 sites require K-3.
+  </p>
+</div></header>
+
+<main class="wrap"><section>
+  <form data-kaiju-form="proximity-permit-form" class="form-grid" novalidate>
+    <div class="field"><label for="applicantName">Applicant name</label>
+      <input id="applicantName" name="applicantName" type="text" maxlength="120" required></div>
+    <div class="field"><label for="organization">Organisation (if any)</label>
+      <input id="organization" name="organization" type="text" maxlength="120"></div>
+    <div class="field"><label for="contactEmail">Contact email</label>
+      <input id="contactEmail" name="contactEmail" type="email" required></div>
+    <div class="field"><label for="contactPhone">Contact phone</label>
+      <input id="contactPhone" name="contactPhone" type="tel"></div>
+    <div class="field"><label for="sitePostcode">Site postcode</label>
+      <input id="sitePostcode" name="sitePostcode" type="text" placeholder="000-0000" required></div>
+    <div class="field"><label for="zone">Evacuation zone</label>
+      <select id="zone" name="zone" required>
+        <option value="">Select…</option>
+        <option value="1">Zone 1</option><option value="2">Zone 2</option>
+        <option value="3">Zone 3</option><option value="4">Zone 4</option>
+        <option value="5">Zone 5</option>
+      </select></div>
+    <div class="field"><label for="distanceFromCorridorM">Distance from corridor centreline (m)</label>
+      <input id="distanceFromCorridorM" name="distanceFromCorridorM" type="number" min="0" required></div>
+    <div class="field"><label for="structureType">Structure type</label>
+      <select id="structureType" name="structureType" required>
+        <option value="">Select…</option>
+        <option value="new-build">New build</option>
+        <option value="extension">Extension</option>
+        <option value="structural-alteration">Structural alteration</option>
+        <option value="temporary">Temporary structure</option>
+      </select></div>
+    <div class="field"><label for="floorAreaSqm">Floor area (m²)</label>
+      <input id="floorAreaSqm" name="floorAreaSqm" type="number" min="0" required></div>
+    <div class="field"><label for="reinforcementStandard">Reinforcement standard</label>
+      <select id="reinforcementStandard" name="reinforcementStandard" required>
+        <option value="">Select…</option>
+        <option value="K-1">K-1 (outer band)</option>
+        <option value="K-2">K-2 (zone 4 minimum)</option>
+        <option value="K-3">K-3 (zone 5 minimum)</option>
+      </select></div>
+    <div class="field check">
+      <input id="seismicPlanAttached" name="seismicPlanAttached" type="checkbox">
+      <label for="seismicPlanAttached">Seismic and impact mitigation plan attached</label></div>
+    <div class="field"><label for="plannedStartDate">Planned start date</label>
+      <input id="plannedStartDate" name="plannedStartDate" type="date" required></div>
+
+    <div><button class="btn" type="submit">Submit application</button></div>
+  </form>
+
+  <div class="receipt" id="receipt" hidden></div>
+</section></main>
+
+<script>
+  // Demo only: there is no backend. The point of the form is that a person
+  // presses this button — an agent never can.
+  document.querySelector('form[data-kaiju-form]').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.target).entries());
+    const receipt = document.getElementById('receipt');
+    receipt.hidden = false;
+    receipt.innerHTML =
+      '<strong>Submitted by you, not by an agent.</strong> This demo has no backend — nothing left your browser.<br>' +
+      Object.entries(data).map(([k, v]) => `${k}: ${v || '—'}`).join('<br>');
+    receipt.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>

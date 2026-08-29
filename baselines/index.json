@@ -1,0 +1,13 @@
+{
+  "indexVersion": "1.0",
+  "note": "Written by the drift-race session after each recording session. The Arena reads this file to know which traces to load; it never guesses filenames.",
+  "recordedAgainst": { "baseUrl": null, "commit": null, "manifestVersion": "1.0" },
+  "runs": [
+    { "taskId": "task-1-needle", "lane": "ui-guessing", "file": "ui-task-1-needle.json" },
+    { "taskId": "task-1-needle", "lane": "webmcp", "file": "mcp-task-1-needle.json" },
+    { "taskId": "task-2-eligibility", "lane": "ui-guessing", "file": "ui-task-2-eligibility.json" },
+    { "taskId": "task-2-eligibility", "lane": "webmcp", "file": "mcp-task-2-eligibility.json" },
+    { "taskId": "task-3-permit", "lane": "ui-guessing", "file": "ui-task-3-permit.json" },
+    { "taskId": "task-3-permit", "lane": "webmcp", "file": "mcp-task-3-permit.json" }
+  ]
+}

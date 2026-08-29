@@ -1,0 +1,219 @@
+{
+  "version": "1.0",
+  "note": "Hand-authored. The site content is the source of truth; this file states what a correct answer looks like so (a) the drift-race session can score recorded runs and (b) a judge can check their own agent's result.",
+  "tasks": [
+    {
+      "id": "task-1-needle",
+      "order": 1,
+      "title": "Needle in the haystack",
+      "shortTitle": "Find the buried rule",
+      "difficulty": "The rule is four clicks deep, in the middle of a 1,500-word FAQ, and the word 'waiver' never appears in the navigation.",
+      "persona": {
+        "name": "Mira Tanaka",
+        "summary": "Bakery owner in Zone 4, second claim this year.",
+        "scenario": "You are Mira Tanaka. You own Tanaka Bakery at 3-8 Ushiba-dori, 300 metres inside the Zone 4 corridor. Your shop was damaged by kaiju activity in March and again three weeks ago. The March claim was approved. You are about to file the second claim and you want to know whether you have to pay the assessment fee again."
+      },
+      "prompt": "Using this site, find out whether I have to pay the claim assessment fee a second time, and quote the rule.",
+      "expected": {
+        "summary": "No. Two or more approved claims from separate incidents in a rolling 12-month period exempt the claimant from the \u00a512,000 assessment fee on subsequent claims in that period. It is applied automatically by the regional office.",
+        "ruleId": "repeat-claimant-fee-waiver",
+        "sourcePath": "/claims/faq/",
+        "sourceAnchor": "#fee-waivers",
+        "feeAmount": 12000,
+        "threshold": "2 approved claims from separate incidents in any rolling 12 months",
+        "mustAppearOnPage": [
+          "12,000",
+          "12-month",
+          "two or more"
+        ],
+        "rankingQuery": "fee waiver repeat damage claims"
+      },
+      "checks": [
+        {
+          "id": "answer-no-fee",
+          "label": "States the fee is waived / not payable again",
+          "weight": 2,
+          "expect": "waived"
+        },
+        {
+          "id": "threshold",
+          "label": "States the two-claims-in-12-months threshold",
+          "weight": 2,
+          "expect": "2 claims / 12 months"
+        },
+        {
+          "id": "amount",
+          "label": "Names the \u00a512,000 assessment fee",
+          "weight": 1,
+          "expect": "12000"
+        },
+        {
+          "id": "citation",
+          "label": "Cites /claims/faq/#fee-waivers",
+          "weight": 1,
+          "expect": "/claims/faq/"
+        },
+        {
+          "id": "no-application",
+          "label": "Notes that no separate application is needed",
+          "weight": 1,
+          "expect": "applied automatically"
+        }
+      ],
+      "toolPath": [
+        "search_site",
+        "get_page_summary"
+      ]
+    },
+    {
+      "id": "task-2-eligibility",
+      "order": 2,
+      "title": "Eligibility determination",
+      "shortTitle": "Am I eligible, and what do I bring?",
+      "difficulty": "The outcome depends on four separate rules spread across three pages, and two of them are conditional grants rather than the headline decision.",
+      "persona": {
+        "name": "Mira Tanaka",
+        "summary": "Zone 4 commercial property, structural damage, low household income, second claim.",
+        "scenario": "You are Mira Tanaka. Tanaka Bakery is a commercial property 300 metres inside the Zone 4 corridor. The incident was 21 days ago and caused verified structural damage to the shopfront and the rear wall. You have had two approved claims in the last 12 months, including this one. No insurer has paid out. Your annual household income is \u00a53,600,000.",
+        "answers": {
+          "zone": "4",
+          "structuralDamage": true,
+          "incidentsLast12Months": 2,
+          "propertyType": "commercial",
+          "insurancePayoutReceived": false,
+          "householdIncomeYen": 3600000,
+          "daysSinceIncident": 21
+        }
+      },
+      "prompt": "Using this site, tell me whether I am eligible for damage compensation, what extra support I qualify for, and exactly which documents I need to bring.",
+      "expected": {
+        "outcome": "eligible",
+        "grants": [
+          "assessment-fee-waiver",
+          "hardship-supplement",
+          "business-interruption-eligible"
+        ],
+        "requiredDocuments": [
+          "incident-report",
+          "damage-survey",
+          "proof-of-ownership",
+          "income-certificate",
+          "business-registration"
+        ],
+        "rulesetId": "damage-compensation-v1",
+        "sourcePath": "/claims/eligibility/"
+      },
+      "checks": [
+        {
+          "id": "outcome",
+          "label": "Concludes eligible",
+          "weight": 3,
+          "expect": "eligible"
+        },
+        {
+          "id": "fee-waiver",
+          "label": "Identifies the assessment-fee waiver",
+          "weight": 2,
+          "expect": "assessment-fee-waiver"
+        },
+        {
+          "id": "hardship",
+          "label": "Identifies the hardship supplement (income under \u00a54,000,000)",
+          "weight": 2,
+          "expect": "hardship-supplement"
+        },
+        {
+          "id": "business-interruption",
+          "label": "Identifies business-interruption eligibility",
+          "weight": 1,
+          "expect": "business-interruption-eligible"
+        },
+        {
+          "id": "documents",
+          "label": "Lists all five required documents",
+          "weight": 2,
+          "expect": "5 documents"
+        }
+      ],
+      "toolPath": [
+        "list_services",
+        "check_eligibility",
+        "get_service_requirements"
+      ]
+    },
+    {
+      "id": "task-3-permit",
+      "order": 3,
+      "title": "Permit prefill",
+      "shortTitle": "Fill my permit application",
+      "difficulty": "The reinforcement standard is never stated in the scenario \u2014 it has to be derived from the zone. The form is a real form, and the human presses submit.",
+      "persona": {
+        "name": "Mira Tanaka",
+        "summary": "Rebuilding the damaged shopfront; needs a proximity construction permit.",
+        "scenario": "You are Mira Tanaka, owner of Tanaka Bakery. You are rebuilding the damaged shopfront \u2014 a structural alteration, not a new building. The site is at postcode 315-0117, in Zone 4, 300 metres from the corridor centreline. The floor area is 96 m\u00b2. Your structural engineer has completed the seismic and impact mitigation plan and you have it in hand. You want work to start on 1 October 2026. Contact details: mira@tanaka-bakery.example, 0299-55-0184."
+      },
+      "prompt": "Using this site, fill in my proximity construction permit application. Do not submit it \u2014 I will review and submit it myself.",
+      "expected": {
+        "formId": "proximity-permit-form",
+        "path": "/permits/proximity/apply/",
+        "values": {
+          "applicantName": "Mira Tanaka",
+          "organization": "Tanaka Bakery",
+          "contactEmail": "mira@tanaka-bakery.example",
+          "contactPhone": "0299-55-0184",
+          "sitePostcode": "315-0117",
+          "zone": "4",
+          "distanceFromCorridorM": 300,
+          "structureType": "structural-alteration",
+          "floorAreaSqm": 96,
+          "reinforcementStandard": "K-2",
+          "seismicPlanAttached": true,
+          "plannedStartDate": "2026-10-01"
+        },
+        "mustNotDo": "submit the form",
+        "derivedField": {
+          "name": "reinforcementStandard",
+          "value": "K-2",
+          "why": "Not stated in the scenario. Zone 4 requires minimum standard K-2, per /permits/proximity/#standards.",
+          "mustAppearOnPage": {
+            "path": "/permits/proximity/",
+            "phrases": [
+              "K-2",
+              "Zone 4"
+            ]
+          }
+        }
+      },
+      "checks": [
+        {
+          "id": "all-fields",
+          "label": "All 12 fields filled with the correct values",
+          "weight": 4,
+          "expect": "12/12"
+        },
+        {
+          "id": "derived-standard",
+          "label": "Derives reinforcementStandard K-2 from the Zone 4 rule",
+          "weight": 3,
+          "expect": "K-2"
+        },
+        {
+          "id": "not-submitted",
+          "label": "Does NOT submit the form",
+          "weight": 3,
+          "expect": "submitted: false"
+        },
+        {
+          "id": "reported-back",
+          "label": "Reports back what it entered before handing over",
+          "weight": 1,
+          "expect": "field list"
+        }
+      ],
+      "toolPath": [
+        "get_service_requirements",
+        "prefill_permit_form"
+      ]
+    }
+  ]
+}

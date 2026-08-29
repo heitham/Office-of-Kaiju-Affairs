@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Arena — Office of Kaiju Affairs</title>
+<meta name="description" content="Two agents, the same three citizen tasks, one site. One guesses through the UI. One uses the tools the CMS published.">
+<link rel="stylesheet" href="arena.css">
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json" data-debug="true"></script>
+<script type="module" src="arena.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#tasks">Skip to the tasks</a>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow"><a href="/">Office of Kaiju Affairs</a> · The Arena</p>
+    <h1>Two agents. Same three tasks. Same site.</h1>
+    <p class="lede">
+      One agent reads the pages and clicks around, the way agents have to on every
+      government site in the country. The other calls the tools this site publishes
+      about itself. Everything below the fold is a recording — except the fast lane,
+      which you can run yourself, right now, in this tab.
+    </p>
+    <div id="status" class="status" role="status" aria-live="polite">
+      <span class="dot"></span><span class="status-text">Checking this browser for WebMCP…</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="board" aria-labelledby="board-h">
+    <h2 id="board-h">Scoreboard</h2>
+    <p class="sub">Recorded runs. Wall-clock time, actions taken, and accuracy scored against the published answer key.</p>
+    <div id="scoreboard" class="scoreboard"><p class="loading">Loading recorded runs…</p></div>
+  </section>
+
+  <section id="tasks" class="tasks" aria-labelledby="tasks-h">
+    <h2 id="tasks-h">The three tasks</h2>
+    <p class="sub">
+      Copy a scenario, paste it to your own agent with this site open, and watch it
+      work. Then play the recording of the same task without tools.
+    </p>
+    <div id="task-list"><p class="loading">Loading tasks…</p></div>
+  </section>
+
+  <section class="how" aria-labelledby="how-h">
+    <h2 id="how-h">How this works</h2>
+    <div class="how-grid">
+      <div>
+        <h3>The site publishes its own tools</h3>
+        <p>
+          Every page loads one script tag. The tools it registers are generated from
+          the CMS's link graph and content model at publish time — no page hand-codes
+          a tool. That is the whole claim: a thousand-page agency site gets the same
+          agent layer for the same effort as this one.
+        </p>
+      </div>
+      <div>
+        <h3>The slow lane is a real recording</h3>
+        <p>
+          The UI-guessing runs were recorded once, before submission, against this
+          same site with no tools available. Every page load, click, scroll and dead
+          end is in the trace file. Nothing here is simulated for effect.
+        </p>
+      </div>
+      <div>
+        <h3>Your data never reaches us</h3>
+        <p>
+          The personas below are pasted into <em>your</em> agent conversation. When it
+          calls <code>check_eligibility</code>, the answers are evaluated inside the
+          page against published rules. This site is static — there is no server to
+          send them to.
+        </p>
+      </div>
+      <div>
+        <h3>The human still presses submit</h3>
+        <p>
+          <code>prefill_permit_form</code> fills the form and stops. It has no code
+          path that submits. That is not the agent being polite; it is the tool
+          surface refusing to offer the button.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>
+      Office of Kaiju Affairs is a fictional agency built for the WebMCP Challenge.
+      Swap the kaiju for the DMV and this is every thousand-page agency site in the country.
+    </p>
+    <p class="meta">MIT licensed · <span id="trace-provenance">baseline traces: loading…</span></p>
+  </div>
+</footer>
+
+<template id="task-template">
+  <article class="task">
+    <header class="task-head">
+      <p class="task-order"></p>
+      <h3 class="task-title"></h3>
+      <p class="task-difficulty"></p>
+    </header>
+
+    <div class="task-body">
+      <section class="persona">
+        <h4>Your scenario</h4>
+        <blockquote class="scenario"></blockquote>
+        <p class="ask"><strong>Then ask:</strong> <span class="task-prompt"></span></p>
+        <button class="btn copy" type="button">Copy this scenario</button>
+        <p class="copy-hint">Paste it into your agent with this site open in the same tab.</p>
+      </section>
+
+      <section class="replay" aria-label="Recorded replay">
+        <div class="replay-controls">
+          <button class="btn play" type="button">Play both lanes</button>
+          <button class="btn ghost reset" type="button">Reset</button>
+          <label class="speed">
+            Speed
+            <select class="speed-select">
+              <option value="4">4×</option>
+              <option value="8" selected>8×</option>
+              <option value="16">16×</option>
+              <option value="1000">Skip to end</option>
+            </select>
+          </label>
+        </div>
+        <div class="lanes"></div>
+      </section>
+
+      <details class="key">
+        <summary>Answer key — check your agent's result</summary>
+        <div class="key-body"></div>
+      </details>
+    </div>
+  </article>
+</template>
+
+<template id="lane-template">
+  <div class="lane">
+    <header class="lane-head">
+      <h4 class="lane-name"></h4>
+      <p class="lane-sub"></p>
+      <dl class="lane-metrics">
+        <div><dt>Time</dt><dd class="m-time">0.0s</dd></div>
+        <div><dt>Actions</dt><dd class="m-actions">0</dd></div>
+        <div><dt>Accuracy</dt><dd class="m-accuracy">—</dd></div>
+      </dl>
+      <div class="bar"><span class="bar-fill"></span></div>
+    </header>
+    <ol class="steps"></ol>
+    <div class="verdict" hidden></div>
+  </div>
+</template>
+
+</body>
+</html>

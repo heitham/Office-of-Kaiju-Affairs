@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Office of Kaiju Affairs</title>
+<link rel="stylesheet" href="/arena/arena.css">
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json" data-debug="true"></script>
+</head>
+<body>
+<header class="masthead"><div class="wrap">
+  <p class="eyebrow">Placeholder · not the published site</p>
+  <h1>Office of Kaiju Affairs</h1>
+  <p class="lede">
+    These two pages stand in for the CMS's published site so the WebMCP runtime and
+    the Arena can be built and tested before the real publish lands in <code>site/</code>.
+    <code>node build.mjs</code> drops them automatically as soon as <code>site/</code> has content.
+  </p>
+</div></header>
+<main class="wrap"><section>
+  <h2>Where to go</h2>
+  <ul>
+    <li><a href="/arena/">The Arena</a> — the race, the scoreboard and the three tasks.</li>
+    <li><a href="/permits/proximity/apply/">Proximity permit application</a> — the real form <code>prefill_permit_form</code> fills.</li>
+    <li><a href="/manifest.json">manifest.json</a> — the agent layer this site publishes about itself.</li>
+  </ul>
+  <h2>The one line every published page carries</h2>
+  <pre><code>&lt;script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"&gt;&lt;/script&gt;</code></pre>
+</section></main>
+</body>
+</html>
