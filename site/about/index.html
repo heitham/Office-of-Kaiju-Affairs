@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About the Office | Office of Kaiju Affairs</title>
+  <meta name="description" content="Mandate, structure and history of the Office of Kaiju Affairs under the Special Corridors Act.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-about page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/about/index" class="usa-current">About the Office</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>About the Office</h1>
+<p>The Office of Kaiju Affairs is the national authority established under the Special Corridors Act to administer designated kaiju corridors: construction control, damage compensation, and evacuation readiness.</p>
+<h2 id="mandate">Mandate</h2>
+<p>The Office maintains the corridor register, sets the K-series reinforcement standards, operates the national kaiju monitoring sensor network, and determines compensation claims arising from corridor activity.</p>
+<h2 id="structure">Structure</h2>
+<p>Three divisions: Permits and Standards, Claims and Compensation, and the Monitoring Division, which publishes the <a href="/platform.html">Kaiju Monitoring Platform</a> for researchers and integrators.</p>
+<h2 id="history">A note on scope</h2>
+<p>The Office does not undertake kaiju deterrence, relocation or negotiation. Enquiries on those subjects should be directed to the relevant defence authorities.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

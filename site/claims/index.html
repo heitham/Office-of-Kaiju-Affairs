@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claims | Office of Kaiju Affairs</title>
+  <meta name="description" content="Damage claims administered by the Office of Kaiju Affairs, deadlines, and how to begin.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-claims page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/claims/index" class="usa-current">Claims</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Claims</h1>
+<p data-agent-keywords="claims, deadline, incident report, 90 days">The Office administers compensation for damage caused by kaiju activity inside designated corridors. Read the deadlines below before doing anything else; they are not extended.</p>
+
+<h2 id="before">Before you file</h2>
+<ul>
+  <li data-agent-fact="Claim deadline">Claims must be filed within 90 days of the incident.</li>
+  <li data-agent-fact="Incident report deadline">An incident report must be filed within 72 hours of the incident. The report receipt is a required document for every claim.</li>
+</ul>
+
+<section>
+  <a class='card' href='/claims/damage-compensation/'>
+  <span class='card__tag'>Overview</span>
+  <h3 class='card__title'>Damage Compensation</h3>
+  <p class='card__description'>What is covered, and for whom.</p>
+</a>
+  <a class='card' href='/claims/eligibility/'>
+  <span class='card__tag'>Check first</span>
+  <h3 class='card__title'>Eligibility</h3>
+  <p class='card__description'>Zone rules, insurance offsets, and the hardship supplement.</p>
+</a>
+  <a class='card' href='/claims/how-to-file/'>
+  <span class='card__tag'>Process</span>
+  <h3 class='card__title'>How to file</h3>
+  <p class='card__description'>The five steps from incident report to determination.</p>
+</a>
+  <a class='card' href='/claims/fees/'>
+  <span class='card__tag'>Fees</span>
+  <h3 class='card__title'>Fee schedule</h3>
+  <p class='card__description'>Assessment fee, refunds and waivers.</p>
+</a>
+  <a class='card' href='/claims/faq/'>
+  <span class='card__tag'>Questions</span>
+  <h3 class='card__title'>FAQ</h3>
+  <p class='card__description'>Common questions, including fee waivers for repeat claimants.</p>
+</a>
+</section>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

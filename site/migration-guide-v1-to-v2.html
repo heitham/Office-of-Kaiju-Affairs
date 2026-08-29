@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migration guide (v1 → v2) | Office of Kaiju Affairs</title>
+  <meta name="description" content="Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-migration-guide-v1-to-v2">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/platform">Kaiju Monitoring Platform Docs</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2" class="usa-current">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/index">Office of Kaiju Affairs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Migration guide (v1 → v2) <span class='chip chip--danger'>v1 retired</span></h1>
+<p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>
+
+<h2>1. Pagination: offset → cursor</h2>
+<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/apis/rate-limits">Rate limits</a> for the exact envelope.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>diff</span>
+    <span class='code-block__lang'>diff</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>- GET /v1/pipelines?page=2&per_page=20
++ GET /v2/pipelines?cursor=eyJvZmZzZXQiOjIwfQ</code></pre>
+</div>
+
+<h2>2. Status checks: polling → webhooks</h2>
+<p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href="/apis/webhooks">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>
+
+<h2>3. Error shape</h2>
+<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/apis/error-responses">the error shape reference</a>.</p>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>v1 is retired</div>
+  <div class='alert__body'><p>v1 endpoints no longer accept requests. If you're seeing 404s on <code>/v1/*</code> paths, that's why — there is no grace-period fallback.</p></div>
+</div>
+
+<h2>Still stuck?</h2><h2>Support / Contact</h2>
+<p>Before reaching out, check <a href="/troubleshooting">Troubleshooting / FAQ</a> — most common issues are covered there.</p>
+
+<h3>Channels</h3>
+<ul>
+  <li><strong>Technical support:</strong> support@kmp.kaiju.go.example</li>
+  <li><strong>Sales:</strong> sales@kmp.kaiju.go.example</li>
+  <li><strong>Security reports:</strong> security@kmp.kaiju.go.example — see <a href="/security-and-compliance">Security & compliance overview</a> for our disclosure policy.</li>
+</ul>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Response times</div>
+  <div class='alert__body'><p>Standard-tier support responds within one business day. Include your workspace ID and, if relevant, a <code>request_id</code> from an error response.</p></div>
+</div>
+<p>Common migration issues are covered in <a href="/troubleshooting">Troubleshooting / FAQ</a>.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

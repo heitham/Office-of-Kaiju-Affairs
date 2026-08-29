@@ -1,0 +1,3344 @@
+{
+  "manifestVersion": "1.0",
+  "generatedAt": "2026-08-29T23:23:15.142Z",
+  "generator": {
+    "name": "RIFT CMS",
+    "version": "dev"
+  },
+  "site": {
+    "id": "office-of-kaiju-affairs",
+    "name": "Office of Kaiju Affairs",
+    "shortName": "Office of Kaiju Affairs",
+    "baseUrl": "https://staging-office-of-kaiju-affairs.netlify.app",
+    "language": "en",
+    "description": ""
+  },
+  "pages": [
+    {
+      "id": "/apis/webhooks.html",
+      "path": "/apis/webhooks.html",
+      "title": "Webhooks endpoint",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "Subscribe to Kaiju Monitoring Platform lifecycle events over outbound HTTP via the v2 REST API.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Webhooks endpoint v2"
+        },
+        {
+          "level": 2,
+          "text": "Create a webhook subscription",
+          "anchor": "#create"
+        },
+        {
+          "level": 2,
+          "text": "Delivery retries",
+          "anchor": "#retries"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/migration-guide-v1-to-v2"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 161,
+      "text": "Webhooks endpoint v2 Subscribe to platform lifecycle events — such as pipeline.completed or connector.error — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the Migration guide if you're moving off v1. Create a webhook subscription POST /v2/webhooks Name Type Required Description urlstringYesHTTPS endpoint KMP will POST events to.eventsarrayYesList of event types to subscribe to, e.g. [\"pipeline.failed\"].secretstringNoShared secret used to sign the X-KMP-Signature header. Auto-generated if omitted. webhook-payload.json json Copy { \"id\": \"evt_wh_2091\", \"type\": \"pipeline.failed\", \"occurred_at\": \"2026-08-18T09:14:02Z\", \"data\": { \"pipeline_id\": \"pl_ingest_orders\", \"error\": \"destination_timeout\" } } Verify the signature Always verify X-KMP-Signature before trusting a webhook payload. Unsigned or unverifiable requests to your endpoint should be rejected, not processed. Delivery retries A webhook delivery that doesn't receive a 2xx response is retried with exponential backoff for up to 24 hours, then marked failed. Failed deliveries are visible per-subscription and can be manually redelivered. On this page Create a webhook subscriptionDelivery retries"
+    },
+    {
+      "id": "/apis/rate-limits.html",
+      "path": "/apis/rate-limits.html",
+      "title": "Rate limits",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "Standard-tier rate limits and the v2 API's cursor-based pagination envelope.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Rate limits v2"
+        },
+        {
+          "level": 2,
+          "text": "Rate limit headers",
+          "anchor": "#headers"
+        },
+        {
+          "level": 2,
+          "text": "Pagination",
+          "anchor": "#pagination"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/concepts-pipelines",
+          "/concepts-events"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 78,
+      "text": "Rate limits v2 1,000 requests / minute Default rate limit for standard-tier API keys, per workspace. Rate limit headers Every response includes X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset. A request over the limit returns 429 Too Many Requests with a Retry-After header. Pagination List endpoints (Pipelines, Connectors, Events) use cursor-based pagination — a departure from v1's offset-based pagination. list-response.json json Copy { \"data\": [ { \"id\": \"pl_ingest_orders\" } ], \"next_cursor\": \"eyJvZmZzZXQiOjIwfQ\", \"has_more\": true } On this page Rate limit headersPagination"
+    },
+    {
+      "id": "/apis/pipelines.html",
+      "path": "/apis/pipelines.html",
+      "title": "Pipelines endpoint",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "Create, list, and manage pipelines via the v2 REST API.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Pipelines endpoint v2"
+        },
+        {
+          "level": 2,
+          "text": "Create a pipeline",
+          "anchor": "#create"
+        },
+        {
+          "level": 2,
+          "text": "List pipelines",
+          "anchor": "#list"
+        },
+        {
+          "level": 2,
+          "text": "Pipeline states",
+          "anchor": "#states"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/concepts-pipelines"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 156,
+      "text": "Pipelines endpoint v2 Create and manage pipelines programmatically. Base URL: https://api.kmp.kaiju.go.example/v2. Create a pipeline POST /v2/pipelines Name Type Required Description namestringYesHuman-readable pipeline name, unique per workspace.source_connector_idstringYesID of the connector events are read from.destination_connector_idstringYesID of the connector events are written to.transformsarrayNoOrdered list of transform step definitions. Omit for a pass-through copy.schedulestringNoCron expression. Omit for event-triggered (streaming) pipelines. create-pipeline.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/pipelines \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -H \"Content-Type: application/json\" \\ -d '{ \"name\": \"ingest-orders\", \"source_connector_id\": \"conn_pg_orders\", \"destination_connector_id\": \"conn_snowflake_dw\" }' List pipelines GET /v2/pipelines — cursor-paginated, see Rate limits for the pagination envelope. Pipeline states Returned pipelines include a state field of draft, active, or paused — see Pipelines for what each means. Deleting a pipeline Deleting a pipeline does not delete its source or destination connectors, and does not delete events already written to the destination. In-flight runs are allowed to finish before deletion completes. On this page Create a pipelineList pipelinesPipeline states"
+    },
+    {
+      "id": "/apis/",
+      "path": "/apis/",
+      "title": "API Reference",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "The KMP v2 REST API: pipelines, connectors, events, webhooks, and rate limits.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "API Reference"
+        },
+        {
+          "level": 3,
+          "text": "Pipelines"
+        },
+        {
+          "level": 3,
+          "text": "Connectors"
+        },
+        {
+          "level": 3,
+          "text": "Events"
+        },
+        {
+          "level": 3,
+          "text": "Webhooks"
+        },
+        {
+          "level": 3,
+          "text": "Rate limits"
+        },
+        {
+          "level": 3,
+          "text": "Error responses"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks"
+        ]
+      },
+      "updated": "2026-08-29T23:11:36.758Z",
+      "wordCount": 121,
+      "text": "API Reference Every endpoint in the KMP v2 REST API, with request/response examples. Start with Pipelines All endpoints live under https://api.kmp.kaiju.go.example/v2 and require a bearer API key. New to the API? Read Authentication in Getting Started first. Endpoint Pipelines Create, list, and manage pipelines. Endpoint Connectors Create, list, and rotate credentials for connectors. Endpoint Events Query and replay events that have flowed through a pipeline. Endpoint Webhooks Subscribe to platform lifecycle events over outbound HTTP. Reference Rate limits Standard-tier limits and the cursor-based pagination envelope. Reference Error responses The v2 API's error response shape. Coming from v1? v2 replaces offset pagination with cursor pagination and adds webhooks in place of polling. See the migration guide before switching a production integration over."
+    },
+    {
+      "id": "/apis/events.html",
+      "path": "/apis/events.html",
+      "title": "Events endpoint",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "Query and replay events that have flowed through a pipeline via the v2 REST API.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Events endpoint v2"
+        },
+        {
+          "level": 2,
+          "text": "List events",
+          "anchor": "#list"
+        },
+        {
+          "level": 2,
+          "text": "Replay a dead-lettered event",
+          "anchor": "#replay"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/concepts-events"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 133,
+      "text": "Events endpoint v2 Query and replay events that have flowed through a pipeline. List events GET /v2/pipelines/{pipeline_id}/events — cursor-paginated, filterable by type and occurred_at range. Name Type Required Description typestringNoFilter to a single event type, e.g. order.created.sincestringNoISO-8601 timestamp lower bound on occurred_at.cursorstringNoOpaque pagination cursor from a previous response's next_cursor. event.json json Copy { \"id\": \"evt_8f2c1a90\", \"type\": \"order.created\", \"occurred_at\": \"2026-08-18T09:12:44Z\", \"payload\": { \"order_id\": \"ord_4471\" } } Replay a dead-lettered event POST /v2/events/{id}/replay — re-runs an event that exhausted its retries from where it was dead-lettered. See the Handling errors & retries guide for when to use this versus reprocessing an entire time range. Platform events Lifecycle notifications like pipeline.started and connector.error are not returned by this endpoint — subscribe to them through the Webhooks endpoint instead. On this page List eventsReplay a dead-lettered event"
+    },
+    {
+      "id": "/apis/error-responses.html",
+      "path": "/apis/error-responses.html",
+      "title": "Error responses",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "The v2 API's error response shape, and the breaking change from v1's bare error strings.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Error responses v2"
+        },
+        {
+          "level": 2,
+          "text": "Error shape",
+          "anchor": "#errors"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 62,
+      "text": "Error responses v2 Error shape error-response.json json Copy { \"error\": { \"code\": \"connector_unauthorized\", \"message\": \"The connector's credentials were rejected by the source system.\", \"request_id\": \"req_c93a10\" } } Breaking change from v1 v1 returned bare error strings. v2 always wraps errors in an error object with a stable code field — match on code, not on message text. On this page Error shape"
+    },
+    {
+      "id": "/apis/connectors.html",
+      "path": "/apis/connectors.html",
+      "title": "Connectors endpoint",
+      "section": "apis",
+      "breadcrumb": [
+        "Home",
+        "apis"
+      ],
+      "summary": "Create, list, and rotate credentials for connectors via the v2 REST API.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Connectors endpoint v2"
+        },
+        {
+          "level": 2,
+          "text": "Create a connector",
+          "anchor": "#create"
+        },
+        {
+          "level": 2,
+          "text": "Rotate credentials",
+          "anchor": "#rotate"
+        },
+        {
+          "level": 2,
+          "text": "Health status",
+          "anchor": "#health"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/apis/index",
+          "/apis/connectors",
+          "/apis/error-responses",
+          "/apis/events",
+          "/apis/pipelines",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/concepts-connectors"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 144,
+      "text": "Connectors endpoint v2 Manage connectors — the source and destination integrations pipelines read from and write to. Create a connector POST /v2/connectors Name Type Required Description typestringYesOne of postgres, s3, snowflake, kafka, webhook.directionstringYessource, destination, or bidirectional (webhook only).configobjectYesType-specific connection details, e.g. connection string or IAM role ARN. create-connector.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/connectors \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -H \"Content-Type: application/json\" \\ -d '{ \"type\": \"postgres\", \"direction\": \"source\", \"config\": { \"connection_string\": \"postgres://...\" } }' Rotate credentials POST /v2/connectors/{id}/rotate — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically. Shared connectors A connector referenced by multiple pipelines is rotated once, for all of them. Check a connector's pipeline_count field before rotating during a busy window. Health status GET /v2/connectors/{id} returns a health field of healthy, degraded, or down. On this page Create a connectorRotate credentialsHealth status"
+    },
+    {
+      "id": "/sdks/python.html",
+      "path": "/sdks/python.html",
+      "title": "Python SDK",
+      "section": "sdks",
+      "breadcrumb": [
+        "Home",
+        "sdks"
+      ],
+      "summary": "Install and use kmp-sdk to manage pipelines and connectors from Python.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Python SDK v2"
+        },
+        {
+          "level": 2,
+          "text": "Install"
+        },
+        {
+          "level": 2,
+          "text": "Create a client"
+        },
+        {
+          "level": 2,
+          "text": "Create a pipeline"
+        },
+        {
+          "level": 2,
+          "text": "Replaying dead-lettered events"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/sdks/node-js",
+          "/sdks/python",
+          "/sdks/index",
+          "/apis/index",
+          "/apis/pipelines",
+          "/guides/building-your-first-pipeline",
+          "/guides/handling-errors-and-retries"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 96,
+      "text": "Python SDK v2 A typed client for the v2 REST API, for Python 3.9+. Install terminal bash Copy pip install kmp-sdk Create a client client.py python Copy from kmp import KMP kmp = KMP(api_key=os.environ[\"KMP_API_KEY\"]) Create a pipeline Maps directly onto the Pipelines endpoint — see the Building your first pipeline guide for the concepts. create_pipeline.py python Copy pipeline = kmp.pipelines.create( name=\"ingest-orders\", source_connector_id=\"conn_pg_orders\", destination_connector_id=\"conn_snowflake_dw\", ) Replaying dead-lettered events Wraps the replay action described in Handling errors & retries: replay.py python Copy kmp.events.replay(\"evt_8f2c1a90\") Async support Every method has an async counterpart under kmp.aio for use with asyncio-based applications."
+    },
+    {
+      "id": "/sdks/node-js.html",
+      "path": "/sdks/node-js.html",
+      "title": "Node.js SDK",
+      "section": "sdks",
+      "breadcrumb": [
+        "Home",
+        "sdks"
+      ],
+      "summary": "Install and use @kmp/sdk to manage pipelines and connectors from Node.js.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Node.js SDK v2"
+        },
+        {
+          "level": 2,
+          "text": "Install"
+        },
+        {
+          "level": 2,
+          "text": "Create a client"
+        },
+        {
+          "level": 2,
+          "text": "Create a pipeline"
+        },
+        {
+          "level": 2,
+          "text": "Listening for webhooks"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/sdks/node-js",
+          "/sdks/python",
+          "/sdks/index",
+          "/apis/index",
+          "/apis/pipelines",
+          "/guides/building-your-first-pipeline",
+          "/apis/webhooks"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 135,
+      "text": "Node.js SDK v2 A thin, typed wrapper around the v2 REST API for Node.js and TypeScript projects. Install terminal bash Copy npm install @kmp/sdk Create a client client.ts typescript Copy import { KMP } from \"@kmp/sdk\"; const kmp = new KMP({ apiKey: process.env.KMP_API_KEY }); Create a pipeline Maps directly onto the Pipelines endpoint — see the Building your first pipeline guide for the concepts. create-pipeline.ts typescript Copy const pipeline = await kmp.pipelines.create({ name: \"ingest-orders\", sourceConnectorId: \"conn_pg_orders\", destinationConnectorId: \"conn_snowflake_dw\", }); Listening for webhooks The SDK includes a signature-verification helper for webhook payloads: verify.ts typescript Copy import { verifyWebhookSignature } from \"@kmp/sdk\"; const isValid = verifyWebhookSignature(rawBody, signatureHeader, webhookSecret); Retries are built in The SDK retries idempotent requests (GET, and POST with an Idempotency-Key) automatically on 429 and 5xx responses using the same backoff the API itself uses."
+    },
+    {
+      "id": "/sdks/",
+      "path": "/sdks/",
+      "title": "SDKs",
+      "section": "sdks",
+      "breadcrumb": [
+        "Home",
+        "sdks"
+      ],
+      "summary": "Official KMP client libraries for Node.js and Python.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "SDKs"
+        },
+        {
+          "level": 3,
+          "text": "Node.js"
+        },
+        {
+          "level": 3,
+          "text": "Python"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/sdks/node-js",
+          "/sdks/python",
+          "/sdks/index",
+          "/apis/index"
+        ]
+      },
+      "updated": "2026-08-29T23:11:36.814Z",
+      "wordCount": 47,
+      "text": "SDKs Official client libraries for the KMP v2 API. Node.js SDK SDK Node.js Typed client for Node.js and TypeScript — npm install @kmp/sdk. SDK Python Typed client for Python 3.9+ — pip install kmp-sdk. Prefer raw HTTP? Every SDK method maps one-to-one onto the REST API reference."
+    },
+    {
+      "id": "/troubleshooting.html",
+      "path": "/troubleshooting.html",
+      "title": "Troubleshooting / FAQ",
+      "section": "troubleshooting",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Common problems and fixes across pipelines, connectors, and webhooks.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Troubleshooting / FAQ"
+        },
+        {
+          "level": 2,
+          "text": "My pipeline isn't processing events"
+        },
+        {
+          "level": 2,
+          "text": "Events keep failing and landing in the dead-letter queue"
+        },
+        {
+          "level": 2,
+          "text": "I'm not receiving webhook deliveries"
+        },
+        {
+          "level": 2,
+          "text": "I'm getting 429s"
+        },
+        {
+          "level": 2,
+          "text": "Still stuck?"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/connectors",
+          "/guides/scheduling-and-triggers",
+          "/guides/handling-errors-and-retries",
+          "/apis/webhooks",
+          "/apis/rate-limits"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 178,
+      "text": "Troubleshooting / FAQ Common problems, and where in the docs to go for the full explanation. My pipeline isn't processing events Check the source connector's health field via the Connectors endpoint. A down connector stalls every pipeline that reads from it. If it's healthy, confirm the pipeline itself is active and not paused — see Scheduling & triggers. Events keep failing and landing in the dead-letter queue Walk through Handling errors & retries — it covers both diagnosing the failure and replaying events once fixed. I'm not receiving webhook deliveries Verify your endpoint returns a 2xx status and that you're checking X-KMP-Signature correctly — a rejected signature looks identical to a dropped delivery from the outside. Full details in the Webhooks endpoint reference. I'm getting 429s You've hit the standard-tier limit described in Rate limits. Back off using the Retry-After header. Migrating from v1? A number of \"it worked yesterday\" reports trace back to v1's offset pagination or polling patterns carried over into v2 code. See the Migration guide. Still stuck? Reach the team via Support / Contact."
+    },
+    {
+      "id": "/support.html",
+      "path": "/support.html",
+      "title": "Support / Contact",
+      "section": "support",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "How to reach the KMP team for support, sales, or security reports.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Support / Contact"
+        },
+        {
+          "level": 2,
+          "text": "Channels"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting"
+        ]
+      },
+      "updated": "2026-08-29T23:11:36.758Z",
+      "wordCount": 58,
+      "text": "Support / Contact Before reaching out, check Troubleshooting / FAQ — most common issues are covered there. Channels Technical support: support@kmp.kaiju.go.example Sales: sales@kmp.kaiju.go.example Security reports: security@kmp.kaiju.go.example — see Security & compliance overview for our disclosure policy. Response times Standard-tier support responds within one business day. Include your workspace ID and, if relevant, a request_id from an error response."
+    },
+    {
+      "id": "/security-and-compliance.html",
+      "path": "/security-and-compliance.html",
+      "title": "Security & compliance overview",
+      "section": "security-and-compliance",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "How KMP handles data in transit and at rest, credential storage, and compliance posture.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Security & compliance overview"
+        },
+        {
+          "level": 2,
+          "text": "Encryption"
+        },
+        {
+          "level": 2,
+          "text": "Credential handling"
+        },
+        {
+          "level": 2,
+          "text": "Data residency"
+        },
+        {
+          "level": 2,
+          "text": "Reporting a vulnerability"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/connectors"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 112,
+      "text": "Security & compliance overview How KMP protects data moving through your pipelines. Encryption All API traffic requires TLS 1.2+. Connector credentials are encrypted at rest and are never returned in full by any endpoint after creation. Credential handling See Authentication for API key handling, and Connectors endpoint for connector credential rotation. Least privilege We recommend scoping every source connector's credentials to read-only access, as described in the Connecting a data source guide. Data residency Events are processed in the region your workspace was created in and are not replicated across regions by default. Reporting a vulnerability Contact the team through Support / Contact — do not file security reports as public issues."
+    },
+    {
+      "id": "/release-notes-archive.html",
+      "path": "/release-notes-archive.html",
+      "title": "Release notes archive",
+      "section": "release-notes-archive",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Older v1-era release notes, superseded by the current changelog.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Release notes archive"
+        },
+        {
+          "level": 2,
+          "text": "2026-03-11 — v1.6"
+        },
+        {
+          "level": 2,
+          "text": "2026-01-20 — v1.5"
+        },
+        {
+          "level": 2,
+          "text": "2025-11-04 — v1.0"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 98,
+      "text": "Release notes archive Older, v1-era release notes. For current changes, see the Changelog. For the breaking changes between v1 and v2, see the Migration guide. 14 v1 releases Shipped between v1's launch and its retirement on 2026-08-01. 2026-03-11 — v1.6 Added Kafka as a source connector type. 2026-01-20 — v1.5 Added configurable retry ceilings per pipeline. 2025-11-04 — v1.0 Initial public release: Postgres, S3, and Snowflake connectors; offset-paginated REST API; polling-only status checks. Archived, not deleted These notes are kept for historical reference only. None of the v1 endpoints they describe are reachable — see the Migration guide."
+    },
+    {
+      "id": "/platform.html",
+      "path": "/platform.html",
+      "title": "Kaiju Monitoring Platform Docs",
+      "section": "platform",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Everything you need to build data pipelines on the Kaiju Monitoring Platform.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Kaiju Monitoring Platform Docs"
+        },
+        {
+          "level": 2,
+          "text": "Start here"
+        },
+        {
+          "level": 3,
+          "text": "Installation"
+        },
+        {
+          "level": 3,
+          "text": "Quickstart"
+        },
+        {
+          "level": 3,
+          "text": "Authentication"
+        },
+        {
+          "level": 2,
+          "text": "Explore the docs"
+        },
+        {
+          "level": 3,
+          "text": "Pipelines, connectors & events"
+        },
+        {
+          "level": 3,
+          "text": "Task-oriented walkthroughs"
+        },
+        {
+          "level": 3,
+          "text": "v2 REST API"
+        },
+        {
+          "level": 3,
+          "text": "Node.js & Python"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/guides/index",
+          "/apis/index",
+          "/sdks/index"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 105,
+      "text": "Kaiju Monitoring Platform Docs Everything you need to build data pipelines on the Kaiju Monitoring Platform. Get started Start here Getting Started Installation Install an SDK or start calling the REST API directly. Getting Started Quickstart Go from zero to a running pipeline in five minutes. Getting Started Authentication Authenticate API requests with a bearer API key. Explore the docs Concepts Pipelines, connectors & events The three building blocks everything else is made of. Guides Task-oriented walkthroughs Build, connect, and operate pipelines end to end. API Reference v2 REST API Every endpoint, with request and response examples. SDKs Node.js & Python Official typed client libraries."
+    },
+    {
+      "id": "/migration-guide-v1-to-v2.html",
+      "path": "/migration-guide-v1-to-v2.html",
+      "title": "Migration guide (v1 → v2)",
+      "section": "migration-guide-v1-to-v2",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Migration guide (v1 → v2) v1 retired"
+        },
+        {
+          "level": 2,
+          "text": "1. Pagination: offset → cursor"
+        },
+        {
+          "level": 2,
+          "text": "2. Status checks: polling → webhooks"
+        },
+        {
+          "level": 2,
+          "text": "3. Error shape"
+        },
+        {
+          "level": 2,
+          "text": "Still stuck?"
+        },
+        {
+          "level": 2,
+          "text": "Support / Contact"
+        },
+        {
+          "level": 3,
+          "text": "Channels"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/apis/error-responses"
+        ]
+      },
+      "updated": "2026-08-29T23:11:36.758Z",
+      "wordCount": 232,
+      "text": "Migration guide (v1 → v2) v1 retired v1 reached end of life on 2026-08-01 alongside the webhooks GA changelog entry. This guide covers the three breaking changes you need to handle to move a v1 integration to v2. 1. Pagination: offset → cursor v1 used page/per_page query parameters. v2 uses an opaque cursor and next_cursor — see Rate limits for the exact envelope. diff diff Copy - GET /v1/pipelines?page=2&per_page=20 + GET /v2/pipelines?cursor=eyJvZmZzZXQiOjIwfQ 2. Status checks: polling → webhooks v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the Webhooks endpoint: subscribe to pipeline.completed and pipeline.failed instead of polling. 3. Error shape v1 returned bare error strings. v2 wraps every error in an object with a stable code field. Update any error handling that matched on message text — see the error shape reference. v1 is retired v1 endpoints no longer accept requests. If you're seeing 404s on /v1/* paths, that's why — there is no grace-period fallback. Still stuck?Support / Contact Before reaching out, check Troubleshooting / FAQ — most common issues are covered there. Channels Technical support: support@kmp.kaiju.go.example Sales: sales@kmp.kaiju.go.example Security reports: security@kmp.kaiju.go.example — see Security & compliance overview for our disclosure policy. Response times Standard-tier support responds within one business day. Include your workspace ID and, if relevant, a request_id from an error response. Common migration issues are covered in Troubleshooting / FAQ."
+    },
+    {
+      "id": "/",
+      "path": "/",
+      "title": "Office of Kaiju Affairs",
+      "section": "home",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "The national authority for kaiju corridor management: permits, damage compensation, and evacuation services for residents of zones 1-5.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Office of Kaiju Affairs"
+        },
+        {
+          "level": 2,
+          "text": "Most requested"
+        },
+        {
+          "level": 3,
+          "text": "Kaiju Damage Compensation"
+        },
+        {
+          "level": 3,
+          "text": "Proximity Construction Permit"
+        },
+        {
+          "level": 3,
+          "text": "Evacuation Routes & Registration"
+        },
+        {
+          "level": 2,
+          "text": "The Office"
+        },
+        {
+          "level": 3,
+          "text": "Regional Offices"
+        },
+        {
+          "level": 3,
+          "text": "Mandate and structure"
+        },
+        {
+          "level": 3,
+          "text": "Kaiju Monitoring Platform docs"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/services/",
+          "/claims/damage-compensation/",
+          "/permits/proximity/",
+          "/evacuation/",
+          "/offices/",
+          "/about/",
+          "/platform.html"
+        ]
+      },
+      "updated": "2026-08-29T23:12:53.396Z",
+      "wordCount": 144,
+      "text": "Office of Kaiju Affairs The national authority for corridor management. Permits, compensation and evacuation services for residents and businesses in zones 1-5. Browse services Corridor notices Corridor activity notices are issued by the Monitoring Division. During an active notice, follow your designated evacuation route and do not wait for individual instruction. Most requested Claims Kaiju Damage Compensation Compensation for structural, contents and business-interruption damage in zones 3, 4 and 5. Permits Proximity Construction Permit Required before any construction within 1,000 metres of a corridor centreline. Safety Evacuation Routes & Registration Designated routes, assembly points, and assisted-evacuation registration. The Office In person Regional Offices Three regional offices serve zones 1-5. Bring original documents. About Mandate and structure Established under the Special Corridors Act. What we do and why. Developers Kaiju Monitoring Platform docs Public sensor data pipelines, events and alerts API for researchers and integrators."
+    },
+    {
+      "id": "/glossary.html",
+      "path": "/glossary.html",
+      "title": "Glossary",
+      "section": "glossary",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Definitions for KMP's core terms, each linking to its full explanation.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Glossary"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/webhooks",
+          "/guides/handling-errors-and-retries",
+          "/apis/rate-limits"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 122,
+      "text": "Glossary Short definitions for every term used throughout these docs. Pipeline A named, versioned workflow that moves data from a source connector, through optional transforms, to a destination connector. Connector A pre-built integration to an external system — a source, a destination, or both. Event The atomic unit of data moving through a pipeline, or a platform lifecycle notification like pipeline.failed. Webhook An outbound HTTP request KMP sends to a URL you control when a subscribed event occurs. Dead-letter queue Where an event goes after exhausting its retries, rather than being dropped. See Handling errors & retries. Cursor pagination The pagination style used by every v2 list endpoint. See Rate limits. Workspace The top-level account boundary an API key is scoped to."
+    },
+    {
+      "id": "/getting-started-quickstart.html",
+      "path": "/getting-started-quickstart.html",
+      "title": "Quickstart",
+      "section": "getting-started-quickstart",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Go from zero to a running pipeline in five minutes.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Quickstart"
+        },
+        {
+          "level": 2,
+          "text": "1. Get an API key"
+        },
+        {
+          "level": 2,
+          "text": "2. Create a pipeline"
+        },
+        {
+          "level": 2,
+          "text": "3. Watch it run"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/webhooks",
+          "/apis/events",
+          "/guides/building-your-first-pipeline"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 88,
+      "text": "Quickstart The fastest path from zero to a running pipeline. 1. Get an API key See Authentication if you don't have one yet. 2. Create a pipeline terminal bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/pipelines \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -d '{\"name\":\"my-first-pipeline\",\"source_connector_id\":\"conn_demo_source\",\"destination_connector_id\":\"conn_demo_dest\"}' 3. Watch it run Subscribe to pipeline.completed via Webhooks, or poll the Events endpoint to see events as they're processed. That's it For a fuller walkthrough with a real source and destination, go to Building your first pipeline in the Guides section. Previous Installation Next Authentication"
+    },
+    {
+      "id": "/getting-started-installation.html",
+      "path": "/getting-started-installation.html",
+      "title": "Installation",
+      "section": "getting-started-installation",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Install the KMP SDK or start calling the REST API directly.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Installation"
+        },
+        {
+          "level": 2,
+          "text": "Option A: Use an SDK"
+        },
+        {
+          "level": 2,
+          "text": "Option B: Call the API directly"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/sdks/node-js",
+          "/sdks/python",
+          "/apis/index"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 106,
+      "text": "Installation KMP has no server to install — it's a hosted platform you reach over the REST API, either directly or through an SDK. Option A: Use an SDK terminal bash Copy npm install @kmp/sdk # or pip install kmp-sdk Full setup for each is in Node.js SDK and Python SDK. Option B: Call the API directly No install needed — every endpoint in the API reference is a plain HTTPS request. terminal bash Copy curl https://api.kmp.kaiju.go.example/v2/pipelines \\ -H \"Authorization: Bearer $KMP_API_KEY\" Next Either way, you'll need an API key before you can make a request — that's covered in Authentication, next. Previous Concepts Next Quickstart"
+    },
+    {
+      "id": "/getting-started-authentication.html",
+      "path": "/getting-started-authentication.html",
+      "title": "Authentication",
+      "section": "getting-started-authentication",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Authenticate API requests with a bearer API key.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Authentication"
+        },
+        {
+          "level": 2,
+          "text": "Getting an API key"
+        },
+        {
+          "level": 2,
+          "text": "Using the key"
+        },
+        {
+          "level": 2,
+          "text": "Verifying webhook requests"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/index",
+          "/apis/rate-limits",
+          "/apis/webhooks",
+          "/guides/building-your-first-pipeline"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 108,
+      "text": "Authentication Every request to the KMP API is authenticated with a bearer API key. Getting an API key Generate one from your workspace settings. Keys are scoped to a single workspace and inherit the standard rate limit described in Rate limits. Using the key terminal bash Copy curl https://api.kmp.kaiju.go.example/v2/pipelines \\ -H \"Authorization: Bearer $KMP_API_KEY\" Never expose a key client-side API keys carry full workspace access. Keep them server-side only — never embed one in a mobile app, browser bundle, or public repository. Verifying webhook requests Incoming webhook deliveries are authenticated differently: by a signed X-KMP-Signature header rather than your API key. Previous Quickstart Next Building your first pipeline"
+    },
+    {
+      "id": "/concepts-pipelines.html",
+      "path": "/concepts-pipelines.html",
+      "title": "Pipelines",
+      "section": "concepts-pipelines",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "What a pipeline is in KMP: a named, versioned workflow that moves data from a source connector through transform steps to a destination.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Pipelines"
+        },
+        {
+          "level": 2,
+          "text": "Anatomy of a pipeline"
+        },
+        {
+          "level": 2,
+          "text": "Pipeline state"
+        },
+        {
+          "level": 2,
+          "text": "Versioning"
+        },
+        {
+          "level": 2,
+          "text": "Next steps"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/guides/building-your-first-pipeline",
+          "/apis/pipelines"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 254,
+      "text": "Pipelines A pipeline is the core unit of work in KMP: a named, versioned data-processing workflow that moves data from a source connector, through zero or more transform steps, to a destination connector. Every pipeline runs as a sequence of events flowing through that path. Anatomy of a pipeline Every pipeline has three parts: Source — the connector that emits events into the pipeline (a database, a queue, an upload, a webhook). Transforms — an ordered list of steps that reshape, filter, or enrich events as they pass through. Transforms are optional; a pipeline with none is a pass-through copy. Destination — the connector that events are written to once transforms complete. Pipelines are declarative You describe the desired source, transforms, and destination; KMP schedules and retries the runs. You never manage worker processes directly. Pipeline state A pipeline is always in one of three states: draft — configured but not yet processing events. active — running on its configured schedule or trigger. paused — temporarily stopped; resumes from the last checkpoint. Versioning Pipeline configuration is versioned. Publishing a new version does not affect events already in flight on the previous version — in-flight runs finish on the version they started on. This matters most when a pipeline definition is part of a larger migration; see the Migration guide for an example of retiring an old pipeline version safely. Next steps Ready to build one? Start with the Building your first pipeline guide, or jump straight to the Pipelines endpoint in the API reference."
+    },
+    {
+      "id": "/concepts-events.html",
+      "path": "/concepts-events.html",
+      "title": "Events",
+      "section": "concepts-events",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "What an event is in KMP: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Events"
+        },
+        {
+          "level": 2,
+          "text": "Event shape"
+        },
+        {
+          "level": 2,
+          "text": "User data events vs. platform events"
+        },
+        {
+          "level": 2,
+          "text": "Retries and dead-lettering"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/webhooks",
+          "/guides/handling-errors-and-retries"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 175,
+      "text": "Events An event is the atomic unit of data that moves through a Pipeline. Every record a source connector emits, every row a transform produces, and every write a destination connector performs is an event. Event shape event.json json Copy { \"id\": \"evt_8f2c1a90\", \"type\": \"order.created\", \"occurred_at\": \"2026-08-18T09:12:44Z\", \"source\": \"connector_postgres_orders\", \"payload\": { \"order_id\": \"ord_4471\", \"amount_cents\": 4899 } } User data events vs. platform events KMP distinguishes two kinds of events: User data events — the records your pipelines process, shaped however your source system produces them. Platform events — lifecycle notifications KMP itself emits: pipeline.started, pipeline.completed, pipeline.failed, connector.error. These are what power Webhooks. Ordering Events are delivered in-order per source partition, not globally. Two events from different source partitions may be processed out of order relative to each other. Retries and dead-lettering An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See Handling errors & retries for how to configure and drain a dead-letter queue."
+    },
+    {
+      "id": "/concepts-connectors.html",
+      "path": "/concepts-connectors.html",
+      "title": "Connectors",
+      "section": "concepts-connectors",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "What a connector is in KMP: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Connectors"
+        },
+        {
+          "level": 2,
+          "text": "Connector direction"
+        },
+        {
+          "level": 2,
+          "text": "Built-in connector catalog"
+        },
+        {
+          "level": 2,
+          "text": "Connector health"
+        },
+        {
+          "level": 2,
+          "text": "See also"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/guides/connecting-a-data-source",
+          "/apis/connectors"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 194,
+      "text": "Connectors A connector is a pre-built integration to an external system that a Pipeline reads from or writes to. Connectors handle authentication, batching, and retry behavior for a specific system so pipeline authors don't have to. Connector direction Source — emits events into a pipeline (e.g. a change-data-capture stream from Postgres). Destination — receives events from a pipeline (e.g. writing rows into Snowflake). Bidirectional — a small set of connectors, like the generic Webhook connector, can act as either. Built-in connector catalog ConnectorDirectionAuth PostgresSourceConnection string + replication slot Amazon S3Source / DestinationIAM role or access key SnowflakeDestinationKey-pair auth KafkaSource / DestinationSASL/SSL WebhookSource / DestinationSigned request or bearer token Rotating connector credentials Rotating a connector's credentials pauses any pipeline using it for the duration of the rotation. Plan credential rotations outside peak processing windows. Connector health Each connector reports a health status independent of any single pipeline: healthy, degraded, or down. A connector shared across multiple pipelines only needs to be fixed once — every pipeline referencing it recovers automatically. See also Connectors are configured per pipeline in the Connecting a data source guide, and referenced directly in the Connectors endpoint of the API reference."
+    },
+    {
+      "id": "/concepts.html",
+      "path": "/concepts.html",
+      "title": "Concepts",
+      "section": "concepts",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "The three core building blocks of KMP: pipelines, connectors, and events.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Concepts"
+        },
+        {
+          "level": 3,
+          "text": "Pipelines"
+        },
+        {
+          "level": 3,
+          "text": "Connectors"
+        },
+        {
+          "level": 3,
+          "text": "Events"
+        },
+        {
+          "level": 2,
+          "text": "How they fit together"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 132,
+      "text": "Concepts The three building blocks every KMP pipeline is made of. Start with Pipelines KMP is built from three ideas that compose into everything else in these docs. Understanding how they relate makes the rest of the platform — guides, API reference, SDKs — much easier to follow. Concept Pipelines Named, versioned workflows that move data from a source to a destination through optional transforms. Concept Connectors Pre-built integrations to external systems — sources, destinations, or both. Concept Events The atomic unit of data flowing through a pipeline, plus the platform's own lifecycle events. How they fit together A pipeline reads events from a source connector, transforms them, and writes them to a destination connector. Everything else in KMP — retries, webhooks, monitoring — is built on top of that single loop."
+    },
+    {
+      "id": "/changelog.html",
+      "path": "/changelog.html",
+      "title": "Changelog",
+      "section": "changelog",
+      "breadcrumb": [
+        "Home"
+      ],
+      "summary": "Recent changes to the KMP API and platform.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Changelog"
+        },
+        {
+          "level": 2,
+          "text": "2026-08-01 — Webhooks generally available"
+        },
+        {
+          "level": 2,
+          "text": "2026-06-15 — Cursor pagination on all list endpoints"
+        },
+        {
+          "level": 2,
+          "text": "2026-05-02 — v2 API launched"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/getting-started-authentication",
+          "/changelog",
+          "/concepts",
+          "/concepts-connectors",
+          "/concepts-events",
+          "/glossary",
+          "/getting-started-installation",
+          "/platform",
+          "/migration-guide-v1-to-v2",
+          "/index",
+          "/concepts-pipelines",
+          "/getting-started-quickstart",
+          "/release-notes-archive",
+          "/security-and-compliance",
+          "/support",
+          "/troubleshooting",
+          "/apis/webhooks",
+          "/apis/pipelines",
+          "/apis/rate-limits"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 122,
+      "text": "Changelog Recent changes to the API and platform. For the full v1 → v2 history, see the Migration guide. Older entries live in Release notes archive. v2 current API version Introduced cursor pagination and webhooks in place of v1 polling. 2026-08-01 — Webhooks generally available The Webhooks endpoint is now generally available for all workspaces, with signed payload verification. 2026-06-15 — Cursor pagination on all list endpoints Every list endpoint, including Pipelines, moved from offset to cursor pagination. See Rate limits for the envelope shape. Breaking change Offset-based page/per_page parameters were removed, not deprecated. Clients still passing them received a validation error starting this date. 2026-05-02 — v2 API launched Full v2 launch. See the Migration guide for what changed from v1."
+    },
+    {
+      "id": "/guides/scheduling-and-triggers.html",
+      "path": "/guides/scheduling-and-triggers.html",
+      "title": "Scheduling & triggers",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "Run a pipeline on a cron schedule or trigger it directly from incoming events.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Scheduling & triggers"
+        },
+        {
+          "level": 2,
+          "text": "Scheduled pipelines"
+        },
+        {
+          "level": 2,
+          "text": "Event-triggered pipelines"
+        },
+        {
+          "level": 2,
+          "text": "Pausing and resuming"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers",
+          "/concepts-pipelines",
+          "/apis/pipelines"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 178,
+      "text": "Scheduling & triggers A pipeline runs either on a schedule or in response to incoming events. This guide covers both. Scheduled pipelines Set a schedule (a cron expression) when creating or updating a pipeline via the Pipelines endpoint. KMP runs the pipeline once per schedule tick, processing whatever new data is available from the source since the last run. schedule.json json Copy { \"schedule\": \"0 */4 * * *\" } Event-triggered pipelines Omit schedule and the pipeline instead runs continuously, processing events as its source connector emits them — the right choice for sources like Kafka or a Webhook connector where near-real-time matters. Choosing between them Use a schedule for sources that batch naturally (a nightly file drop to S3). Use event-triggered for anything where minutes matter. Pausing and resuming A paused pipeline skips scheduled ticks entirely and buffers nothing for event-triggered sources — resuming picks up new events going forward, not a backlog. To reprocess a time range instead, see the replay flow in Handling errors & retries. Previous Handling errors & retries Next Monitoring & alerts"
+    },
+    {
+      "id": "/guides/rate-limiting-cookbook.html",
+      "path": "/guides/rate-limiting-cookbook.html",
+      "title": "Rate limiting cookbook",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "Practical patterns for handling API rate limits.",
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 30,
+      "text": "This cookbook walks through common patterns for handling API rate limits, including exponential backoff, request batching, and monitoring your usage against quota headers so your integration stays reliable under load."
+    },
+    {
+      "id": "/guides/monitoring-and-alerts.html",
+      "path": "/guides/monitoring-and-alerts.html",
+      "title": "Monitoring & alerts",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "Watch pipeline health and get notified of failures via webhooks before they become incidents.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Monitoring & alerts"
+        },
+        {
+          "level": 2,
+          "text": "Connector health"
+        },
+        {
+          "level": 2,
+          "text": "Subscribing to pipeline lifecycle events"
+        },
+        {
+          "level": 2,
+          "text": "Dead-letter queue depth"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers",
+          "/concepts-pipelines",
+          "/apis/connectors",
+          "/apis/webhooks"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 134,
+      "text": "Monitoring & alerts Keep an eye on a running pipeline without babysitting it manually. Connector health Poll a connector's health field via the Connectors endpoint, or better, subscribe to connector.error so you're notified the moment it degrades. Subscribing to pipeline lifecycle events The most reliable way to monitor a pipeline is a webhook subscription on pipeline.failed and connector.error. subscribe.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/webhooks \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -d '{\"url\":\"https://you.example.com/hooks/kmp\",\"events\":[\"pipeline.failed\",\"connector.error\"]}' Recommended baseline At minimum, subscribe to pipeline.failed for every production pipeline. It's the single highest-signal event for catching problems before customers do. Dead-letter queue depth A growing dead-letter queue is an early warning sign, not just a symptom — see Handling errors & retries for how events end up there and how to drain them. Previous Scheduling & triggers Next Guides"
+    },
+    {
+      "id": "/guides/",
+      "path": "/guides/",
+      "title": "Guides",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "Task-oriented walkthroughs for building, connecting, and operating KMP pipelines.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Guides"
+        },
+        {
+          "level": 3,
+          "text": "Building your first pipeline"
+        },
+        {
+          "level": 3,
+          "text": "Connecting a data source"
+        },
+        {
+          "level": 3,
+          "text": "Handling errors & retries"
+        },
+        {
+          "level": 3,
+          "text": "Scheduling & triggers"
+        },
+        {
+          "level": 3,
+          "text": "Monitoring & alerts"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 91,
+      "text": "Guides Task-oriented walkthroughs for building, connecting, and operating pipelines. Start with your first pipeline Guide Building your first pipeline Create a source connector, a destination connector, and the pipeline that connects them. Guide Connecting a data source Choose the right connector type and authentication method. Guide Handling errors & retries How failed events retry, get dead-lettered, and get replayed. Guide Scheduling & triggers Run a pipeline on a cron schedule or trigger it from incoming events. Guide Monitoring & alerts Watch pipeline health and get notified of failures before they're incidents."
+    },
+    {
+      "id": "/guides/handling-errors-and-retries.html",
+      "path": "/guides/handling-errors-and-retries.html",
+      "title": "Handling errors & retries",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "How KMP retries failed events, when they're dead-lettered, and how to replay them.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Handling errors & retries"
+        },
+        {
+          "level": 2,
+          "text": "Automatic retries"
+        },
+        {
+          "level": 2,
+          "text": "Dead-lettering"
+        },
+        {
+          "level": 2,
+          "text": "Replaying events"
+        },
+        {
+          "level": 2,
+          "text": "Watching for failures"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers",
+          "/concepts-events",
+          "/apis/events",
+          "/apis/webhooks"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 193,
+      "text": "Handling errors & retries Every event that fails a transform or a destination write is retried automatically. This guide covers how that works and what to do when retries run out. Automatic retries Failed events retry with exponential backoff — 1s, 2s, 4s, up to a per-pipeline configurable ceiling. Most transient failures (a destination hiccup, a rate-limited third party) resolve within the first few attempts. pipeline-retry-config.json json Copy { \"retry_policy\": { \"max_attempts\": 5, \"backoff\": \"exponential\", \"initial_delay_ms\": 1000 } } Dead-lettering An event that exhausts its retries is moved to that pipeline's dead-letter queue rather than dropped silently. Dead-lettered events don't retry themselves Once in the dead-letter queue, an event stays there until you replay it or explicitly discard it — it will not retry again on its own. Replaying events Use the Events endpoint's replay action to re-run a specific dead-lettered event once the underlying issue is fixed. replay.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/events/evt_8f2c1a90/replay \\ -H \"Authorization: Bearer $KMP_API_KEY\" Watching for failures Subscribe to pipeline.failed via Webhooks so you find out about dead-lettered events before a customer does. See also Monitoring & alerts. Previous Connecting a data source Next Scheduling & triggers"
+    },
+    {
+      "id": "/guides/connecting-a-data-source.html",
+      "path": "/guides/connecting-a-data-source.html",
+      "title": "Connecting a data source",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "Choose the right connector type and authentication method for a new data source.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Connecting a data source"
+        },
+        {
+          "level": 2,
+          "text": "Choosing a connector type"
+        },
+        {
+          "level": 2,
+          "text": "Authenticating"
+        },
+        {
+          "level": 2,
+          "text": "Verifying the connection"
+        },
+        {
+          "level": 2,
+          "text": "Next steps"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers",
+          "/concepts-connectors",
+          "/concepts-pipelines",
+          "/apis/connectors"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 169,
+      "text": "Connecting a data source This guide covers choosing and configuring a source connector — the first step of any new pipeline. Choosing a connector type You haveUse A relational database you can grant replication access toPostgres Files landing in object storageAmazon S3 An existing event streamKafka A third party that can push to a URL you controlWebhook Authenticating Each connector type has its own credential shape — see the Connectors endpoint for the full parameter list per type. Least-privilege credentials Grant the connector only the access it needs — read-only replication for Postgres sources, a scoped IAM role for S3, never a superuser or admin credential. Verifying the connection A newly created connector reports health: degraded until its first successful read or write, then flips to healthy. If it goes straight to down, double check credentials before opening a support ticket. Next steps With a source connected, follow Building your first pipeline to wire it into a full pipeline. Previous Building your first pipeline Next Handling errors & retries"
+    },
+    {
+      "id": "/guides/building-your-first-pipeline.html",
+      "path": "/guides/building-your-first-pipeline.html",
+      "title": "Building your first pipeline",
+      "section": "guides",
+      "breadcrumb": [
+        "Home",
+        "guides"
+      ],
+      "summary": "Create a source connector, a destination connector, and the pipeline that connects them, end to end.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Building your first pipeline"
+        },
+        {
+          "level": 2,
+          "text": "1. Create a source connector"
+        },
+        {
+          "level": 2,
+          "text": "2. Create a destination connector"
+        },
+        {
+          "level": 2,
+          "text": "3. Create the pipeline"
+        },
+        {
+          "level": 2,
+          "text": "Next steps"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/guides/building-your-first-pipeline",
+          "/guides/connecting-a-data-source",
+          "/guides/index",
+          "/guides/handling-errors-and-retries",
+          "/guides/monitoring-and-alerts",
+          "/guides/rate-limiting-cookbook",
+          "/guides/scheduling-and-triggers",
+          "/concepts-pipelines",
+          "/getting-started-authentication",
+          "/concepts-connectors",
+          "/apis/pipelines"
+        ]
+      },
+      "updated": "2026-08-29T23:12:10.561Z",
+      "wordCount": 181,
+      "text": "Building your first pipeline This guide walks through creating a pipeline end to end: a source connector, a destination connector, and the pipeline that ties them together. Before you start You'll need an API key. See Authentication in Getting Started if you don't have one yet. 1. Create a source connector We'll pull orders from Postgres. See Connectors for the full catalog of types. create-source.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/connectors \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -d '{\"type\":\"postgres\",\"direction\":\"source\",\"config\":{\"connection_string\":\"postgres://...\"}}' 2. Create a destination connector We'll write to Snowflake. create-destination.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/connectors \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -d '{\"type\":\"snowflake\",\"direction\":\"destination\",\"config\":{\"account\":\"...\"}}' 3. Create the pipeline Full request/response details are in the Pipelines endpoint reference. create-pipeline.sh bash Copy curl -X POST https://api.kmp.kaiju.go.example/v2/pipelines \\ -H \"Authorization: Bearer $KMP_API_KEY\" \\ -d '{\"name\":\"ingest-orders\",\"source_connector_id\":\"conn_pg_orders\",\"destination_connector_id\":\"conn_snowflake_dw\"}' The pipeline starts in draft state. Activate it once you're ready to start processing events. Next steps Now that events are flowing, read Handling errors & retries to see what happens when a write fails, or Monitoring & alerts to watch it run. Previous Guides Next Connecting a data source"
+    },
+    {
+      "id": "/tutorials/",
+      "path": "/tutorials/",
+      "title": "Tutorials",
+      "section": "tutorials",
+      "breadcrumb": [
+        "Home",
+        "tutorials"
+      ],
+      "summary": "Step-by-step, hands-on tutorials for building with the RIFT platform.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Tutorials"
+        },
+        {
+          "level": 2,
+          "text": "Start here"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/tutorials/index"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 36,
+      "text": "HometutorialsTutorials Tutorials Step-by-step, hands-on walkthroughs for building real things on the RIFT platform. Start here This section collects hands-on tutorials that walk through complete workflows end to end. Check back soon as new tutorials are added."
+    },
+    {
+      "id": "/services/",
+      "path": "/services/",
+      "title": "Services",
+      "section": "services",
+      "breadcrumb": [
+        "Home",
+        "Services"
+      ],
+      "summary": "Directory of all citizen and business services provided by the Office of Kaiju Affairs.",
+      "keywords": [
+        "services",
+        "applications",
+        "processing times"
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Services"
+        },
+        {
+          "level": 3,
+          "text": "Kaiju Damage Compensation"
+        },
+        {
+          "level": 3,
+          "text": "Kaiju-Proximity Construction Permit"
+        },
+        {
+          "level": 3,
+          "text": "Evacuation Assistance Registration"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/services/index",
+          "/offices/",
+          "/claims/damage-compensation/",
+          "/permits/proximity/",
+          "/evacuation/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 114,
+      "text": "Services All services of the Office are listed below. Applications are accepted online and at regional offices. Processing times are counted in business days from receipt of a complete application. Incomplete applications are not queued. Claims Kaiju Damage Compensation For structural, contents and business-interruption damage inside zones 3, 4 and 5. Assessment fee applies; see fee schedule. Permits Kaiju-Proximity Construction Permit Mandatory for building, extending or structurally altering any structure within 1,000 metres of a corridor centreline. Safety Evacuation Assistance Registration Assisted evacuation for residents with mobility needs in zones 3, 4 and 5. No charge. Services relating to zones 1 and 2 are administered by municipal authorities. The Office handles corridor-designated zones only."
+    },
+    {
+      "id": "/permits/",
+      "path": "/permits/",
+      "title": "Permits",
+      "section": "permits",
+      "breadcrumb": [
+        "Home",
+        "Permits"
+      ],
+      "summary": "Permits administered by the Office of Kaiju Affairs, including the kaiju-proximity construction permit.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Permits"
+        },
+        {
+          "level": 3,
+          "text": "Kaiju-Proximity Construction Permit"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/permits/index",
+          "/permits/proximity/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 65,
+      "text": "Permits The Office administers construction permissions inside designated kaiju corridors. Municipal building consent does not substitute for an Office permit; both are required where applicable. Construction Kaiju-Proximity Construction Permit Required within 1,000 metres of a corridor centreline. 10 business days processing. Building without a required permit is an offence under Article 41 of the Special Corridors Act and voids damage-compensation eligibility for the structure concerned."
+    },
+    {
+      "id": "/claims/",
+      "path": "/claims/",
+      "title": "Claims",
+      "section": "claims",
+      "breadcrumb": [
+        "Home",
+        "Claims"
+      ],
+      "summary": "Damage claims administered by the Office of Kaiju Affairs, deadlines, and how to begin.",
+      "keywords": [
+        "claims",
+        "deadline",
+        "incident report",
+        "90 days"
+      ],
+      "keyFacts": [
+        {
+          "label": "Claim deadline",
+          "value": "Claims must be filed within 90 days of the incident."
+        },
+        {
+          "label": "Incident report deadline",
+          "value": "An incident report must be filed within 72 hours of the incident. The report receipt is a required document for every claim."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Claims"
+        },
+        {
+          "level": 2,
+          "text": "Before you file",
+          "anchor": "#before"
+        },
+        {
+          "level": 3,
+          "text": "Damage Compensation"
+        },
+        {
+          "level": 3,
+          "text": "Eligibility"
+        },
+        {
+          "level": 3,
+          "text": "How to file"
+        },
+        {
+          "level": 3,
+          "text": "Fee schedule"
+        },
+        {
+          "level": 3,
+          "text": "FAQ"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/claims/index",
+          "/claims/damage-compensation/",
+          "/claims/eligibility/",
+          "/claims/how-to-file/",
+          "/claims/fees/",
+          "/claims/faq/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 111,
+      "text": "Claims The Office administers compensation for damage caused by kaiju activity inside designated corridors. Read the deadlines below before doing anything else; they are not extended. Before you file Claims must be filed within 90 days of the incident. An incident report must be filed within 72 hours of the incident. The report receipt is a required document for every claim. Overview Damage Compensation What is covered, and for whom. Check first Eligibility Zone rules, insurance offsets, and the hardship supplement. Process How to file The five steps from incident report to determination. Fees Fee schedule Assessment fee, refunds and waivers. Questions FAQ Common questions, including fee waivers for repeat claimants."
+    },
+    {
+      "id": "/evacuation/",
+      "path": "/evacuation/",
+      "title": "Evacuation",
+      "section": "evacuation",
+      "breadcrumb": [
+        "Home",
+        "Evacuation"
+      ],
+      "summary": "Designated evacuation routes, assembly points, and assisted-evacuation registration for zones 3, 4 and 5.",
+      "keywords": [
+        "evacuation routes",
+        "assembly point",
+        "registration",
+        "mobility assistance"
+      ],
+      "keyFacts": [
+        {
+          "label": "Evacuation registration",
+          "value": "Residents of zones 3, 4 and 5 who require mobility assistance may register for assisted evacuation. Registration is free of charge and processed within 5 business days. Proof of residence in a designated zone is required."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Evacuation"
+        },
+        {
+          "level": 2,
+          "text": "Designated routes",
+          "anchor": "#routes"
+        },
+        {
+          "level": 2,
+          "text": "Assisted evacuation registration",
+          "anchor": "#registration"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/evacuation/index",
+          "/evacuation/zone-4/",
+          "/offices/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 119,
+      "text": "Evacuation During an active corridor notice, proceed immediately along your designated route to its assembly point. Do not wait for individual instruction. Routes are signposted in green. Designated routes Route 3A (Zone 3): north along the prefectural highway. Assembly point: Hanada Civic Hall. Routes 4A and 4B (Zone 4): see Zone 4 evacuation. Route 5A (Zone 5): inland along Harbour Approach to the highland relief centre. Assembly point: Tokai Highland Relief Centre. Assisted evacuation registration Residents of zones 3, 4 and 5 who require mobility assistance may register for assisted evacuation. Registration is free of charge and processed within 5 business days. Proof of residence in a designated zone is required. Register at any regional office serving your zone.",
+      "serviceIds": [
+        "evacuation-registration"
+      ]
+    },
+    {
+      "id": "/offices/",
+      "path": "/offices/",
+      "title": "Regional Offices",
+      "section": "offices",
+      "breadcrumb": [
+        "Home",
+        "Regional Offices"
+      ],
+      "summary": "The three regional offices of the Office of Kaiju Affairs, their zones, services and hours.",
+      "keywords": [
+        "offices",
+        "hours",
+        "address",
+        "phone",
+        "in person"
+      ],
+      "keyFacts": [
+        {
+          "label": "Kanto South office",
+          "value": "Zones 1-2 · 8-2 Minato Park Building 3F, Minami City · Mon-Fri 09:00-17:00 · 0120-555-028. Services: proximity construction permits only (zones 1-2 damage claims are municipal)."
+        },
+        {
+          "label": "Tokai Coastal office",
+          "value": "Zone 5 · 1-1 Harbour Approach, Tokai City · Mon-Fri 08:30-16:30 · 0120-555-055. Services: damage compensation, evacuation registration."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Regional Offices"
+        },
+        {
+          "level": 3,
+          "text": "Kanto North Regional Office"
+        },
+        {
+          "level": 2,
+          "text": "Kanto South Regional Office",
+          "anchor": "#kanto-south"
+        },
+        {
+          "level": 2,
+          "text": "Tokai Coastal Regional Office",
+          "anchor": "#tokai-coastal"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/offices/index",
+          "/offices/kanto-north/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 86,
+      "text": "Regional Offices Three regional offices serve the designated zones. Bring original documents; copies are made at the window without charge. Zones 3-4 Kanto North Regional Office 2-14-1 Ushiba-dori, Kita City. All services. Mon-Fri 09:00-17:00. Kanto South Regional Office Zones 1-2 · 8-2 Minato Park Building 3F, Minami City · Mon-Fri 09:00-17:00 · 0120-555-028. Services: proximity construction permits only (zones 1-2 damage claims are municipal). Tokai Coastal Regional Office Zone 5 · 1-1 Harbour Approach, Tokai City · Mon-Fri 08:30-16:30 · 0120-555-055. Services: damage compensation, evacuation registration."
+    },
+    {
+      "id": "/about/",
+      "path": "/about/",
+      "title": "About the Office",
+      "section": "about",
+      "breadcrumb": [
+        "Home",
+        "About"
+      ],
+      "summary": "Mandate, structure and history of the Office of Kaiju Affairs under the Special Corridors Act.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "About the Office"
+        },
+        {
+          "level": 2,
+          "text": "Mandate",
+          "anchor": "#mandate"
+        },
+        {
+          "level": 2,
+          "text": "Structure",
+          "anchor": "#structure"
+        },
+        {
+          "level": 2,
+          "text": "A note on scope",
+          "anchor": "#history"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/about/index",
+          "/platform.html"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 106,
+      "text": "About the Office The Office of Kaiju Affairs is the national authority established under the Special Corridors Act to administer designated kaiju corridors: construction control, damage compensation, and evacuation readiness. Mandate The Office maintains the corridor register, sets the K-series reinforcement standards, operates the national kaiju monitoring sensor network, and determines compensation claims arising from corridor activity. Structure Three divisions: Permits and Standards, Claims and Compensation, and the Monitoring Division, which publishes the Kaiju Monitoring Platform for researchers and integrators. A note on scope The Office does not undertake kaiju deterrence, relocation or negotiation. Enquiries on those subjects should be directed to the relevant defence authorities."
+    },
+    {
+      "id": "/contact/",
+      "path": "/contact/",
+      "title": "Contact",
+      "section": "contact",
+      "breadcrumb": [
+        "Home",
+        "Contact"
+      ],
+      "summary": "How to contact the Office of Kaiju Affairs: offices, phone lines and correspondence.",
+      "keyFacts": [
+        {
+          "label": "National enquiries line",
+          "value": "National enquiries: 0120-555-000 (Mon-Fri 09:00-17:00)"
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Contact"
+        },
+        {
+          "level": 2,
+          "text": "Phone",
+          "anchor": "#phone"
+        },
+        {
+          "level": 2,
+          "text": "Correspondence",
+          "anchor": "#post"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/contact/index",
+          "/offices/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 64,
+      "text": "Contact The fastest route for any service matter is the regional office serving your zone. Phone National enquiries: 0120-555-000 (Mon-Fri 09:00-17:00) Corridor activity notices (24h, recorded): 0120-555-999 Correspondence Office of Kaiju Affairs, Central Registry, 1-1 Kasumi-dori, Chiyoda. Include your claim or permit reference on all correspondence. Unreferenced correspondence is filed unread. For emergencies, call 110 or 119. The Office is not an emergency service."
+    },
+    {
+      "id": "/permits/proximity/",
+      "path": "/permits/proximity/",
+      "title": "Kaiju-Proximity Construction Permit",
+      "section": "permits",
+      "breadcrumb": [
+        "Home",
+        "Permits",
+        "Proximity Construction"
+      ],
+      "summary": "Permission to build, extend or structurally alter a structure within 1,000 metres of a designated kaiju corridor centreline.",
+      "keywords": [
+        "construction permit",
+        "reinforcement standard",
+        "K-2",
+        "corridor",
+        "building"
+      ],
+      "keyFacts": [
+        {
+          "label": "Zone 4 reinforcement standard",
+          "value": "Construction in Zone 4 requires reinforcement standard K-2."
+        },
+        {
+          "label": "Permit application fee",
+          "value": "The permit application fee is ¥45,000, payable on submission. It is not refundable if the application is refused."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Kaiju-Proximity Construction Permit"
+        },
+        {
+          "level": 2,
+          "text": "Reinforcement standards",
+          "anchor": "#standards"
+        },
+        {
+          "level": 2,
+          "text": "Fees and deadlines"
+        },
+        {
+          "level": 3,
+          "text": "Requirements"
+        },
+        {
+          "level": 3,
+          "text": "Application form"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/permits/proximity/index",
+          "/permits/proximity/requirements/",
+          "/permits/proximity/apply/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 183,
+      "text": "Kaiju-Proximity Construction Permit A proximity construction permit is required before building, extending or structurally altering any structure within 1,000 metres of a designated kaiju corridor centreline. This includes temporary structures standing longer than 30 days. 10 business days Standard processing time Reinforcement standards Structures are assessed against the K-series reinforcement standards. The applicable minimum standard is determined by the evacuation zone of the build site: Zones 1-3 (outer band): standard K-1. Construction in Zone 4 requires reinforcement standard K-2. Zone 5 (corridor-adjacent): standard K-3. Residential new builds are not permitted in Zone 5. The reinforcement standard declared on the application must meet or exceed the zone minimum. Applications declaring a lower standard are refused without assessment, and the fee is not refunded. Fees and deadlines The permit application fee is ¥45,000, payable on submission. It is not refundable if the application is refused. Apply at least 10 business days before works begin. Breaking ground before determination is treated as building without a permit. Before you apply Requirements Documents, fees, and deadlines in full. Apply Application form Submit a proximity construction permit application online.",
+      "serviceIds": [
+        "kaiju-proximity-permit"
+      ]
+    },
+    {
+      "id": "/claims/damage-compensation/",
+      "path": "/claims/damage-compensation/",
+      "title": "Kaiju Damage Compensation",
+      "section": "claims",
+      "breadcrumb": [
+        "Home",
+        "Claims",
+        "Damage Compensation"
+      ],
+      "summary": "Compensation for structural, contents and business-interruption damage caused by kaiju activity inside zones 3, 4 and 5.",
+      "keyFacts": [
+        {
+          "label": "Business interruption",
+          "value": "Compensation covers business interruption for commercial properties. A business registration certificate is required."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Kaiju Damage Compensation"
+        },
+        {
+          "level": 2,
+          "text": "What is covered",
+          "anchor": "#covered"
+        },
+        {
+          "level": 2,
+          "text": "What to do next"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/claims/damage-compensation/index",
+          "/claims/eligibility/",
+          "/claims/how-to-file/",
+          "/claims/fees/",
+          "/claims/faq/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 114,
+      "text": "Kaiju Damage Compensation Compensation is available to residents, tenants and business owners for damage caused by kaiju activity inside zones 3, 4 and 5. Damage in zones 1 and 2 is handled by municipal insurance schemes, not by this Office. What is covered Structural damage to buildings and fixed installations. Contents — furnishings, equipment and stock, per the itemised loss schedule. Compensation covers business interruption for commercial properties. A business registration certificate is required. Cosmetic damage, loss of amenity, and increases in insurance premiums are not covered. What to do next Check eligibility first, then follow how to file. The assessment fee is payable when the claim is lodged; see the FAQ for waivers.",
+      "serviceIds": [
+        "damage-compensation"
+      ]
+    },
+    {
+      "id": "/claims/eligibility/",
+      "path": "/claims/eligibility/",
+      "title": "Claim Eligibility",
+      "section": "claims",
+      "breadcrumb": [
+        "Home",
+        "Claims",
+        "Eligibility"
+      ],
+      "summary": "Zone rules, insurance offsets and the hardship supplement for kaiju damage compensation claims.",
+      "keywords": [
+        "eligibility",
+        "zones",
+        "hardship supplement",
+        "insurance offset",
+        "structural damage"
+      ],
+      "keyFacts": [
+        {
+          "label": "Insurance offset",
+          "value": "A prior insurance payout reduces the award but does not disqualify the claim. Attach the insurance settlement letter; the award is reduced by the amount already paid."
+        },
+        {
+          "label": "Hardship supplement threshold",
+          "value": "Households with annual income below ¥4,000,000 receive a hardship supplement. A household income certificate is required."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Eligibility — Damage Compensation"
+        },
+        {
+          "level": 2,
+          "text": "Zone and damage rules",
+          "anchor": "#zone"
+        },
+        {
+          "level": 2,
+          "text": "Insurance offsets",
+          "anchor": "#insurance"
+        },
+        {
+          "level": 2,
+          "text": "Hardship supplement",
+          "anchor": "#hardship"
+        },
+        {
+          "level": 2,
+          "text": "Not sure?"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/claims/eligibility/index"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 141,
+      "text": "Eligibility — Damage Compensation Eligibility is determined by the rules below, applied in order. Where no rule determines the outcome, the claim is referred for an assessor visit. Zone and damage rules Properties in zones 1 and 2 fall outside designated corridors. Such claims are handled by municipal insurance and are not eligible here. Claims require verified structural damage to a property in zones 3, 4 or 5, filed within the 90-day window. Insurance offsets A prior insurance payout reduces the award but does not disqualify the claim. Attach the insurance settlement letter; the award is reduced by the amount already paid. Hardship supplement Households with annual income below ¥4,000,000 receive a hardship supplement. A household income certificate is required. Not sure? File anyway, within the deadline. Referred claims are decided by an assessor visit; missing the deadline cannot be cured.",
+      "serviceIds": [
+        "damage-compensation"
+      ]
+    },
+    {
+      "id": "/claims/how-to-file/",
+      "path": "/claims/how-to-file/",
+      "title": "How to File a Claim",
+      "section": "claims",
+      "breadcrumb": [
+        "Home",
+        "Claims",
+        "How to File"
+      ],
+      "summary": "The five steps of a kaiju damage compensation claim, from incident report to determination.",
+      "headings": [
+        {
+          "level": 1,
+          "text": "How to file — Damage Compensation"
+        },
+        {
+          "level": 2,
+          "text": "The five steps",
+          "anchor": "#steps"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/claims/how-to-file/index",
+          "/claims/fees/"
+        ]
+      },
+      "updated": "2026-08-29T23:12:53.421Z",
+      "wordCount": 126,
+      "text": "How to file — Damage Compensation The five steps File an incident report within 72 hours, online or at any regional office. Keep the receipt. Document the damage — photographs and an itemised loss schedule (the damage survey). Lodge the claim within 90 days of the incident, with the incident report receipt, damage survey, and proof of ownership or tenancy. Pay the assessment fee (see fee schedule). Assessor visit — within 15 business days of lodgement. Determination — within 45 days of lodgement. Awards are paid to the account named on the claim. Supplements Claiming the hardship supplement? Include a household income certificate at step 3. Claiming business interruption? Include the business registration certificate. Appeals lie to the Corridor Claims Tribunal within 30 days of determination.",
+      "serviceIds": [
+        "damage-compensation"
+      ]
+    },
+    {
+      "id": "/claims/fees/",
+      "path": "/claims/fees/",
+      "title": "Claim Fee Schedule",
+      "section": "claims",
+      "breadcrumb": [
+        "Home",
+        "Claims",
+        "Fees"
+      ],
+      "summary": "The claim assessment fee, refund rules, and waivers for kaiju damage compensation.",
+      "keyFacts": [
+        {
+          "label": "Claim assessment fee",
+          "value": "The claim assessment fee is ¥12,000, payable when the claim is lodged."
+        },
+        {
+          "label": "Fee refund rule",
+          "value": "The assessment fee is refunded in full where the final award exceeds ¥1,000,000."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Fee schedule — Claims"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/claims/fees/index",
+          "/claims/faq/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 76,
+      "text": "Fee schedule — Claims The claim assessment fee is ¥12,000, payable when the claim is lodged. The assessment fee is refunded in full where the final award exceeds ¥1,000,000. The fee is waived entirely for repeat claimants — see fee waivers in the FAQ. The fee is not refunded where a claim is refused or withdrawn. Fees are payable online or at a regional office window. Cash is accepted at the window in exact amounts only.",
+      "serviceIds": [
+        "damage-compensation"
+      ]
+    },
+    {
+      "id": "/claims/faq/",
+      "path": "/claims/faq/",
+      "title": "Claims FAQ",
+      "section": "claims",
+      "breadcrumb": [
+        "Home",
+        "Claims",
+        "FAQ"
+      ],
+      "summary": "Common questions about kaiju damage compensation claims, including fee waivers for repeat claimants.",
+      "keywords": [
+        "fee waiver",
+        "repeat claimant",
+        "assessment fee",
+        "waived",
+        "FAQ"
+      ],
+      "keyFacts": [
+        {
+          "label": "Repeat-claimant fee waiver",
+          "value": "Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee. The waiver is applied automatically at lodgement; no separate application is required."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Claims — Frequently Asked Questions"
+        },
+        {
+          "level": 2,
+          "text": "Can the 90-day deadline be extended?",
+          "anchor": "#deadlines-faq"
+        },
+        {
+          "level": 2,
+          "text": "Fee waivers",
+          "anchor": "#fee-waivers"
+        },
+        {
+          "level": 2,
+          "text": "I own several affected properties. One claim or several?",
+          "anchor": "#multiple-properties"
+        },
+        {
+          "level": 2,
+          "text": "I am a tenant. Can I claim?",
+          "anchor": "#tenant-faq"
+        },
+        {
+          "level": 2,
+          "text": "My insurer already paid. Is it still worth claiming?",
+          "anchor": "#insurance-faq"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/claims/faq/index",
+          "/claims/eligibility/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 181,
+      "text": "Claims — Frequently Asked Questions Answers below are summaries of the governing rules. Where an answer and the rule differ, the rule prevails. Can the 90-day deadline be extended? No. The deadline is statutory. Claims filed on day 91 are refused without assessment. Fee waivers Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee. The waiver is applied automatically at lodgement; no separate application is required. The waiver counts approved claims only. Refused, withdrawn and pending claims do not count toward the two-claim threshold. Two claims arising from the same incident count once. I own several affected properties. One claim or several? One claim per property per incident. Each claim attracts its own assessment fee unless a waiver applies. I am a tenant. Can I claim? Yes, for contents and business interruption. Structural damage is claimed by the owner. Attach proof of tenancy. My insurer already paid. Is it still worth claiming? Often. The award is reduced by the insurance payout but not disqualified — see insurance offsets.",
+      "serviceIds": [
+        "damage-compensation"
+      ]
+    },
+    {
+      "id": "/evacuation/zone-4/",
+      "path": "/evacuation/zone-4/",
+      "title": "Zone 4 Evacuation",
+      "section": "evacuation",
+      "breadcrumb": [
+        "Home",
+        "Evacuation",
+        "Zone 4"
+      ],
+      "summary": "Evacuation routes 4A and 4B, assembly points and guidance for Zone 4 residents.",
+      "keyFacts": [
+        {
+          "label": "Route 4A assembly point",
+          "value": "North-west along Ushiba-dori to the ridge road. Assembly point: Ushiba Ridge Assembly Ground."
+        },
+        {
+          "label": "Route 4B assembly point",
+          "value": "East via the Sakai river crossing. Assembly point: Sakai East Sports Centre. Route 4B closes in high water; signage at the crossing is authoritative."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Zone 4 Evacuation"
+        },
+        {
+          "level": 2,
+          "text": "Route 4A (primary)",
+          "anchor": "#route-4a"
+        },
+        {
+          "level": 2,
+          "text": "Route 4B (secondary)",
+          "anchor": "#route-4b"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/evacuation/zone-4/index",
+          "/offices/kanto-north/"
+        ]
+      },
+      "updated": "2026-08-29T23:12:53.423Z",
+      "wordCount": 110,
+      "text": "Zone 4 Evacuation Zone 4 has two designated routes. Use the route nearer to your position at the time of the notice; do not cross the corridor to reach a preferred route. Route 4A (primary) North-west along Ushiba-dori to the ridge road. Assembly point: Ushiba Ridge Assembly Ground. Route 4B (secondary) East via the Sakai river crossing. Assembly point: Sakai East Sports Centre. Route 4B closes in high water; signage at the crossing is authoritative. During an active notice Vehicles are prohibited on both routes during an active notice. Assisted-evacuation vehicles operate from registered addresses only — register in advance. Zone 4 is served by the Kanto North Regional Office.",
+      "serviceIds": [
+        "evacuation-registration"
+      ]
+    },
+    {
+      "id": "/offices/kanto-north/",
+      "path": "/offices/kanto-north/",
+      "title": "Kanto North Regional Office",
+      "section": "offices",
+      "breadcrumb": [
+        "Home",
+        "Regional Offices",
+        "Kanto North"
+      ],
+      "summary": "Address, hours, phone and services for the Kanto North Regional Office, serving zones 3 and 4.",
+      "keywords": [
+        "Kanto North",
+        "office",
+        "hours",
+        "phone",
+        "zones 3 4"
+      ],
+      "keyFacts": [
+        {
+          "label": "Address",
+          "value": "2-14-1 Ushiba-dori, Kita City"
+        },
+        {
+          "label": "Hours",
+          "value": "Mon-Fri 09:00-17:00 (window closes 16:30)"
+        },
+        {
+          "label": "Phone",
+          "value": "0120-555-014"
+        },
+        {
+          "label": "Email",
+          "value": "kanto-north@kaiju.go.example"
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Kanto North Regional Office"
+        },
+        {
+          "level": 2,
+          "text": "Services at this office",
+          "anchor": "#services-offered"
+        },
+        {
+          "level": 2,
+          "text": "Evacuation routes administered",
+          "anchor": "#evac-routes"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/offices/kanto-north/index",
+          "/claims/damage-compensation/",
+          "/permits/proximity/",
+          "/evacuation/",
+          "/evacuation/zone-4/"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 60,
+      "text": "Kanto North Regional Office Serving zones 3 and 4. 2-14-1 Ushiba-dori, Kita City Mon-Fri 09:00-17:00 (window closes 16:30) 0120-555-014 kanto-north@kaiju.go.example Services at this office Damage compensation — lodgement and assessor scheduling Proximity construction permits — submission and collection Evacuation assistance registration Evacuation routes administered Routes 4A and 4B (Zone 4) and route 3A (Zone 3, assembly at Hanada Civic Hall)."
+    },
+    {
+      "id": "/permits/proximity/requirements/",
+      "path": "/permits/proximity/requirements/",
+      "title": "Permit Requirements",
+      "section": "permits",
+      "breadcrumb": [
+        "Home",
+        "Permits",
+        "Proximity Construction",
+        "Requirements"
+      ],
+      "summary": "Documents, fees and deadlines for the kaiju-proximity construction permit.",
+      "keyFacts": [
+        {
+          "label": "Permit application fee",
+          "value": "Permit application fee: ¥45,000, payable on submission. Not refundable if refused."
+        }
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Requirements — Proximity Construction Permit"
+        },
+        {
+          "level": 2,
+          "text": "Required documents",
+          "anchor": "#documents"
+        },
+        {
+          "level": 2,
+          "text": "Fees",
+          "anchor": "#fees"
+        },
+        {
+          "level": 2,
+          "text": "Deadlines and processing",
+          "anchor": "#deadlines"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/permits/proximity/requirements/index",
+          "/permits/proximity/apply/"
+        ]
+      },
+      "updated": "2026-08-29T23:12:53.419Z",
+      "wordCount": 112,
+      "text": "Requirements — Proximity Construction Permit Required documents Site plan — scale 1:500 or finer, showing the corridor centreline. Seismic and impact mitigation plan — prepared by a licensed structural engineer. Corridor proximity survey — no older than 6 months. Contractor prefecture licence — copy of a current licence. Fees Permit application fee: ¥45,000, payable on submission. Not refundable if refused. Deadlines and processing Apply at least 10 business days before works begin. Standard processing time is 10 business days from receipt of a complete application. Complete applications only An application missing any required document is returned unprocessed. The 10-day clock starts only when the application is complete. Proceed to the application form.",
+      "serviceIds": [
+        "kaiju-proximity-permit"
+      ]
+    },
+    {
+      "id": "/permits/proximity/apply/",
+      "path": "/permits/proximity/apply/",
+      "title": "Apply — Proximity Construction Permit",
+      "section": "permits",
+      "breadcrumb": [
+        "Home",
+        "Permits",
+        "Proximity Construction",
+        "Apply"
+      ],
+      "summary": "Online application form for the kaiju-proximity construction permit.",
+      "keywords": [
+        "permit application",
+        "apply",
+        "form"
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "text": "Apply — Proximity Construction Permit"
+        }
+      ],
+      "links": {
+        "internal": [
+          "/",
+          "/permits/proximity/apply/index"
+        ]
+      },
+      "updated": "2026-08-29T23:11:03.450Z",
+      "wordCount": 241,
+      "text": ".form-grid { display: grid; gap: 18px; max-width: 620px; } .form-grid .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; } .form-grid .field input, .form-grid .field select { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; } .form-grid .field.check { display: flex; gap: 10px; align-items: flex-start; } .form-grid .field.check input { width: auto; margin-top: 3px; } .kj-receipt { margin-top: 20px; padding: 14px 16px; border-radius: 8px; border: 1px solid #2a6; background: #f2fbf5; } Apply — Proximity Construction Permit Required before building, extending or structurally altering any structure within 1,000 metres of a designated kaiju corridor centreline. Zone 4 sites require reinforcement standard K-2; Zone 5 sites require K-3. The fee of ¥45,000 is payable on submission. Applicant name Organisation (if any) Contact email Contact phone Site postcode Evacuation zone Select… Zone 1Zone 2 Zone 3Zone 4 Zone 5 Distance from corridor centreline (m) Structure type Select… New build Extension Structural alteration Temporary structure Floor area (m²) Reinforcement standard Select… K-1 (outer band) K-2 (zone 4 minimum) K-3 (zone 5 minimum) Seismic and impact mitigation plan attached Planned start date Submit application document.querySelector('form[data-kaiju-form]').addEventListener('submit', function (event) { event.preventDefault(); var data = Object.fromEntries(new FormData(event.target).entries()); var receipt = document.getElementById('kj-receipt'); receipt.hidden = false; receipt.innerHTML = '<strong>Submitted by you, not by an agent.</strong> This demonstration has no backend — nothing left your browser.<br>' + Object.entries(data).map(function (e) { return e[0] + ': ' + (e[1] || '—'); }).join('<br>'); receipt.scrollIntoView({ block: 'center', behavior: 'smooth' }); });",
+      "serviceIds": [
+        "kaiju-proximity-permit"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "kaiju-proximity-permit",
+      "name": "Kaiju-Proximity Construction Permit",
+      "category": "permits",
+      "summary": "Permission to build, extend or structurally alter a structure within 1,000 metres of a designated kaiju corridor centreline.",
+      "entryPath": "/permits/proximity/",
+      "pageIds": [
+        "/permits/proximity/",
+        "/permits/proximity/requirements/",
+        "/permits/proximity/apply/"
+      ],
+      "audience": "Property owners, developers and licensed contractors",
+      "requirements": {
+        "documents": [
+          {
+            "id": "site-plan",
+            "name": "Site plan",
+            "description": "Scale 1:500 or finer, showing the corridor centreline.",
+            "required": true
+          },
+          {
+            "id": "seismic-plan",
+            "name": "Seismic and impact mitigation plan",
+            "description": "Prepared by a licensed structural engineer.",
+            "required": true
+          },
+          {
+            "id": "proximity-survey",
+            "name": "Corridor proximity survey",
+            "description": "No older than 6 months.",
+            "required": true
+          },
+          {
+            "id": "contractor-licence",
+            "name": "Contractor prefecture licence",
+            "description": "Copy of a current licence.",
+            "required": true
+          }
+        ],
+        "fields": [
+          {
+            "id": "applicantName",
+            "label": "Applicant name",
+            "type": "text",
+            "required": true,
+            "description": "Legal name of the permit holder."
+          },
+          {
+            "id": "zone",
+            "label": "Evacuation zone",
+            "type": "enum",
+            "required": true,
+            "description": "Zone of the build site."
+          },
+          {
+            "id": "distanceFromCorridorM",
+            "label": "Distance from corridor centreline (m)",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "fees": [
+          {
+            "id": "permit-fee",
+            "label": "Permit application fee",
+            "amount": 45000,
+            "currency": "¥",
+            "waivable": false,
+            "notes": "Payable on submission. Not refundable if refused."
+          }
+        ],
+        "deadlines": [
+          {
+            "id": "pre-construction",
+            "label": "Apply before breaking ground",
+            "value": "At least 10 business days before works begin"
+          }
+        ],
+        "processingTime": "10 business days",
+        "sourcePath": "/permits/proximity/requirements/"
+      },
+      "eligibilityRulesetId": null,
+      "formId": "proximity-permit-form"
+    },
+    {
+      "id": "damage-compensation",
+      "name": "Kaiju Damage Compensation",
+      "category": "claims",
+      "summary": "Compensation for structural, contents and business-interruption damage caused by kaiju activity inside zones 3, 4 and 5.",
+      "entryPath": "/claims/damage-compensation/",
+      "pageIds": [
+        "/claims/damage-compensation/",
+        "/claims/eligibility/",
+        "/claims/how-to-file/",
+        "/claims/faq/",
+        "/claims/fees/"
+      ],
+      "audience": "Residents, tenants and business owners inside designated corridors",
+      "requirements": {
+        "documents": [
+          {
+            "id": "incident-report",
+            "name": "Incident report receipt",
+            "description": "Filed within 72 hours of the incident.",
+            "required": true
+          },
+          {
+            "id": "damage-survey",
+            "name": "Damage survey",
+            "description": "Photographs and an itemised loss schedule.",
+            "required": true
+          },
+          {
+            "id": "proof-of-ownership",
+            "name": "Proof of ownership or tenancy",
+            "required": true
+          },
+          {
+            "id": "insurance-settlement-letter",
+            "name": "Insurance settlement letter",
+            "description": "Required only if an insurer has already paid out.",
+            "required": false
+          },
+          {
+            "id": "income-certificate",
+            "name": "Household income certificate",
+            "description": "Required only when claiming the hardship supplement.",
+            "required": false
+          },
+          {
+            "id": "business-registration",
+            "name": "Business registration certificate",
+            "description": "Required for business-interruption claims.",
+            "required": false
+          }
+        ],
+        "fields": [],
+        "fees": [
+          {
+            "id": "assessment-fee",
+            "label": "Claim assessment fee",
+            "amount": 12000,
+            "currency": "¥",
+            "waivable": true,
+            "notes": "Waived for repeat claimants; refunded in full on awards above ¥1,000,000."
+          }
+        ],
+        "deadlines": [
+          {
+            "id": "claim-window",
+            "label": "Claim deadline",
+            "value": "90 days from the incident"
+          },
+          {
+            "id": "incident-report",
+            "label": "Incident report deadline",
+            "value": "72 hours from the incident"
+          }
+        ],
+        "processingTime": "15 business days to assessor visit; 45 days to determination",
+        "sourcePath": "/claims/how-to-file/"
+      },
+      "eligibilityRulesetId": "damage-compensation-v1",
+      "formId": null
+    },
+    {
+      "id": "evacuation-registration",
+      "name": "Evacuation Assistance Registration",
+      "category": "safety",
+      "summary": "Registration for assisted evacuation for residents with mobility needs inside zones 3, 4 and 5.",
+      "entryPath": "/evacuation/",
+      "pageIds": [
+        "/evacuation/",
+        "/evacuation/zone-4/"
+      ],
+      "audience": "Residents requiring evacuation assistance",
+      "requirements": {
+        "documents": [
+          {
+            "id": "residence-proof",
+            "name": "Proof of residence in a designated zone",
+            "required": true
+          }
+        ],
+        "fields": [],
+        "fees": [
+          {
+            "id": "registration-fee",
+            "label": "Registration",
+            "amount": 0,
+            "currency": "¥",
+            "waivable": false,
+            "notes": "No charge."
+          }
+        ],
+        "deadlines": [],
+        "processingTime": "5 business days",
+        "sourcePath": "/evacuation/"
+      },
+      "eligibilityRulesetId": null,
+      "formId": null
+    }
+  ],
+  "eligibility": [
+    {
+      "id": "damage-compensation-v1",
+      "serviceId": "damage-compensation",
+      "name": "Kaiju damage compensation eligibility",
+      "sourcePath": "/claims/eligibility/",
+      "questions": [
+        {
+          "id": "zone",
+          "label": "Which evacuation zone is the property in?",
+          "type": "enum",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "required": true
+        },
+        {
+          "id": "structuralDamage",
+          "label": "Did the incident cause verified structural damage?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "incidentsLast12Months",
+          "label": "How many approved claims from separate incidents have you had in the last 12 months?",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "id": "propertyType",
+          "label": "What type of property is it?",
+          "type": "enum",
+          "options": [
+            "residential",
+            "commercial",
+            "agricultural",
+            "public"
+          ],
+          "required": true
+        },
+        {
+          "id": "insurancePayoutReceived",
+          "label": "Has an insurer already paid out for this incident?",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "id": "householdIncomeYen",
+          "label": "Annual household income in yen",
+          "type": "integer",
+          "required": false
+        },
+        {
+          "id": "daysSinceIncident",
+          "label": "How many days ago was the incident?",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "id": "outside-corridor",
+          "description": "Properties in zones 1 and 2 are outside designated kaiju corridors and are handled by municipal insurance, not this Office.",
+          "when": {
+            "all": [
+              {
+                "field": "zone",
+                "op": "in",
+                "value": [
+                  "1",
+                  "2"
+                ]
+              }
+            ]
+          },
+          "outcome": "ineligible",
+          "citation": {
+            "path": "/claims/eligibility/",
+            "anchor": "#zone",
+            "quote": "Properties in zones 1 and 2 fall outside designated corridors."
+          }
+        },
+        {
+          "id": "claim-window-expired",
+          "description": "Claims must be filed within 90 days of the incident.",
+          "when": {
+            "all": [
+              {
+                "field": "daysSinceIncident",
+                "op": "gt",
+                "value": 90
+              }
+            ]
+          },
+          "outcome": "ineligible",
+          "citation": {
+            "path": "/claims/",
+            "anchor": "#before",
+            "quote": "Claims must be filed within 90 days of the incident."
+          }
+        },
+        {
+          "id": "structural-damage-eligible",
+          "description": "Verified structural damage to a property in zone 3, 4 or 5 is eligible for compensation.",
+          "when": {
+            "all": [
+              {
+                "field": "zone",
+                "op": "in",
+                "value": [
+                  "3",
+                  "4",
+                  "5"
+                ]
+              },
+              {
+                "field": "structuralDamage",
+                "op": "truthy"
+              },
+              {
+                "field": "daysSinceIncident",
+                "op": "lte",
+                "value": 90
+              }
+            ]
+          },
+          "outcome": "eligible",
+          "requiredDocuments": [
+            "incident-report",
+            "damage-survey",
+            "proof-of-ownership"
+          ],
+          "citation": {
+            "path": "/claims/eligibility/",
+            "anchor": "#zone",
+            "quote": "Claims require verified structural damage to a property in zones 3, 4 or 5."
+          }
+        },
+        {
+          "id": "repeat-claimant-fee-waiver",
+          "description": "Two or more approved claims from separate incidents in a rolling 12-month period exempt the claimant from the ¥12,000 assessment fee.",
+          "when": {
+            "all": [
+              {
+                "field": "incidentsLast12Months",
+                "op": "gte",
+                "value": 2
+              }
+            ]
+          },
+          "grants": [
+            "assessment-fee-waiver"
+          ],
+          "citation": {
+            "path": "/claims/faq/",
+            "anchor": "#fee-waivers",
+            "quote": "Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee."
+          }
+        },
+        {
+          "id": "insurance-offset",
+          "description": "A prior insurance payout does not disqualify a claim, but the award is reduced by the amount already paid.",
+          "when": {
+            "all": [
+              {
+                "field": "insurancePayoutReceived",
+                "op": "truthy"
+              }
+            ]
+          },
+          "grants": [
+            "award-reduced-by-insurance-payout"
+          ],
+          "requiredDocuments": [
+            "insurance-settlement-letter"
+          ],
+          "citation": {
+            "path": "/claims/eligibility/",
+            "anchor": "#insurance",
+            "quote": "A prior insurance payout reduces the award but does not disqualify the claim."
+          }
+        },
+        {
+          "id": "hardship-supplement",
+          "description": "Households with annual income below ¥4,000,000 receive a hardship supplement.",
+          "when": {
+            "all": [
+              {
+                "field": "householdIncomeYen",
+                "op": "lt",
+                "value": 4000000
+              }
+            ]
+          },
+          "grants": [
+            "hardship-supplement"
+          ],
+          "requiredDocuments": [
+            "income-certificate"
+          ],
+          "citation": {
+            "path": "/claims/eligibility/",
+            "anchor": "#hardship",
+            "quote": "Households with annual income below ¥4,000,000 receive a hardship supplement."
+          }
+        },
+        {
+          "id": "business-interruption",
+          "description": "Commercial properties may additionally claim business interruption.",
+          "when": {
+            "all": [
+              {
+                "field": "propertyType",
+                "op": "eq",
+                "value": "commercial"
+              }
+            ]
+          },
+          "grants": [
+            "business-interruption-eligible"
+          ],
+          "requiredDocuments": [
+            "business-registration"
+          ],
+          "citation": {
+            "path": "/claims/damage-compensation/",
+            "anchor": "#covered",
+            "quote": "Compensation covers business interruption for commercial properties."
+          }
+        }
+      ],
+      "defaultOutcome": {
+        "outcome": "referral",
+        "reason": "No rule determined the outcome. An assessor visit is required to decide the claim.",
+        "citation": {
+          "path": "/claims/how-to-file/",
+          "anchor": "#steps"
+        }
+      },
+      "requiredDocumentsByOutcome": {
+        "eligible": [
+          "incident-report",
+          "damage-survey",
+          "proof-of-ownership"
+        ],
+        "referral": [
+          "incident-report",
+          "damage-survey"
+        ]
+      }
+    }
+  ],
+  "forms": [
+    {
+      "id": "proximity-permit-form",
+      "serviceId": "kaiju-proximity-permit",
+      "path": "/permits/proximity/apply/",
+      "selector": "form[data-kaiju-form=\"proximity-permit-form\"]",
+      "submitLabel": "Submit application",
+      "fields": [
+        {
+          "name": "applicantName",
+          "selector": "#applicantName",
+          "type": "text",
+          "label": "Applicant name",
+          "required": true,
+          "maxLength": 120
+        },
+        {
+          "name": "organization",
+          "selector": "#organization",
+          "type": "text",
+          "label": "Organisation (if any)",
+          "required": false,
+          "maxLength": 120
+        },
+        {
+          "name": "contactEmail",
+          "selector": "#contactEmail",
+          "type": "email",
+          "label": "Contact email",
+          "required": true,
+          "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+        },
+        {
+          "name": "contactPhone",
+          "selector": "#contactPhone",
+          "type": "tel",
+          "label": "Contact phone",
+          "required": false
+        },
+        {
+          "name": "sitePostcode",
+          "selector": "#sitePostcode",
+          "type": "text",
+          "label": "Site postcode",
+          "required": true,
+          "pattern": "^[0-9]{3}-[0-9]{4}$"
+        },
+        {
+          "name": "zone",
+          "selector": "#zone",
+          "type": "select",
+          "label": "Evacuation zone",
+          "required": true,
+          "options": [
+            {
+              "value": "1",
+              "label": "Zone 1"
+            },
+            {
+              "value": "2",
+              "label": "Zone 2"
+            },
+            {
+              "value": "3",
+              "label": "Zone 3"
+            },
+            {
+              "value": "4",
+              "label": "Zone 4"
+            },
+            {
+              "value": "5",
+              "label": "Zone 5"
+            }
+          ]
+        },
+        {
+          "name": "distanceFromCorridorM",
+          "selector": "#distanceFromCorridorM",
+          "type": "number",
+          "label": "Distance from corridor centreline (m)",
+          "required": true
+        },
+        {
+          "name": "structureType",
+          "selector": "#structureType",
+          "type": "select",
+          "label": "Structure type",
+          "required": true,
+          "options": [
+            {
+              "value": "new-build",
+              "label": "New build"
+            },
+            {
+              "value": "extension",
+              "label": "Extension"
+            },
+            {
+              "value": "structural-alteration",
+              "label": "Structural alteration"
+            },
+            {
+              "value": "temporary",
+              "label": "Temporary structure"
+            }
+          ]
+        },
+        {
+          "name": "floorAreaSqm",
+          "selector": "#floorAreaSqm",
+          "type": "number",
+          "label": "Floor area (m²)",
+          "required": true
+        },
+        {
+          "name": "reinforcementStandard",
+          "selector": "#reinforcementStandard",
+          "type": "select",
+          "label": "Reinforcement standard",
+          "required": true,
+          "options": [
+            {
+              "value": "K-1",
+              "label": "K-1 (outer band)"
+            },
+            {
+              "value": "K-2",
+              "label": "K-2 (zone 4 minimum)"
+            },
+            {
+              "value": "K-3",
+              "label": "K-3 (zone 5 minimum)"
+            }
+          ]
+        },
+        {
+          "name": "seismicPlanAttached",
+          "selector": "#seismicPlanAttached",
+          "type": "checkbox",
+          "label": "Seismic and impact mitigation plan attached",
+          "required": true
+        },
+        {
+          "name": "plannedStartDate",
+          "selector": "#plannedStartDate",
+          "type": "date",
+          "label": "Planned start date",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "offices": [
+    {
+      "id": "office-kanto-north",
+      "name": "Kanto North Regional Office",
+      "region": "Kanto North",
+      "address": "2-14-1 Ushiba-dori, Kita City",
+      "hours": "Mon-Fri 09:00-17:00 (window closes 16:30)",
+      "phone": "0120-555-014",
+      "email": "kanto-north@kaiju.go.example",
+      "zones": [
+        "3",
+        "4"
+      ],
+      "servicesOffered": [
+        "damage-compensation",
+        "kaiju-proximity-permit",
+        "evacuation-registration"
+      ],
+      "path": "/offices/kanto-north/",
+      "evacuationRoutes": [
+        {
+          "id": "route-4a",
+          "name": "4A",
+          "zones": [
+            "4"
+          ],
+          "description": "North-west along Ushiba-dori to the ridge road.",
+          "assemblyPoint": "Ushiba Ridge Assembly Ground",
+          "path": "/evacuation/zone-4/"
+        },
+        {
+          "id": "route-4b",
+          "name": "4B",
+          "zones": [
+            "4"
+          ],
+          "description": "Secondary route east via the Sakai river crossing.",
+          "assemblyPoint": "Sakai East Sports Centre",
+          "path": "/evacuation/zone-4/"
+        },
+        {
+          "id": "route-3a",
+          "name": "3A",
+          "zones": [
+            "3"
+          ],
+          "description": "North along the prefectural highway.",
+          "assemblyPoint": "Hanada Civic Hall",
+          "path": "/evacuation/"
+        }
+      ]
+    },
+    {
+      "id": "office-kanto-south",
+      "name": "Kanto South Regional Office",
+      "region": "Kanto South",
+      "address": "8-2 Minato Park Building 3F, Minami City",
+      "hours": "Mon-Fri 09:00-17:00",
+      "phone": "0120-555-028",
+      "email": "kanto-south@kaiju.go.example",
+      "zones": [
+        "1",
+        "2"
+      ],
+      "servicesOffered": [
+        "kaiju-proximity-permit"
+      ],
+      "path": "/offices/"
+    },
+    {
+      "id": "office-tokai-coastal",
+      "name": "Tokai Coastal Regional Office",
+      "region": "Tokai Coastal",
+      "address": "1-1 Harbour Approach, Tokai City",
+      "hours": "Mon-Fri 08:30-16:30",
+      "phone": "0120-555-055",
+      "email": "tokai-coastal@kaiju.go.example",
+      "zones": [
+        "5"
+      ],
+      "servicesOffered": [
+        "damage-compensation",
+        "evacuation-registration"
+      ],
+      "path": "/offices/",
+      "evacuationRoutes": [
+        {
+          "id": "route-5a",
+          "name": "5A",
+          "zones": [
+            "5"
+          ],
+          "description": "Inland along Harbour Approach to the highland relief centre.",
+          "assemblyPoint": "Tokai Highland Relief Centre",
+          "path": "/evacuation/"
+        }
+      ]
+    }
+  ]
+}
