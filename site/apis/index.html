@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference | Office of Kaiju Affairs</title>
+  <meta name="description" content="The KMP v2 REST API: pipelines, connectors, events, webhooks, and rate limits.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/error-responses">Error responses</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<section class='hero'>
+  <div class='hero__inner'>
+    <h1 class='hero__title'>API Reference</h1>
+    <p class='hero__subtitle'>Every endpoint in the KMP v2 REST API, with request/response examples.</p>
+    <div class='hero__cta'><a href="/apis/pipelines">Start with Pipelines</a></div>
+  </div>
+</section>
+
+<section>
+  <p>All endpoints live under <code>https://api.kmp.kaiju.go.example/v2</code> and require a bearer <a href="#">API key</a>. New to the API? Read <code>Authentication</code> in Getting Started first.</p>
+
+  <a class='card' href='/apis/pipelines'>
+  <span class='card__tag'>Endpoint</span>
+  <h3 class='card__title'>Pipelines</h3>
+  <p class='card__description'>Create, list, and manage pipelines.</p>
+</a>
+  <a class='card' href='/apis/connectors'>
+  <span class='card__tag'>Endpoint</span>
+  <h3 class='card__title'>Connectors</h3>
+  <p class='card__description'>Create, list, and rotate credentials for connectors.</p>
+</a>
+  <a class='card' href='/apis/events'>
+  <span class='card__tag'>Endpoint</span>
+  <h3 class='card__title'>Events</h3>
+  <p class='card__description'>Query and replay events that have flowed through a pipeline.</p>
+</a>
+  <a class='card' href='/apis/webhooks'>
+  <span class='card__tag'>Endpoint</span>
+  <h3 class='card__title'>Webhooks</h3>
+  <p class='card__description'>Subscribe to platform lifecycle events over outbound HTTP.</p>
+</a>
+    <a class='card' href='/apis/rate-limits'>
+  <span class='card__tag'>Reference</span>
+  <h3 class='card__title'>Rate limits</h3>
+  <p class='card__description'>Standard-tier limits and the cursor-based pagination envelope.</p>
+</a>
+  <a class='card' href='/apis/error-responses'>
+  <span class='card__tag'>Reference</span>
+  <h3 class='card__title'>Error responses</h3>
+  <p class='card__description'>The v2 API's error response shape.</p>
+</a>
+</section>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Coming from v1?</div>
+  <div class='alert__body'><p>v2 replaces offset pagination with cursor pagination and adds webhooks in place of polling. See the migration guide before switching a production integration over.</p></div>
+</div>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

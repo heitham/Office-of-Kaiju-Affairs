@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pipelines | Office of Kaiju Affairs</title>
+  <meta name="description" content="What a pipeline is in KMP: a named, versioned workflow that moves data from a source connector through transform steps to a destination.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-concepts-pipelines">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/platform">Kaiju Monitoring Platform Docs</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/index">Office of Kaiju Affairs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines" class="usa-current">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Pipelines</h1>
+<p>A <strong>pipeline</strong> is the core unit of work in KMP: a named, versioned data-processing workflow that moves data from a source connector, through zero or more transform steps, to a destination connector. Every pipeline runs as a sequence of <a href="/concepts-events">events</a> flowing through that path.</p>
+
+<h2>Anatomy of a pipeline</h2>
+<p>Every pipeline has three parts:</p>
+<ul>
+  <li><strong>Source</strong> — the <a href="/concepts-connectors">connector</a> that emits events into the pipeline (a database, a queue, an upload, a webhook).</li>
+  <li><strong>Transforms</strong> — an ordered list of steps that reshape, filter, or enrich events as they pass through. Transforms are optional; a pipeline with none is a pass-through copy.</li>
+  <li><strong>Destination</strong> — the connector that events are written to once transforms complete.</li>
+</ul>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Pipelines are declarative</div>
+  <div class='alert__body'><p>You describe the desired source, transforms, and destination; KMP schedules and retries the runs. You never manage worker processes directly.</p></div>
+</div>
+
+<h2>Pipeline state</h2>
+<p>A pipeline is always in one of three states:</p>
+<ul>
+  <li><code>draft</code> — configured but not yet processing events.</li>
+  <li><code>active</code> — running on its configured schedule or trigger.</li>
+  <li><code>paused</code> — temporarily stopped; resumes from the last checkpoint.</li>
+</ul>
+
+<h2>Versioning</h2>
+<p>Pipeline configuration is versioned. Publishing a new version does not affect events already in flight on the previous version — in-flight runs finish on the version they started on. This matters most when a pipeline definition is part of a larger migration; see the <a href="/migration-guide-v1-to-v2">Migration guide</a> for an example of retiring an old pipeline version safely.</p>
+
+<h2>Next steps</h2>
+<p>Ready to build one? Start with the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide, or jump straight to the <a href="/apis/pipelines">Pipelines endpoint</a> in the API reference.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

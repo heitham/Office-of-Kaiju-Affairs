@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaiju-Proximity Construction Permit | Office of Kaiju Affairs</title>
+  <meta name="description" content="Permission to build, extend or structurally alter a structure within 1,000 metres of a designated kaiju corridor centreline.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-permits-proximity page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/permits/proximity/index" class="usa-current">Kaiju-Proximity Construction Permit</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Kaiju-Proximity Construction Permit</h1>
+<p data-agent-keywords="construction permit, reinforcement standard, K-2, corridor, building">A proximity construction permit is required before building, extending or structurally altering any structure within 1,000 metres of a designated kaiju corridor centreline. This includes temporary structures standing longer than 30 days.</p>
+
+<div class='stat-card'>
+  <div class='stat-card__value'>10 business days</div>
+  <div class='stat-card__label'>Standard processing time</div>
+  <p class='stat-card__description'></p>
+</div>
+
+<h2 id="standards">Reinforcement standards</h2>
+<p>Structures are assessed against the K-series reinforcement standards. The applicable minimum standard is determined by the evacuation zone of the build site:</p>
+<ul>
+  <li>Zones 1-3 (outer band): standard <strong>K-1</strong>.</li>
+  <li data-agent-fact="Zone 4 reinforcement standard">Construction in Zone 4 requires reinforcement standard K-2.</li>
+  <li>Zone 5 (corridor-adjacent): standard <strong>K-3</strong>. Residential new builds are not permitted in Zone 5.</li>
+</ul>
+<p>The reinforcement standard declared on the application must meet or exceed the zone minimum. Applications declaring a lower standard are refused without assessment, and the fee is not refunded.</p>
+
+<h2>Fees and deadlines</h2>
+<p data-agent-fact="Permit application fee">The permit application fee is ¥45,000, payable on submission. It is not refundable if the application is refused.</p>
+<p>Apply at least 10 business days before works begin. Breaking ground before determination is treated as building without a permit.</p>
+
+<section>
+  <a class='card' href='/permits/proximity/requirements/'>
+  <span class='card__tag'>Before you apply</span>
+  <h3 class='card__title'>Requirements</h3>
+  <p class='card__description'>Documents, fees, and deadlines in full.</p>
+</a>
+  <a class='card' href='/permits/proximity/apply/'>
+  <span class='card__tag'>Apply</span>
+  <h3 class='card__title'>Application form</h3>
+  <p class='card__description'>Submit a proximity construction permit application online.</p>
+</a>
+</section>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building your first pipeline | Office of Kaiju Affairs</title>
+  <meta name="description" content="Create a source connector, a destination connector, and the pipeline that connects them, end to end.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-building-your-first-pipeline">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline" class="usa-current">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/rate-limiting-cookbook">Rate limiting cookbook</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Building your first pipeline</h1>
+<p>This guide walks through creating a <a href="/concepts-pipelines">pipeline</a> end to end: a source connector, a destination connector, and the pipeline that ties them together.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Before you start</div>
+  <div class='alert__body'><p>You'll need an API key. See <a href="/getting-started-authentication">Authentication</a> in Getting Started if you don't have one yet.</p></div>
+</div>
+
+<h2>1. Create a source connector</h2>
+<p>We'll pull orders from Postgres. See <a href="/concepts-connectors">Connectors</a> for the full catalog of types.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-source.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.kmp.kaiju.go.example/v2/connectors \
+  -H "Authorization: Bearer $KMP_API_KEY" \
+  -d '&#123;"type":"postgres","direction":"source","config":&#123;"connection_string":"postgres://..."&#125;&#125;'</code></pre>
+</div>
+
+<h2>2. Create a destination connector</h2>
+<p>We'll write to Snowflake.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-destination.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.kmp.kaiju.go.example/v2/connectors \
+  -H "Authorization: Bearer $KMP_API_KEY" \
+  -d '&#123;"type":"snowflake","direction":"destination","config":&#123;"account":"..."&#125;&#125;'</code></pre>
+</div>
+
+<h2>3. Create the pipeline</h2>
+<p>Full request/response details are in the <a href="/apis/pipelines">Pipelines endpoint</a> reference.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-pipeline.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.kmp.kaiju.go.example/v2/pipelines \
+  -H "Authorization: Bearer $KMP_API_KEY" \
+  -d '&#123;"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"&#125;'</code></pre>
+</div>
+
+<p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
+
+<h2>Next steps</h2>
+<p>Now that events are flowing, read <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> to see what happens when a write fails, or <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> to watch it run.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/index'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Guides</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/connecting-a-data-source'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Connecting a data source</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

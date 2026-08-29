@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regional Offices | Office of Kaiju Affairs</title>
+  <meta name="description" content="The three regional offices of the Office of Kaiju Affairs, their zones, services and hours.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-offices page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/offices/index" class="usa-current">Regional Offices</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Regional Offices</h1>
+<p data-agent-keywords="offices, hours, address, phone, in person">Three regional offices serve the designated zones. Bring original documents; copies are made at the window without charge.</p>
+<section>
+  <a class='card' href='/offices/kanto-north/'>
+  <span class='card__tag'>Zones 3-4</span>
+  <h3 class='card__title'>Kanto North Regional Office</h3>
+  <p class='card__description'>2-14-1 Ushiba-dori, Kita City. All services. Mon-Fri 09:00-17:00.</p>
+</a>
+</section>
+<h2 id="kanto-south">Kanto South Regional Office</h2>
+<p data-agent-fact="Kanto South office">Zones 1-2 · 8-2 Minato Park Building 3F, Minami City · Mon-Fri 09:00-17:00 · 0120-555-028. Services: proximity construction permits only (zones 1-2 damage claims are municipal).</p>
+<h2 id="tokai-coastal">Tokai Coastal Regional Office</h2>
+<p data-agent-fact="Tokai Coastal office">Zone 5 · 1-1 Harbour Approach, Tokai City · Mon-Fri 08:30-16:30 · 0120-555-055. Services: damage compensation, evacuation registration.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

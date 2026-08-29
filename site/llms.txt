@@ -1,0 +1,81 @@
+# Office of Kaiju Affairs
+
+> The national authority for kaiju corridor management: permits, damage compensation, and evacuation services for residents of zones 1-5.
+
+## Pages
+- [Authentication](https://office-of-kaiju-affairs.vercel.app/getting-started-authentication): Authenticate API requests with a bearer API key.
+- [Changelog](https://office-of-kaiju-affairs.vercel.app/changelog): Recent changes to the KMP API and platform.
+- [Concepts](https://office-of-kaiju-affairs.vercel.app/concepts): The three core building blocks of KMP: pipelines, connectors, and events.
+- [Connectors](https://office-of-kaiju-affairs.vercel.app/concepts-connectors): What a connector is in KMP: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
+- [Events](https://office-of-kaiju-affairs.vercel.app/concepts-events): What an event is in KMP: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
+- [Glossary](https://office-of-kaiju-affairs.vercel.app/glossary): Definitions for KMP's core terms, each linking to its full explanation.
+- [Installation](https://office-of-kaiju-affairs.vercel.app/getting-started-installation): Install the KMP SDK or start calling the REST API directly.
+- [Kaiju Monitoring Platform Docs](https://office-of-kaiju-affairs.vercel.app/platform): Everything you need to build data pipelines on the Kaiju Monitoring Platform.
+- [Migration guide (v1 → v2)](https://office-of-kaiju-affairs.vercel.app/migration-guide-v1-to-v2): Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.
+- [Office of Kaiju Affairs](https://office-of-kaiju-affairs.vercel.app/index): The national authority for kaiju corridor management: permits, damage compensation, and evacuation services for residents of zones 1-5.
+- [Pipelines](https://office-of-kaiju-affairs.vercel.app/concepts-pipelines): What a pipeline is in KMP: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
+- [Quickstart](https://office-of-kaiju-affairs.vercel.app/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
+- [Release notes archive](https://office-of-kaiju-affairs.vercel.app/release-notes-archive): Older v1-era release notes, superseded by the current changelog.
+- [Security & compliance overview](https://office-of-kaiju-affairs.vercel.app/security-and-compliance): How KMP handles data in transit and at rest, credential storage, and compliance posture.
+- [Support / Contact](https://office-of-kaiju-affairs.vercel.app/support): How to reach the KMP team for support, sales, or security reports.
+- [Troubleshooting / FAQ](https://office-of-kaiju-affairs.vercel.app/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.
+
+## About
+- [About the Office](https://office-of-kaiju-affairs.vercel.app/about/index): Mandate, structure and history of the Office of Kaiju Affairs under the Special Corridors Act.
+
+## Open Data
+- [Open Data — Service Register](https://office-of-kaiju-affairs.vercel.app/agent-data/index): Machine-readable register of Office services, eligibility rules, forms and offices.
+
+## apis
+- [API Reference](https://office-of-kaiju-affairs.vercel.app/apis/index): The KMP v2 REST API: pipelines, connectors, events, webhooks, and rate limits.
+- [Connectors endpoint](https://office-of-kaiju-affairs.vercel.app/apis/connectors): Create, list, and rotate credentials for connectors via the v2 REST API.
+- [Error responses](https://office-of-kaiju-affairs.vercel.app/apis/error-responses): The v2 API's error response shape, and the breaking change from v1's bare error strings.
+- [Events endpoint](https://office-of-kaiju-affairs.vercel.app/apis/events): Query and replay events that have flowed through a pipeline via the v2 REST API.
+- [Pipelines endpoint](https://office-of-kaiju-affairs.vercel.app/apis/pipelines): Create, list, and manage pipelines via the v2 REST API.
+- [Rate limits](https://office-of-kaiju-affairs.vercel.app/apis/rate-limits): Standard-tier rate limits and the v2 API's cursor-based pagination envelope.
+- [Webhooks endpoint](https://office-of-kaiju-affairs.vercel.app/apis/webhooks): Subscribe to Kaiju Monitoring Platform lifecycle events over outbound HTTP via the v2 REST API.
+
+## Claims
+- [Claim Eligibility](https://office-of-kaiju-affairs.vercel.app/claims/eligibility/index): Zone rules, insurance offsets and the hardship supplement for kaiju damage compensation claims.
+- [Claim Fee Schedule](https://office-of-kaiju-affairs.vercel.app/claims/fees/index): The claim assessment fee, refund rules, and waivers for kaiju damage compensation.
+- [Claims](https://office-of-kaiju-affairs.vercel.app/claims/index): Damage claims administered by the Office of Kaiju Affairs, deadlines, and how to begin.
+- [Claims FAQ](https://office-of-kaiju-affairs.vercel.app/claims/faq/index): Common questions about kaiju damage compensation claims, including fee waivers for repeat claimants.
+- [How to File a Claim](https://office-of-kaiju-affairs.vercel.app/claims/how-to-file/index): The five steps of a kaiju damage compensation claim, from incident report to determination.
+- [Kaiju Damage Compensation](https://office-of-kaiju-affairs.vercel.app/claims/damage-compensation/index): Compensation for structural, contents and business-interruption damage caused by kaiju activity inside zones 3, 4 and 5.
+
+## Contact
+- [Contact](https://office-of-kaiju-affairs.vercel.app/contact/index): How to contact the Office of Kaiju Affairs: offices, phone lines and correspondence.
+
+## Evacuation
+- [Evacuation](https://office-of-kaiju-affairs.vercel.app/evacuation/index): Designated evacuation routes, assembly points, and assisted-evacuation registration for zones 3, 4 and 5.
+- [Zone 4 Evacuation](https://office-of-kaiju-affairs.vercel.app/evacuation/zone-4/index): Evacuation routes 4A and 4B, assembly points and guidance for Zone 4 residents.
+
+## guides
+- [Building your first pipeline](https://office-of-kaiju-affairs.vercel.app/guides/building-your-first-pipeline): Create a source connector, a destination connector, and the pipeline that connects them, end to end.
+- [Connecting a data source](https://office-of-kaiju-affairs.vercel.app/guides/connecting-a-data-source): Choose the right connector type and authentication method for a new data source.
+- [Guides](https://office-of-kaiju-affairs.vercel.app/guides/index): Task-oriented walkthroughs for building, connecting, and operating KMP pipelines.
+- [Handling errors & retries](https://office-of-kaiju-affairs.vercel.app/guides/handling-errors-and-retries): How KMP retries failed events, when they're dead-lettered, and how to replay them.
+- [Monitoring & alerts](https://office-of-kaiju-affairs.vercel.app/guides/monitoring-and-alerts): Watch pipeline health and get notified of failures via webhooks before they become incidents.
+- [Rate limiting cookbook](https://office-of-kaiju-affairs.vercel.app/guides/rate-limiting-cookbook): Practical patterns for handling API rate limits.
+- [Scheduling & triggers](https://office-of-kaiju-affairs.vercel.app/guides/scheduling-and-triggers): Run a pipeline on a cron schedule or trigger it directly from incoming events.
+
+## Regional Offices
+- [Kanto North Regional Office](https://office-of-kaiju-affairs.vercel.app/offices/kanto-north/index): Address, hours, phone and services for the Kanto North Regional Office, serving zones 3 and 4.
+- [Regional Offices](https://office-of-kaiju-affairs.vercel.app/offices/index): The three regional offices of the Office of Kaiju Affairs, their zones, services and hours.
+
+## Permits
+- [Apply — Proximity Construction Permit](https://office-of-kaiju-affairs.vercel.app/permits/proximity/apply/index): Online application form for the kaiju-proximity construction permit.
+- [Kaiju-Proximity Construction Permit](https://office-of-kaiju-affairs.vercel.app/permits/proximity/index): Permission to build, extend or structurally alter a structure within 1,000 metres of a designated kaiju corridor centreline.
+- [Permit Requirements](https://office-of-kaiju-affairs.vercel.app/permits/proximity/requirements/index): Documents, fees and deadlines for the kaiju-proximity construction permit.
+- [Permits](https://office-of-kaiju-affairs.vercel.app/permits/index): Permits administered by the Office of Kaiju Affairs, including the kaiju-proximity construction permit.
+
+## sdks
+- [Node.js SDK](https://office-of-kaiju-affairs.vercel.app/sdks/node-js): Install and use @kmp/sdk to manage pipelines and connectors from Node.js.
+- [Python SDK](https://office-of-kaiju-affairs.vercel.app/sdks/python): Install and use kmp-sdk to manage pipelines and connectors from Python.
+- [SDKs](https://office-of-kaiju-affairs.vercel.app/sdks/index): Official KMP client libraries for Node.js and Python.
+
+## Services
+- [Services](https://office-of-kaiju-affairs.vercel.app/services/index): Directory of all citizen and business services provided by the Office of Kaiju Affairs.
+
+## tutorials
+- [Tutorials](https://office-of-kaiju-affairs.vercel.app/tutorials/index): Step-by-step, hands-on tutorials for building with the RIFT platform.

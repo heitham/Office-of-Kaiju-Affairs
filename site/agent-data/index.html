@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Data — Service Register | Office of Kaiju Affairs</title>
+  <meta name="description" content="Machine-readable register of Office services, eligibility rules, forms and offices.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-agent-data page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/agent-data/index" class="usa-current">Open Data — Service Register</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Open Data — Service Register</h1>
+<p>The structured register below describes the Office’s services, eligibility rules, application forms and regional offices in machine-readable form. It is republished with the site and consumed by the site’s agent tooling.</p>
+<script type="application/json" data-agent-data>
+{
+ "services": [
+  {
+   "id": "kaiju-proximity-permit",
+   "name": "Kaiju-Proximity Construction Permit",
+   "category": "permits",
+   "summary": "Permission to build, extend or structurally alter a structure within 1,000 metres of a designated kaiju corridor centreline.",
+   "entryPath": "/permits/proximity/",
+   "pageIds": [
+    "/permits/proximity/",
+    "/permits/proximity/requirements/",
+    "/permits/proximity/apply/"
+   ],
+   "audience": "Property owners, developers and licensed contractors",
+   "requirements": {
+    "documents": [
+     {
+      "id": "site-plan",
+      "name": "Site plan",
+      "description": "Scale 1:500 or finer, showing the corridor centreline.",
+      "required": true
+     },
+     {
+      "id": "seismic-plan",
+      "name": "Seismic and impact mitigation plan",
+      "description": "Prepared by a licensed structural engineer.",
+      "required": true
+     },
+     {
+      "id": "proximity-survey",
+      "name": "Corridor proximity survey",
+      "description": "No older than 6 months.",
+      "required": true
+     },
+     {
+      "id": "contractor-licence",
+      "name": "Contractor prefecture licence",
+      "description": "Copy of a current licence.",
+      "required": true
+     }
+    ],
+    "fields": [
+     {
+      "id": "applicantName",
+      "label": "Applicant name",
+      "type": "text",
+      "required": true,
+      "description": "Legal name of the permit holder."
+     },
+     {
+      "id": "zone",
+      "label": "Evacuation zone",
+      "type": "enum",
+      "required": true,
+      "description": "Zone of the build site."
+     },
+     {
+      "id": "distanceFromCorridorM",
+      "label": "Distance from corridor centreline (m)",
+      "type": "integer",
+      "required": true
+     }
+    ],
+    "fees": [
+     {
+      "id": "permit-fee",
+      "label": "Permit application fee",
+      "amount": 45000,
+      "currency": "¥",
+      "waivable": false,
+      "notes": "Payable on submission. Not refundable if refused."
+     }
+    ],
+    "deadlines": [
+     {
+      "id": "pre-construction",
+      "label": "Apply before breaking ground",
+      "value": "At least 10 business days before works begin"
+     }
+    ],
+    "processingTime": "10 business days",
+    "sourcePath": "/permits/proximity/requirements/"
+   },
+   "eligibilityRulesetId": null,
+   "formId": "proximity-permit-form"
+  },
+  {
+   "id": "damage-compensation",
+   "name": "Kaiju Damage Compensation",
+   "category": "claims",
+   "summary": "Compensation for structural, contents and business-interruption damage caused by kaiju activity inside zones 3, 4 and 5.",
+   "entryPath": "/claims/damage-compensation/",
+   "pageIds": [
+    "/claims/damage-compensation/",
+    "/claims/eligibility/",
+    "/claims/how-to-file/",
+    "/claims/faq/",
+    "/claims/fees/"
+   ],
+   "audience": "Residents, tenants and business owners inside designated corridors",
+   "requirements": {
+    "documents": [
+     {
+      "id": "incident-report",
+      "name": "Incident report receipt",
+      "description": "Filed within 72 hours of the incident.",
+      "required": true
+     },
+     {
+      "id": "damage-survey",
+      "name": "Damage survey",
+      "description": "Photographs and an itemised loss schedule.",
+      "required": true
+     },
+     {
+      "id": "proof-of-ownership",
+      "name": "Proof of ownership or tenancy",
+      "required": true
+     },
+     {
+      "id": "insurance-settlement-letter",
+      "name": "Insurance settlement letter",
+      "description": "Required only if an insurer has already paid out.",
+      "required": false
+     },
+     {
+      "id": "income-certificate",
+      "name": "Household income certificate",
+      "description": "Required only when claiming the hardship supplement.",
+      "required": false
+     },
+     {
+      "id": "business-registration",
+      "name": "Business registration certificate",
+      "description": "Required for business-interruption claims.",
+      "required": false
+     }
+    ],
+    "fields": [],
+    "fees": [
+     {
+      "id": "assessment-fee",
+      "label": "Claim assessment fee",
+      "amount": 12000,
+      "currency": "¥",
+      "waivable": true,
+      "notes": "Waived for repeat claimants; refunded in full on awards above ¥1,000,000."
+     }
+    ],
+    "deadlines": [
+     {
+      "id": "claim-window",
+      "label": "Claim deadline",
+      "value": "90 days from the incident"
+     },
+     {
+      "id": "incident-report",
+      "label": "Incident report deadline",
+      "value": "72 hours from the incident"
+     }
+    ],
+    "processingTime": "15 business days to assessor visit; 45 days to determination",
+    "sourcePath": "/claims/how-to-file/"
+   },
+   "eligibilityRulesetId": "damage-compensation-v1",
+   "formId": null
+  },
+  {
+   "id": "evacuation-registration",
+   "name": "Evacuation Assistance Registration",
+   "category": "safety",
+   "summary": "Registration for assisted evacuation for residents with mobility needs inside zones 3, 4 and 5.",
+   "entryPath": "/evacuation/",
+   "pageIds": [
+    "/evacuation/",
+    "/evacuation/zone-4/"
+   ],
+   "audience": "Residents requiring evacuation assistance",
+   "requirements": {
+    "documents": [
+     {
+      "id": "residence-proof",
+      "name": "Proof of residence in a designated zone",
+      "required": true
+     }
+    ],
+    "fields": [],
+    "fees": [
+     {
+      "id": "registration-fee",
+      "label": "Registration",
+      "amount": 0,
+      "currency": "¥",
+      "waivable": false,
+      "notes": "No charge."
+     }
+    ],
+    "deadlines": [],
+    "processingTime": "5 business days",
+    "sourcePath": "/evacuation/"
+   },
+   "eligibilityRulesetId": null,
+   "formId": null
+  }
+ ],
+ "eligibility": [
+  {
+   "id": "damage-compensation-v1",
+   "serviceId": "damage-compensation",
+   "name": "Kaiju damage compensation eligibility",
+   "sourcePath": "/claims/eligibility/",
+   "questions": [
+    {
+     "id": "zone",
+     "label": "Which evacuation zone is the property in?",
+     "type": "enum",
+     "options": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+     ],
+     "required": true
+    },
+    {
+     "id": "structuralDamage",
+     "label": "Did the incident cause verified structural damage?",
+     "type": "boolean",
+     "required": true
+    },
+    {
+     "id": "incidentsLast12Months",
+     "label": "How many approved claims from separate incidents have you had in the last 12 months?",
+     "type": "integer",
+     "required": true
+    },
+    {
+     "id": "propertyType",
+     "label": "What type of property is it?",
+     "type": "enum",
+     "options": [
+      "residential",
+      "commercial",
+      "agricultural",
+      "public"
+     ],
+     "required": true
+    },
+    {
+     "id": "insurancePayoutReceived",
+     "label": "Has an insurer already paid out for this incident?",
+     "type": "boolean",
+     "required": false
+    },
+    {
+     "id": "householdIncomeYen",
+     "label": "Annual household income in yen",
+     "type": "integer",
+     "required": false
+    },
+    {
+     "id": "daysSinceIncident",
+     "label": "How many days ago was the incident?",
+     "type": "integer",
+     "required": true
+    }
+   ],
+   "rules": [
+    {
+     "id": "outside-corridor",
+     "description": "Properties in zones 1 and 2 are outside designated kaiju corridors and are handled by municipal insurance, not this Office.",
+     "when": {
+      "all": [
+       {
+        "field": "zone",
+        "op": "in",
+        "value": [
+         "1",
+         "2"
+        ]
+       }
+      ]
+     },
+     "outcome": "ineligible",
+     "citation": {
+      "path": "/claims/eligibility/",
+      "anchor": "#zone",
+      "quote": "Properties in zones 1 and 2 fall outside designated corridors."
+     }
+    },
+    {
+     "id": "claim-window-expired",
+     "description": "Claims must be filed within 90 days of the incident.",
+     "when": {
+      "all": [
+       {
+        "field": "daysSinceIncident",
+        "op": "gt",
+        "value": 90
+       }
+      ]
+     },
+     "outcome": "ineligible",
+     "citation": {
+      "path": "/claims/",
+      "anchor": "#before",
+      "quote": "Claims must be filed within 90 days of the incident."
+     }
+    },
+    {
+     "id": "structural-damage-eligible",
+     "description": "Verified structural damage to a property in zone 3, 4 or 5 is eligible for compensation.",
+     "when": {
+      "all": [
+       {
+        "field": "zone",
+        "op": "in",
+        "value": [
+         "3",
+         "4",
+         "5"
+        ]
+       },
+       {
+        "field": "structuralDamage",
+        "op": "truthy"
+       },
+       {
+        "field": "daysSinceIncident",
+        "op": "lte",
+        "value": 90
+       }
+      ]
+     },
+     "outcome": "eligible",
+     "requiredDocuments": [
+      "incident-report",
+      "damage-survey",
+      "proof-of-ownership"
+     ],
+     "citation": {
+      "path": "/claims/eligibility/",
+      "anchor": "#zone",
+      "quote": "Claims require verified structural damage to a property in zones 3, 4 or 5."
+     }
+    },
+    {
+     "id": "repeat-claimant-fee-waiver",
+     "description": "Two or more approved claims from separate incidents in a rolling 12-month period exempt the claimant from the ¥12,000 assessment fee.",
+     "when": {
+      "all": [
+       {
+        "field": "incidentsLast12Months",
+        "op": "gte",
+        "value": 2
+       }
+      ]
+     },
+     "grants": [
+      "assessment-fee-waiver"
+     ],
+     "citation": {
+      "path": "/claims/faq/",
+      "anchor": "#fee-waivers",
+      "quote": "Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee."
+     }
+    },
+    {
+     "id": "insurance-offset",
+     "description": "A prior insurance payout does not disqualify a claim, but the award is reduced by the amount already paid.",
+     "when": {
+      "all": [
+       {
+        "field": "insurancePayoutReceived",
+        "op": "truthy"
+       }
+      ]
+     },
+     "grants": [
+      "award-reduced-by-insurance-payout"
+     ],
+     "requiredDocuments": [
+      "insurance-settlement-letter"
+     ],
+     "citation": {
+      "path": "/claims/eligibility/",
+      "anchor": "#insurance",
+      "quote": "A prior insurance payout reduces the award but does not disqualify the claim."
+     }
+    },
+    {
+     "id": "hardship-supplement",
+     "description": "Households with annual income below ¥4,000,000 receive a hardship supplement.",
+     "when": {
+      "all": [
+       {
+        "field": "householdIncomeYen",
+        "op": "lt",
+        "value": 4000000
+       }
+      ]
+     },
+     "grants": [
+      "hardship-supplement"
+     ],
+     "requiredDocuments": [
+      "income-certificate"
+     ],
+     "citation": {
+      "path": "/claims/eligibility/",
+      "anchor": "#hardship",
+      "quote": "Households with annual income below ¥4,000,000 receive a hardship supplement."
+     }
+    },
+    {
+     "id": "business-interruption",
+     "description": "Commercial properties may additionally claim business interruption.",
+     "when": {
+      "all": [
+       {
+        "field": "propertyType",
+        "op": "eq",
+        "value": "commercial"
+       }
+      ]
+     },
+     "grants": [
+      "business-interruption-eligible"
+     ],
+     "requiredDocuments": [
+      "business-registration"
+     ],
+     "citation": {
+      "path": "/claims/damage-compensation/",
+      "anchor": "#covered",
+      "quote": "Compensation covers business interruption for commercial properties."
+     }
+    }
+   ],
+   "defaultOutcome": {
+    "outcome": "referral",
+    "reason": "No rule determined the outcome. An assessor visit is required to decide the claim.",
+    "citation": {
+     "path": "/claims/how-to-file/",
+     "anchor": "#steps"
+    }
+   },
+   "requiredDocumentsByOutcome": {
+    "eligible": [
+     "incident-report",
+     "damage-survey",
+     "proof-of-ownership"
+    ],
+    "referral": [
+     "incident-report",
+     "damage-survey"
+    ]
+   }
+  }
+ ],
+ "forms": [
+  {
+   "id": "proximity-permit-form",
+   "serviceId": "kaiju-proximity-permit",
+   "path": "/permits/proximity/apply/",
+   "selector": "form[data-kaiju-form=\"proximity-permit-form\"]",
+   "submitLabel": "Submit application",
+   "fields": [
+    {
+     "name": "applicantName",
+     "selector": "#applicantName",
+     "type": "text",
+     "label": "Applicant name",
+     "required": true,
+     "maxLength": 120
+    },
+    {
+     "name": "organization",
+     "selector": "#organization",
+     "type": "text",
+     "label": "Organisation (if any)",
+     "required": false,
+     "maxLength": 120
+    },
+    {
+     "name": "contactEmail",
+     "selector": "#contactEmail",
+     "type": "email",
+     "label": "Contact email",
+     "required": true,
+     "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    },
+    {
+     "name": "contactPhone",
+     "selector": "#contactPhone",
+     "type": "tel",
+     "label": "Contact phone",
+     "required": false
+    },
+    {
+     "name": "sitePostcode",
+     "selector": "#sitePostcode",
+     "type": "text",
+     "label": "Site postcode",
+     "required": true,
+     "pattern": "^[0-9]{3}-[0-9]{4}$"
+    },
+    {
+     "name": "zone",
+     "selector": "#zone",
+     "type": "select",
+     "label": "Evacuation zone",
+     "required": true,
+     "options": [
+      {
+       "value": "1",
+       "label": "Zone 1"
+      },
+      {
+       "value": "2",
+       "label": "Zone 2"
+      },
+      {
+       "value": "3",
+       "label": "Zone 3"
+      },
+      {
+       "value": "4",
+       "label": "Zone 4"
+      },
+      {
+       "value": "5",
+       "label": "Zone 5"
+      }
+     ]
+    },
+    {
+     "name": "distanceFromCorridorM",
+     "selector": "#distanceFromCorridorM",
+     "type": "number",
+     "label": "Distance from corridor centreline (m)",
+     "required": true
+    },
+    {
+     "name": "structureType",
+     "selector": "#structureType",
+     "type": "select",
+     "label": "Structure type",
+     "required": true,
+     "options": [
+      {
+       "value": "new-build",
+       "label": "New build"
+      },
+      {
+       "value": "extension",
+       "label": "Extension"
+      },
+      {
+       "value": "structural-alteration",
+       "label": "Structural alteration"
+      },
+      {
+       "value": "temporary",
+       "label": "Temporary structure"
+      }
+     ]
+    },
+    {
+     "name": "floorAreaSqm",
+     "selector": "#floorAreaSqm",
+     "type": "number",
+     "label": "Floor area (m²)",
+     "required": true
+    },
+    {
+     "name": "reinforcementStandard",
+     "selector": "#reinforcementStandard",
+     "type": "select",
+     "label": "Reinforcement standard",
+     "required": true,
+     "options": [
+      {
+       "value": "K-1",
+       "label": "K-1 (outer band)"
+      },
+      {
+       "value": "K-2",
+       "label": "K-2 (zone 4 minimum)"
+      },
+      {
+       "value": "K-3",
+       "label": "K-3 (zone 5 minimum)"
+      }
+     ]
+    },
+    {
+     "name": "seismicPlanAttached",
+     "selector": "#seismicPlanAttached",
+     "type": "checkbox",
+     "label": "Seismic and impact mitigation plan attached",
+     "required": true
+    },
+    {
+     "name": "plannedStartDate",
+     "selector": "#plannedStartDate",
+     "type": "date",
+     "label": "Planned start date",
+     "required": true
+    }
+   ]
+  }
+ ],
+ "offices": [
+  {
+   "id": "office-kanto-north",
+   "name": "Kanto North Regional Office",
+   "region": "Kanto North",
+   "address": "2-14-1 Ushiba-dori, Kita City",
+   "hours": "Mon-Fri 09:00-17:00 (window closes 16:30)",
+   "phone": "0120-555-014",
+   "email": "kanto-north@kaiju.go.example",
+   "zones": [
+    "3",
+    "4"
+   ],
+   "servicesOffered": [
+    "damage-compensation",
+    "kaiju-proximity-permit",
+    "evacuation-registration"
+   ],
+   "path": "/offices/kanto-north/",
+   "evacuationRoutes": [
+    {
+     "id": "route-4a",
+     "name": "4A",
+     "zones": [
+      "4"
+     ],
+     "description": "North-west along Ushiba-dori to the ridge road.",
+     "assemblyPoint": "Ushiba Ridge Assembly Ground",
+     "path": "/evacuation/zone-4/"
+    },
+    {
+     "id": "route-4b",
+     "name": "4B",
+     "zones": [
+      "4"
+     ],
+     "description": "Secondary route east via the Sakai river crossing.",
+     "assemblyPoint": "Sakai East Sports Centre",
+     "path": "/evacuation/zone-4/"
+    },
+    {
+     "id": "route-3a",
+     "name": "3A",
+     "zones": [
+      "3"
+     ],
+     "description": "North along the prefectural highway.",
+     "assemblyPoint": "Hanada Civic Hall",
+     "path": "/evacuation/"
+    }
+   ]
+  },
+  {
+   "id": "office-kanto-south",
+   "name": "Kanto South Regional Office",
+   "region": "Kanto South",
+   "address": "8-2 Minato Park Building 3F, Minami City",
+   "hours": "Mon-Fri 09:00-17:00",
+   "phone": "0120-555-028",
+   "email": "kanto-south@kaiju.go.example",
+   "zones": [
+    "1",
+    "2"
+   ],
+   "servicesOffered": [
+    "kaiju-proximity-permit"
+   ],
+   "path": "/offices/"
+  },
+  {
+   "id": "office-tokai-coastal",
+   "name": "Tokai Coastal Regional Office",
+   "region": "Tokai Coastal",
+   "address": "1-1 Harbour Approach, Tokai City",
+   "hours": "Mon-Fri 08:30-16:30",
+   "phone": "0120-555-055",
+   "email": "tokai-coastal@kaiju.go.example",
+   "zones": [
+    "5"
+   ],
+   "servicesOffered": [
+    "damage-compensation",
+    "evacuation-registration"
+   ],
+   "path": "/offices/",
+   "evacuationRoutes": [
+    {
+     "id": "route-5a",
+     "name": "5A",
+     "zones": [
+      "5"
+     ],
+     "description": "Inland along Harbour Approach to the highland relief centre.",
+     "assemblyPoint": "Tokai Highland Relief Centre",
+     "path": "/evacuation/"
+    }
+   ]
+  }
+ ]
+}
+</script>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Troubleshooting / FAQ | Office of Kaiju Affairs</title>
+  <meta name="description" content="Common problems and fixes across pipelines, connectors, and webhooks.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-troubleshooting">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/platform">Kaiju Monitoring Platform Docs</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/index">Office of Kaiju Affairs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting" class="usa-current">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Troubleshooting / FAQ</h1>
+<p>Common problems, and where in the docs to go for the full explanation.</p>
+
+<h2>My pipeline isn't processing events</h2>
+<p>Check the source connector's <code>health</code> field via the <a href="/apis/connectors">Connectors endpoint</a>. A <code>down</code> connector stalls every pipeline that reads from it. If it's <code>healthy</code>, confirm the pipeline itself is <code>active</code> and not <code>paused</code> — see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a>.</p>
+
+<h2>Events keep failing and landing in the dead-letter queue</h2>
+<p>Walk through <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> — it covers both diagnosing the failure and replaying events once fixed.</p>
+
+<h2>I'm not receiving webhook deliveries</h2>
+<p>Verify your endpoint returns a <code>2xx</code> status and that you're checking <code>X-KMP-Signature</code> correctly — a rejected signature looks identical to a dropped delivery from the outside. Full details in the <a href="/apis/webhooks">Webhooks endpoint</a> reference.</p>
+
+<h2>I'm getting 429s</h2>
+<p>You've hit the standard-tier limit described in <a href="/apis/rate-limits">Rate limits</a>. Back off using the <code>Retry-After</code> header.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Migrating from v1?</div>
+  <div class='alert__body'><p>A number of "it worked yesterday" reports trace back to v1's offset pagination or polling patterns carried over into v2 code. See the Migration guide.</p></div>
+</div>
+
+<h2>Still stuck?</h2>
+<p>Reach the team via <a href="/support">Support / Contact</a>.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheduling &amp; triggers | Office of Kaiju Affairs</title>
+  <meta name="description" content="Run a pipeline on a cron schedule or trigger it directly from incoming events.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-scheduling-and-triggers">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/rate-limiting-cookbook">Rate limiting cookbook</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers" class="usa-current">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Scheduling &amp; triggers</h1>
+<p>A <a href="/concepts-pipelines">pipeline</a> runs either on a schedule or in response to incoming events. This guide covers both.</p>
+
+<h2>Scheduled pipelines</h2>
+<p>Set a <code>schedule</code> (a cron expression) when creating or updating a pipeline via the <a href="/apis/pipelines">Pipelines endpoint</a>. KMP runs the pipeline once per schedule tick, processing whatever new data is available from the source since the last run.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>schedule.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "schedule": "0 */4 * * *"
+&#125;</code></pre>
+</div>
+
+<h2>Event-triggered pipelines</h2>
+<p>Omit <code>schedule</code> and the pipeline instead runs continuously, processing events as its source connector emits them — the right choice for sources like Kafka or a Webhook connector where near-real-time matters.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Choosing between them</div>
+  <div class='alert__body'><p>Use a schedule for sources that batch naturally (a nightly file drop to S3). Use event-triggered for anything where minutes matter.</p></div>
+</div>
+
+<h2>Pausing and resuming</h2>
+<p>A <code>paused</code> pipeline skips scheduled ticks entirely and buffers nothing for event-triggered sources — resuming picks up new events going forward, not a backlog. To reprocess a time range instead, see the replay flow in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Handling errors & retries</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/monitoring-and-alerts'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Monitoring & alerts</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

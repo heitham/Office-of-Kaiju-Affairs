@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply — Proximity Construction Permit | Office of Kaiju Affairs</title>
+  <meta name="description" content="Online application form for the kaiju-proximity construction permit.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-permits-proximity-apply page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/permits/proximity/apply/index" class="usa-current">Apply — Proximity Construction Permit</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<style>
+  .form-grid { display: grid; gap: 18px; max-width: 620px; }
+  .form-grid .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+  .form-grid .field input, .form-grid .field select { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; }
+  .form-grid .field.check { display: flex; gap: 10px; align-items: flex-start; }
+  .form-grid .field.check input { width: auto; margin-top: 3px; }
+  .kj-receipt { margin-top: 20px; padding: 14px 16px; border-radius: 8px; border: 1px solid #2a6; background: #f2fbf5; }
+</style>
+<h1>Apply — Proximity Construction Permit</h1>
+<p data-agent-keywords="permit application, apply, form">Required before building, extending or structurally altering any structure within 1,000 metres of a designated kaiju corridor centreline. Zone 4 sites require reinforcement standard K-2; Zone 5 sites require K-3. The fee of ¥45,000 is payable on submission.</p>
+
+<form data-kaiju-form="proximity-permit-form" class="form-grid" novalidate>
+  <div class="field"><label for="applicantName">Applicant name</label>
+    <input id="applicantName" name="applicantName" type="text" maxlength="120" required></div>
+  <div class="field"><label for="organization">Organisation (if any)</label>
+    <input id="organization" name="organization" type="text" maxlength="120"></div>
+  <div class="field"><label for="contactEmail">Contact email</label>
+    <input id="contactEmail" name="contactEmail" type="email" required></div>
+  <div class="field"><label for="contactPhone">Contact phone</label>
+    <input id="contactPhone" name="contactPhone" type="tel"></div>
+  <div class="field"><label for="sitePostcode">Site postcode</label>
+    <input id="sitePostcode" name="sitePostcode" type="text" placeholder="000-0000" required></div>
+  <div class="field"><label for="zone">Evacuation zone</label>
+    <select id="zone" name="zone" required>
+      <option value="">Select…</option>
+      <option value="1">Zone 1</option><option value="2">Zone 2</option>
+      <option value="3">Zone 3</option><option value="4">Zone 4</option>
+      <option value="5">Zone 5</option>
+    </select></div>
+  <div class="field"><label for="distanceFromCorridorM">Distance from corridor centreline (m)</label>
+    <input id="distanceFromCorridorM" name="distanceFromCorridorM" type="number" min="0" required></div>
+  <div class="field"><label for="structureType">Structure type</label>
+    <select id="structureType" name="structureType" required>
+      <option value="">Select…</option>
+      <option value="new-build">New build</option>
+      <option value="extension">Extension</option>
+      <option value="structural-alteration">Structural alteration</option>
+      <option value="temporary">Temporary structure</option>
+    </select></div>
+  <div class="field"><label for="floorAreaSqm">Floor area (m²)</label>
+    <input id="floorAreaSqm" name="floorAreaSqm" type="number" min="0" required></div>
+  <div class="field"><label for="reinforcementStandard">Reinforcement standard</label>
+    <select id="reinforcementStandard" name="reinforcementStandard" required>
+      <option value="">Select…</option>
+      <option value="K-1">K-1 (outer band)</option>
+      <option value="K-2">K-2 (zone 4 minimum)</option>
+      <option value="K-3">K-3 (zone 5 minimum)</option>
+    </select></div>
+  <div class="field check">
+    <input id="seismicPlanAttached" name="seismicPlanAttached" type="checkbox">
+    <label for="seismicPlanAttached">Seismic and impact mitigation plan attached</label></div>
+  <div class="field"><label for="plannedStartDate">Planned start date</label>
+    <input id="plannedStartDate" name="plannedStartDate" type="date" required></div>
+  <div><button type="submit">Submit application</button></div>
+</form>
+<div class="kj-receipt" id="kj-receipt" hidden></div>
+<script>
+  document.querySelector('form[data-kaiju-form]').addEventListener('submit', function (event) {
+    event.preventDefault();
+    var data = Object.fromEntries(new FormData(event.target).entries());
+    var receipt = document.getElementById('kj-receipt');
+    receipt.hidden = false;
+    receipt.innerHTML = '<strong>Submitted by you, not by an agent.</strong> This demonstration has no backend — nothing left your browser.<br>' +
+      Object.entries(data).map(function (e) { return e[0] + ': ' + (e[1] || '—'); }).join('<br>');
+    receipt.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+</script>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

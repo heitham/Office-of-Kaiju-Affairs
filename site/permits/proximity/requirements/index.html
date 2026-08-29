@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permit Requirements | Office of Kaiju Affairs</title>
+  <meta name="description" content="Documents, fees and deadlines for the kaiju-proximity construction permit.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-permits-proximity-requirements page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Office of Kaiju Affairs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/permits/proximity/requirements/index" class="usa-current">Permit Requirements</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Requirements — Proximity Construction Permit</h1>
+<h2 id="documents">Required documents</h2>
+<ul>
+  <li><strong>Site plan</strong> — scale 1:500 or finer, showing the corridor centreline.</li>
+  <li><strong>Seismic and impact mitigation plan</strong> — prepared by a licensed structural engineer.</li>
+  <li><strong>Corridor proximity survey</strong> — no older than 6 months.</li>
+  <li><strong>Contractor prefecture licence</strong> — copy of a current licence.</li>
+</ul>
+<h2 id="fees">Fees</h2>
+<p data-agent-fact="Permit application fee">Permit application fee: ¥45,000, payable on submission. Not refundable if refused.</p>
+<h2 id="deadlines">Deadlines and processing</h2>
+<p>Apply at least 10 business days before works begin. Standard processing time is 10 business days from receipt of a complete application.</p>
+<div class='alert alert--warning'>
+  <div class='alert__title'>Complete applications only</div>
+  <div class='alert__body'>An application missing any required document is returned unprocessed. The 10-day clock starts only when the application is complete.</div>
+</div>
+<p><a href="/permits/proximity/apply/">Proceed to the application form</a>.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
