@@ -1,0 +1,286 @@
+{
+  "traceVersion": "1.0",
+  "runId": "ui-task-2-eligibility-mock",
+  "recordedAt": "2026-08-29T12:00:00Z",
+  "lane": "ui-guessing",
+  "agent": {
+    "name": "MOCK",
+    "model": "placeholder — replaced by the drift-race session",
+    "harness": "drift-race",
+    "toolsAvailable": []
+  },
+  "site": {
+    "baseUrl": "https://kaiju-affairs.example",
+    "manifestVersion": "1.0",
+    "commit": "mock"
+  },
+  "task": {
+    "id": "task-2-eligibility",
+    "title": "Eligibility determination",
+    "prompt": "Am I eligible, what support do I qualify for, and which documents do I need?"
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 3000,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the home page",
+      "target": {
+        "path": "/",
+        "url": "https://kaiju-affairs.example/"
+      },
+      "cost": {
+        "bytes": 48210
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 3000,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked \"Claims\"",
+      "target": {
+        "text": "Claims"
+      }
+    },
+    {
+      "index": 3,
+      "tMs": 4100,
+      "durationMs": 2400,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded claims",
+      "target": {
+        "path": "/claims/",
+        "url": "https://kaiju-affairs.example/claims/"
+      },
+      "cost": {
+        "bytes": 41020
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 6500,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked the eligibility page",
+      "target": {
+        "text": "Am I eligible to claim?"
+      }
+    },
+    {
+      "index": 5,
+      "tMs": 7600,
+      "durationMs": 3100,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded eligibility — 820 words",
+      "target": {
+        "path": "/claims/eligibility/",
+        "url": "https://kaiju-affairs.example/claims/eligibility/"
+      },
+      "cost": {
+        "bytes": 71300
+      }
+    },
+    {
+      "index": 6,
+      "tMs": 10700,
+      "durationMs": 12600,
+      "outcome": "ok",
+      "type": "scroll",
+      "label": "Read the zone requirement"
+    },
+    {
+      "index": 7,
+      "tMs": 23300,
+      "durationMs": 4100,
+      "outcome": "ok",
+      "type": "read",
+      "label": "Confirmed Zone 4 is inside a designated corridor"
+    },
+    {
+      "index": 8,
+      "tMs": 27400,
+      "durationMs": 9800,
+      "outcome": "ok",
+      "type": "scroll",
+      "label": "Read the insurance offsets section"
+    },
+    {
+      "index": 9,
+      "tMs": 37200,
+      "durationMs": 8700,
+      "outcome": "dead-end",
+      "type": "scroll",
+      "label": "Reached the hardship supplement section but skimmed past the income threshold"
+    },
+    {
+      "index": 10,
+      "tMs": 45900,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked \"How to file\"",
+      "target": {
+        "text": "How to file"
+      }
+    },
+    {
+      "index": 11,
+      "tMs": 47000,
+      "durationMs": 2700,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the filing process",
+      "target": {
+        "path": "/claims/how-to-file/",
+        "url": "https://kaiju-affairs.example/claims/how-to-file/"
+      },
+      "cost": {
+        "bytes": 58900
+      }
+    },
+    {
+      "index": 12,
+      "tMs": 49700,
+      "durationMs": 15200,
+      "outcome": "ok",
+      "type": "scroll",
+      "label": "Read the five steps"
+    },
+    {
+      "index": 13,
+      "tMs": 64900,
+      "durationMs": 7400,
+      "outcome": "ok",
+      "type": "read",
+      "label": "Extracted three documents from the prose"
+    },
+    {
+      "index": 14,
+      "tMs": 72300,
+      "durationMs": 900,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Back to /claims/",
+      "target": {
+        "text": "Back"
+      }
+    },
+    {
+      "index": 15,
+      "tMs": 73200,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Opened damage compensation",
+      "target": {
+        "text": "Damage compensation"
+      }
+    },
+    {
+      "index": 16,
+      "tMs": 74300,
+      "durationMs": 2900,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded damage compensation",
+      "target": {
+        "path": "/claims/damage-compensation/",
+        "url": "https://kaiju-affairs.example/claims/damage-compensation/"
+      },
+      "cost": {
+        "bytes": 63400
+      }
+    },
+    {
+      "index": 17,
+      "tMs": 77200,
+      "durationMs": 13800,
+      "outcome": "ok",
+      "type": "scroll",
+      "label": "Skimmed \"What is covered\""
+    },
+    {
+      "index": 18,
+      "tMs": 91000,
+      "durationMs": 5200,
+      "outcome": "dead-end",
+      "type": "read",
+      "label": "Missed that commercial properties can claim business interruption"
+    },
+    {
+      "index": 19,
+      "tMs": 96200,
+      "durationMs": 9400,
+      "outcome": "ok",
+      "type": "scroll",
+      "label": "Scrolled to the awards section"
+    },
+    {
+      "index": 20,
+      "tMs": 105600,
+      "durationMs": 11200,
+      "outcome": "ok",
+      "type": "answer",
+      "label": "Answered with a partial document list",
+      "detail": "Eligible, three documents, no supplements identified."
+    }
+  ],
+  "result": {
+    "answer": "You appear to be eligible: your property is in Zone 4 and there is verified structural damage. You will need an incident report receipt, a damage survey and proof of ownership. Contact your regional office to confirm.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 116800,
+    "actionCount": 20,
+    "toolCalls": 0,
+    "pageLoads": 5,
+    "deadEnds": 2,
+    "bytesTransferred": 282830
+  },
+  "score": {
+    "answerKeyId": "task-2-eligibility",
+    "accuracy": 0.5,
+    "verdict": "partial",
+    "checks": [
+      {
+        "id": "outcome",
+        "weight": 3,
+        "pass": true,
+        "actual": "eligible"
+      },
+      {
+        "id": "fee-waiver",
+        "weight": 2,
+        "pass": false,
+        "actual": "not identified"
+      },
+      {
+        "id": "hardship",
+        "weight": 2,
+        "pass": false,
+        "actual": "not identified"
+      },
+      {
+        "id": "business-interruption",
+        "weight": 1,
+        "pass": false,
+        "actual": "not identified"
+      },
+      {
+        "id": "documents",
+        "weight": 2,
+        "pass": false,
+        "actual": "3 of 5"
+      }
+    ]
+  },
+  "notes": "PLACEHOLDER. Got the headline decision right and every conditional grant wrong — the expensive kind of wrong."
+}

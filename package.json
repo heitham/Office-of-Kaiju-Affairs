@@ -1,0 +1,17 @@
+{
+  "name": "kaiju-affairs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agent-native government services demo for the WebMCP Challenge \u2014 Office of Kaiju Affairs",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node runtime/test/smoke.mjs && node tools/check-coupling.mjs",
+    "dev": "node build.mjs && node --experimental-strip-types serve.mjs",
+    "check": "node tools/check-coupling.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

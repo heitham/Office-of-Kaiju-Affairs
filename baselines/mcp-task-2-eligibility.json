@@ -1,0 +1,170 @@
+{
+  "traceVersion": "1.0",
+  "runId": "mcp-task-2-eligibility-mock",
+  "recordedAt": "2026-08-29T12:00:00Z",
+  "lane": "webmcp",
+  "agent": {
+    "name": "MOCK",
+    "model": "placeholder — replaced by the drift-race session",
+    "harness": "drift-race",
+    "toolsAvailable": [
+      "list_services",
+      "check_eligibility",
+      "get_service_requirements"
+    ]
+  },
+  "site": {
+    "baseUrl": "https://kaiju-affairs.example",
+    "manifestVersion": "1.0",
+    "commit": "mock"
+  },
+  "task": {
+    "id": "task-2-eligibility",
+    "title": "Eligibility determination",
+    "prompt": "Am I eligible, what support do I qualify for, and which documents do I need?"
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 1600,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "list_services()",
+      "toolCall": {
+        "name": "list_services",
+        "arguments": {},
+        "resultSummary": "3 services; damage-compensation has an eligibility check",
+        "resultBytes": 940
+      },
+      "cost": {
+        "bytes": 940
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 1600,
+      "durationMs": 1500,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "check_eligibility(serviceId)",
+      "toolCall": {
+        "name": "check_eligibility",
+        "arguments": {
+          "serviceId": "damage-compensation"
+        },
+        "resultSummary": "Returned the 7 questions to ask",
+        "resultBytes": 1120
+      },
+      "cost": {
+        "bytes": 1120
+      }
+    },
+    {
+      "index": 3,
+      "tMs": 3100,
+      "durationMs": 2100,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "check_eligibility(serviceId, answers)",
+      "toolCall": {
+        "name": "check_eligibility",
+        "arguments": {
+          "serviceId": "damage-compensation",
+          "answers": {
+            "zone": "4",
+            "structuralDamage": true,
+            "incidentsLast12Months": 2,
+            "propertyType": "commercial",
+            "insurancePayoutReceived": false,
+            "householdIncomeYen": 3600000,
+            "daysSinceIncident": 21
+          }
+        },
+        "resultSummary": "eligible; grants: assessment-fee-waiver, hardship-supplement, business-interruption-eligible; 5 documents; 4 citations",
+        "resultBytes": 2680
+      },
+      "cost": {
+        "bytes": 2680
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 5200,
+      "durationMs": 1700,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "get_service_requirements(serviceId)",
+      "toolCall": {
+        "name": "get_service_requirements",
+        "arguments": {
+          "serviceId": "damage-compensation"
+        },
+        "resultSummary": "Document descriptions and deadlines",
+        "resultBytes": 2310
+      },
+      "cost": {
+        "bytes": 2310
+      }
+    },
+    {
+      "index": 5,
+      "tMs": 6900,
+      "durationMs": 5100,
+      "outcome": "ok",
+      "type": "answer",
+      "label": "Answered with outcome, grants, documents and citations"
+    }
+  ],
+  "result": {
+    "answer": "Eligible. Zone 4 with verified structural damage, filed 21 days after the incident (within the 90-day window). You also qualify for: the ¥12,000 assessment-fee waiver (2 approved claims in 12 months), the hardship supplement (household income under ¥4,000,000), and business-interruption compensation (commercial property). Bring: incident report receipt, damage survey, proof of ownership, household income certificate, business registration certificate.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 12000,
+    "actionCount": 5,
+    "toolCalls": 4,
+    "pageLoads": 0,
+    "deadEnds": 0,
+    "bytesTransferred": 7050
+  },
+  "score": {
+    "answerKeyId": "task-2-eligibility",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "outcome",
+        "weight": 3,
+        "pass": true,
+        "actual": "eligible"
+      },
+      {
+        "id": "fee-waiver",
+        "weight": 2,
+        "pass": true,
+        "actual": "assessment-fee-waiver"
+      },
+      {
+        "id": "hardship",
+        "weight": 2,
+        "pass": true,
+        "actual": "hardship-supplement"
+      },
+      {
+        "id": "business-interruption",
+        "weight": 1,
+        "pass": true,
+        "actual": "business-interruption-eligible"
+      },
+      {
+        "id": "documents",
+        "weight": 2,
+        "pass": true,
+        "actual": "5 of 5"
+      }
+    ]
+  },
+  "notes": "PLACEHOLDER. The rules are data. The agent does not have to infer policy from prose, so it cannot miss a clause."
+}

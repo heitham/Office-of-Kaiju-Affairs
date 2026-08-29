@@ -1,0 +1,24 @@
+# Netlify deploy config. Publishes the assembled dist/ tree.
+[build]
+  command = "node build.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# The manifest and traces are read by fetch() from the same origin; keep them fresh
+# so a republish is picked up without a hard reload.
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/baselines/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/runtime/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"

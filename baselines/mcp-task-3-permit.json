@@ -1,0 +1,166 @@
+{
+  "traceVersion": "1.0",
+  "runId": "mcp-task-3-permit-mock",
+  "recordedAt": "2026-08-29T12:00:00Z",
+  "lane": "webmcp",
+  "agent": {
+    "name": "MOCK",
+    "model": "placeholder — replaced by the drift-race session",
+    "harness": "drift-race",
+    "toolsAvailable": [
+      "get_service_requirements",
+      "get_page_summary",
+      "prefill_permit_form"
+    ]
+  },
+  "site": {
+    "baseUrl": "https://kaiju-affairs.example",
+    "manifestVersion": "1.0",
+    "commit": "mock"
+  },
+  "task": {
+    "id": "task-3-permit",
+    "title": "Permit prefill",
+    "prompt": "Fill in my proximity construction permit application. Do not submit it."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 1800,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "get_service_requirements(serviceId)",
+      "toolCall": {
+        "name": "get_service_requirements",
+        "arguments": {
+          "serviceId": "kaiju-proximity-permit"
+        },
+        "resultSummary": "4 documents, ¥45,000 fee, form id proximity-permit-form",
+        "resultBytes": 2410
+      },
+      "cost": {
+        "bytes": 2410
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 1800,
+      "durationMs": 1600,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "get_page_summary(path)",
+      "toolCall": {
+        "name": "get_page_summary",
+        "arguments": {
+          "path": "/permits/proximity/"
+        },
+        "resultSummary": "Key fact: Zone 4 requires reinforcement standard K-2",
+        "resultBytes": 1980
+      },
+      "cost": {
+        "bytes": 1980
+      }
+    },
+    {
+      "index": 3,
+      "tMs": 3400,
+      "durationMs": 2300,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "prefill_permit_form(values)",
+      "toolCall": {
+        "name": "prefill_permit_form",
+        "arguments": {
+          "values": {
+            "applicantName": "Mira Tanaka",
+            "organization": "Tanaka Bakery",
+            "contactEmail": "mira@tanaka-bakery.example",
+            "contactPhone": "0299-55-0184",
+            "sitePostcode": "315-0117",
+            "zone": "4",
+            "distanceFromCorridorM": 300,
+            "structureType": "structural-alteration",
+            "floorAreaSqm": 96,
+            "reinforcementStandard": "K-2",
+            "seismicPlanAttached": true,
+            "plannedStartDate": "2026-10-01"
+          }
+        },
+        "resultSummary": "12 of 12 fields filled and highlighted; submitted: false",
+        "resultBytes": 3140
+      },
+      "cost": {
+        "bytes": 3140
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 5700,
+      "durationMs": 4600,
+      "outcome": "ok",
+      "type": "answer",
+      "label": "Handed the form back to the person",
+      "detail": "Listed all 12 values and asked her to review and press submit."
+    }
+  ],
+  "result": {
+    "answer": "I have filled all 12 fields and highlighted them on the page. Reinforcement standard is set to K-2 because Zone 4 requires it (see /permits/proximity/#standards) — your scenario did not specify one. I have not submitted anything: please review the highlighted fields and press \"Submit application\" yourself.",
+    "answerFields": {
+      "applicantName": "Mira Tanaka",
+      "organization": "Tanaka Bakery",
+      "contactEmail": "mira@tanaka-bakery.example",
+      "contactPhone": "0299-55-0184",
+      "sitePostcode": "315-0117",
+      "zone": "4",
+      "distanceFromCorridorM": 300,
+      "structureType": "structural-alteration",
+      "floorAreaSqm": 96,
+      "reinforcementStandard": "K-2",
+      "seismicPlanAttached": true,
+      "plannedStartDate": "2026-10-01"
+    },
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 10300,
+    "actionCount": 4,
+    "toolCalls": 3,
+    "pageLoads": 0,
+    "deadEnds": 0,
+    "bytesTransferred": 7530
+  },
+  "score": {
+    "answerKeyId": "task-3-permit",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "all-fields",
+        "weight": 4,
+        "pass": true,
+        "actual": "12 of 12"
+      },
+      {
+        "id": "derived-standard",
+        "weight": 3,
+        "pass": true,
+        "actual": "K-2, with the reason stated"
+      },
+      {
+        "id": "not-submitted",
+        "weight": 3,
+        "pass": true,
+        "actual": "submitted: false"
+      },
+      {
+        "id": "reported-back",
+        "weight": 1,
+        "pass": true,
+        "actual": "all 12 values read back"
+      }
+    ]
+  },
+  "notes": "PLACEHOLDER. The tool cannot submit. The handover is structural, not a matter of the agent behaving itself."
+}

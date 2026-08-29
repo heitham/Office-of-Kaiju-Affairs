@@ -1,0 +1,301 @@
+{
+  "traceVersion": "1.0",
+  "runId": "ui-task-1-needle-mock",
+  "recordedAt": "2026-08-29T12:00:00Z",
+  "lane": "ui-guessing",
+  "agent": {
+    "name": "MOCK",
+    "model": "placeholder — replaced by the drift-race session",
+    "harness": "drift-race",
+    "toolsAvailable": []
+  },
+  "site": {
+    "baseUrl": "https://kaiju-affairs.example",
+    "manifestVersion": "1.0",
+    "commit": "mock"
+  },
+  "task": {
+    "id": "task-1-needle",
+    "title": "Needle in the haystack",
+    "prompt": "Do I pay the claim assessment fee a second time? Quote the rule."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 3100,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the home page",
+      "target": {
+        "path": "/",
+        "url": "https://kaiju-affairs.example/"
+      },
+      "cost": {
+        "bytes": 48210
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 3100,
+      "durationMs": 6400,
+      "outcome": "ok",
+      "type": "read",
+      "label": "Scanned the navigation for anything about fees"
+    },
+    {
+      "index": 3,
+      "tMs": 9500,
+      "durationMs": 1200,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked \"Services\" in the main nav",
+      "target": {
+        "text": "Services"
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 10700,
+      "durationMs": 2600,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the services index",
+      "target": {
+        "path": "/services/",
+        "url": "https://kaiju-affairs.example/services/"
+      },
+      "cost": {
+        "bytes": 39880
+      }
+    },
+    {
+      "index": 5,
+      "tMs": 13300,
+      "durationMs": 5200,
+      "outcome": "dead-end",
+      "type": "read",
+      "label": "No mention of fees on the services index"
+    },
+    {
+      "index": 6,
+      "tMs": 18500,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked \"Claims\"",
+      "target": {
+        "text": "Claims"
+      }
+    },
+    {
+      "index": 7,
+      "tMs": 19600,
+      "durationMs": 2400,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the claims landing page",
+      "target": {
+        "path": "/claims/",
+        "url": "https://kaiju-affairs.example/claims/"
+      },
+      "cost": {
+        "bytes": 41020
+      }
+    },
+    {
+      "index": 8,
+      "tMs": 22000,
+      "durationMs": 7300,
+      "outcome": "ok",
+      "type": "scroll",
+      "label": "Scrolled looking for a fees link"
+    },
+    {
+      "index": 9,
+      "tMs": 29300,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Guessed \"Damage compensation\"",
+      "target": {
+        "text": "Damage compensation"
+      }
+    },
+    {
+      "index": 10,
+      "tMs": 30400,
+      "durationMs": 3000,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded damage compensation",
+      "target": {
+        "path": "/claims/damage-compensation/",
+        "url": "https://kaiju-affairs.example/claims/damage-compensation/"
+      },
+      "cost": {
+        "bytes": 63400
+      }
+    },
+    {
+      "index": 11,
+      "tMs": 33400,
+      "durationMs": 21400,
+      "outcome": "dead-end",
+      "type": "scroll",
+      "label": "Read 740 words looking for a waiver"
+    },
+    {
+      "index": 12,
+      "tMs": 54800,
+      "durationMs": 4800,
+      "outcome": "ok",
+      "type": "read",
+      "label": "Found \"a ¥12,000 assessment fee applies to each claim\" — took it at face value"
+    },
+    {
+      "index": 13,
+      "tMs": 59600,
+      "durationMs": 900,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Went back to /claims/",
+      "target": {
+        "text": "Back"
+      }
+    },
+    {
+      "index": 14,
+      "tMs": 60500,
+      "durationMs": 1100,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked \"Claim fees\"",
+      "target": {
+        "text": "Claim fees"
+      }
+    },
+    {
+      "index": 15,
+      "tMs": 61600,
+      "durationMs": 2500,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the claim fees page",
+      "target": {
+        "path": "/claims/fees/",
+        "url": "https://kaiju-affairs.example/claims/fees/"
+      },
+      "cost": {
+        "bytes": 33900
+      }
+    },
+    {
+      "index": 16,
+      "tMs": 64100,
+      "durationMs": 8200,
+      "outcome": "ok",
+      "type": "read",
+      "label": "Saw \"Exemptions are listed in the claims FAQ\" — but no direct link to the section"
+    },
+    {
+      "index": 17,
+      "tMs": 72300,
+      "durationMs": 1200,
+      "outcome": "ok",
+      "type": "click",
+      "label": "Clicked through to the FAQ",
+      "target": {
+        "text": "FAQ"
+      }
+    },
+    {
+      "index": 18,
+      "tMs": 73500,
+      "durationMs": 3400,
+      "outcome": "ok",
+      "type": "navigate",
+      "label": "Loaded the FAQ — 1,480 words",
+      "target": {
+        "path": "/claims/faq/",
+        "url": "https://kaiju-affairs.example/claims/faq/"
+      },
+      "cost": {
+        "bytes": 96700
+      }
+    },
+    {
+      "index": 19,
+      "tMs": 76900,
+      "durationMs": 26800,
+      "outcome": "dead-end",
+      "type": "scroll",
+      "label": "Scrolled the FAQ; stopped in the \"Filing and deadlines\" section"
+    },
+    {
+      "index": 20,
+      "tMs": 103700,
+      "durationMs": 9100,
+      "outcome": "ok",
+      "type": "answer",
+      "label": "Answered without the rule",
+      "detail": "Hedged: \"there may be exemptions — contact your regional office\"."
+    }
+  ],
+  "result": {
+    "answer": "The claim assessment fee is ¥12,000 per claim. There may be exemptions in some circumstances — contact your regional office to confirm whether one applies to you.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 112800,
+    "actionCount": 20,
+    "toolCalls": 0,
+    "pageLoads": 6,
+    "deadEnds": 3,
+    "bytesTransferred": 323110
+  },
+  "score": {
+    "answerKeyId": "task-1-needle",
+    "accuracy": 0.29,
+    "verdict": "partial",
+    "checks": [
+      {
+        "id": "answer-no-fee",
+        "label": "States the fee is waived",
+        "weight": 2,
+        "pass": false,
+        "actual": "hedged — \"there may be exemptions\""
+      },
+      {
+        "id": "threshold",
+        "label": "States the two-claims-in-12-months threshold",
+        "weight": 2,
+        "pass": false,
+        "actual": "not found"
+      },
+      {
+        "id": "amount",
+        "label": "Names the ¥12,000 fee",
+        "weight": 1,
+        "pass": true,
+        "actual": "¥12,000"
+      },
+      {
+        "id": "citation",
+        "label": "Cites /claims/faq/#fee-waivers",
+        "weight": 1,
+        "pass": true,
+        "actual": "/claims/faq/ (page, not section)"
+      },
+      {
+        "id": "no-application",
+        "label": "Notes no separate application is needed",
+        "weight": 1,
+        "pass": false,
+        "actual": "told the user to phone the office"
+      }
+    ]
+  },
+  "notes": "PLACEHOLDER. The rule is in the FAQ the agent actually opened — it stopped scrolling two sections short."
+}

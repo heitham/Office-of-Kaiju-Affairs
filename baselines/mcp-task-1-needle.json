@@ -1,0 +1,125 @@
+{
+  "traceVersion": "1.0",
+  "runId": "mcp-task-1-needle-mock",
+  "recordedAt": "2026-08-29T12:00:00Z",
+  "lane": "webmcp",
+  "agent": {
+    "name": "MOCK",
+    "model": "placeholder — replaced by the drift-race session",
+    "harness": "drift-race",
+    "toolsAvailable": [
+      "search_site",
+      "get_page_summary"
+    ]
+  },
+  "site": {
+    "baseUrl": "https://kaiju-affairs.example",
+    "manifestVersion": "1.0",
+    "commit": "mock"
+  },
+  "task": {
+    "id": "task-1-needle",
+    "title": "Needle in the haystack",
+    "prompt": "Do I pay the claim assessment fee a second time? Quote the rule."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 2400,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "search_site(query)",
+      "toolCall": {
+        "name": "search_site",
+        "arguments": {
+          "query": "assessment fee waiver repeat claims"
+        },
+        "resultSummary": "3 results; /claims/faq/ ranked first with the waiver sentence in the snippet",
+        "resultBytes": 1870
+      },
+      "cost": {
+        "bytes": 1870
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 2400,
+      "durationMs": 1900,
+      "outcome": "ok",
+      "type": "tool_call",
+      "label": "get_page_summary(path)",
+      "toolCall": {
+        "name": "get_page_summary",
+        "arguments": {
+          "path": "/claims/faq/"
+        },
+        "resultSummary": "Key fact: two or more approved claims in a rolling 12-month period exempt the ¥12,000 fee",
+        "resultBytes": 2240
+      },
+      "cost": {
+        "bytes": 2240
+      }
+    },
+    {
+      "index": 3,
+      "tMs": 4300,
+      "durationMs": 4200,
+      "outcome": "ok",
+      "type": "answer",
+      "label": "Answered with the rule and its citation",
+      "detail": "Quoted the FAQ sentence and linked the section anchor."
+    }
+  ],
+  "result": {
+    "answer": "No. Because you have had two approved claims from separate incidents within 12 months, you are exempt from the ¥12,000 assessment fee on this claim. The exemption is applied automatically by the regional office — you do not need to apply for it. Source: /claims/faq/#fee-waivers.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 8500,
+    "actionCount": 3,
+    "toolCalls": 2,
+    "pageLoads": 0,
+    "deadEnds": 0,
+    "bytesTransferred": 4110
+  },
+  "score": {
+    "answerKeyId": "task-1-needle",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "answer-no-fee",
+        "weight": 2,
+        "pass": true,
+        "actual": "exempt"
+      },
+      {
+        "id": "threshold",
+        "weight": 2,
+        "pass": true,
+        "actual": "2 claims / rolling 12 months"
+      },
+      {
+        "id": "amount",
+        "weight": 1,
+        "pass": true,
+        "actual": "¥12,000"
+      },
+      {
+        "id": "citation",
+        "weight": 1,
+        "pass": true,
+        "actual": "/claims/faq/#fee-waivers"
+      },
+      {
+        "id": "no-application",
+        "weight": 1,
+        "pass": true,
+        "actual": "applied automatically"
+      }
+    ]
+  },
+  "notes": "PLACEHOLDER. Two calls. The manifest indexes the FAQ key facts, so the buried rule ranks first."
+}
