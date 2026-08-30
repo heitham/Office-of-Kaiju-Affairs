@@ -355,3 +355,5 @@ code { font: .92em var(--mono); }
 
 .how-grid q { font-style: italic; }
 .how-grid .aside { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
+
+.board-table .n { color: var(--ink-3); font: 11.5px var(--mono); }

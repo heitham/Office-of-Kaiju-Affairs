@@ -244,25 +244,43 @@ function renderScoreboard(tasks, runs) {
     const forTask = ['ui-guessing', 'webmcp']
       .map((lane) => {
         const passes = all.filter((r) => r.lane === lane);
-        return passes.find((r) => r.promoted) || passes[0];
+        if (!passes.length) return null;
+        return { lane, passes, promoted: passes.find((r) => r.promoted) || passes[0] };
       })
       .filter(Boolean);
-    const ui = forTask.find((r) => r.lane === 'ui-guessing')?.trace;
-    for (const run of forTask) {
-      const t = run.trace;
+    const ui = forTask.find((r) => r.lane === 'ui-guessing');
+    for (const group of forTask) {
+      const { lane, passes } = group;
+      const run = { lane, trace: group.promoted.trace };
+      const avg = (fn) => passes.reduce((n, p) => n + (fn(p.trace) || 0), 0) / passes.length;
+      const accs = passes.map((p) => p.trace.score?.accuracy).filter((a) => a != null);
+      const meanAcc = accs.length ? accs.reduce((a, b) => a + b, 0) / accs.length : null;
+      const spread = accs.length > 1 && Math.min(...accs) !== Math.max(...accs)
+        ? `<span class="delta"> ${pct(Math.min(...accs))}–${pct(Math.max(...accs))}</span>` : '';
+      const t = {
+        metrics: {
+          wallClockMs: avg((x) => x.metrics.wallClockMs),
+          actionCount: Math.round(avg((x) => x.metrics.actionCount)),
+          toolCalls: Math.round(avg((x) => x.metrics.toolCalls || 0))
+        },
+        score: { accuracy: meanAcc, verdict: group.promoted.trace.score?.verdict }
+      };
       const row = document.createElement('tr');
       row.className = run.lane === 'webmcp' ? 'lane-mcp' : 'lane-ui';
-      const faster = run.lane === 'webmcp' && ui
-        ? `<span class="delta"> ${(ui.metrics.wallClockMs / t.metrics.wallClockMs).toFixed(1)}× faster</span>` : '';
-      const fewer = run.lane === 'webmcp' && ui
-        ? `<span class="delta"> −${ui.metrics.actionCount - t.metrics.actionCount}</span>` : '';
+      const uiMs = ui ? ui.passes.reduce((n, p) => n + p.trace.metrics.wallClockMs, 0) / ui.passes.length : null;
+      const uiActions = ui ? ui.passes.reduce((n, p) => n + p.trace.metrics.actionCount, 0) / ui.passes.length : null;
+      const ratio = uiMs && t.metrics.wallClockMs ? uiMs / t.metrics.wallClockMs : null;
+      const faster = run.lane === 'webmcp' && ratio
+        ? `<span class="delta"> ${ratio >= 1 ? `${ratio.toFixed(1)}× faster` : `${(1 / ratio).toFixed(1)}× slower`}</span>` : '';
+      const fewer = run.lane === 'webmcp' && uiActions != null
+        ? `<span class="delta"> ${t.metrics.actionCount - uiActions >= 0 ? '+' : '−'}${Math.abs(Math.round(t.metrics.actionCount - uiActions))}</span>` : '';
       row.innerHTML = `
         <td class="task-cell">${run.lane === 'ui-guessing' ? escapeHtml(task.title) : ''}</td>
-        <td><span class="lane-tag">${LANES[run.lane].name}</span></td>
+        <td><span class="lane-tag">${LANES[run.lane].name}</span> <span class="n">n=${passes.length}</span></td>
         <td class="num">${fmtSeconds(t.metrics.wallClockMs)}${faster}</td>
         <td class="num">${t.metrics.actionCount}${fewer}</td>
         <td class="num">${t.metrics.toolCalls ?? 0}</td>
-        <td class="num">${pct(t.score?.accuracy)}</td>
+        <td class="num">${pct(t.score?.accuracy)}${spread}</td>
         <td><span class="badge ${t.score?.verdict || 'partial'}">${t.score?.verdict || '—'}</span></td>`;
       body.appendChild(row);
     }
@@ -472,9 +490,9 @@ function renderTask(task, runs) {
   // If the lanes scored differently, the reason renders with the numbers.
   const laneAcc = {};
   for (const lane of ['ui-guessing', 'webmcp']) {
-    const p = runs.filter((r) => r.taskId === task.id && r.lane === lane);
-    const promoted = p.find((r) => r.promoted) || p[0];
-    if (promoted?.trace.score?.accuracy != null) laneAcc[lane] = promoted.trace.score.accuracy;
+    const accs = runs.filter((r) => r.taskId === task.id && r.lane === lane)
+      .map((r) => r.trace.score?.accuracy).filter((a) => a != null);
+    if (accs.length) laneAcc[lane] = accs.reduce((a, b) => a + b, 0) / accs.length;
   }
   const diverges = laneAcc['ui-guessing'] != null && laneAcc.webmcp != null
     && laneAcc['ui-guessing'] !== laneAcc.webmcp;
@@ -556,11 +574,14 @@ function escapeHtml(value) {
       provenance.textContent = 'baseline traces: PLACEHOLDER — not recorded, not to be published';
     } else {
       const when = (runs[0]?.trace.recordedAt || '').slice(0, 10);
-      const against = index.recordedAgainst?.commit || runs[0]?.trace.site?.commit || 'the published site';
+      const commit = index.recordedAgainst?.commit || runs[0]?.trace.site?.commit;
+      const against = commit && commit !== 'live' ? `site ${commit}` : 'the live production site';
       const key = index.recordedAgainst?.answerKeySha;
+      const round = (index.rounds || []).find((r) => r.round === index.headlineRound);
       provenance.textContent =
-        `${runs.length} baseline runs recorded${when ? ` ${when}` : ''} against ${against}` +
-        (key ? `, scored against answer key ${key.slice(0, 7)}` : '');
+        `${runs.length} recorded runs${when ? `, ${when}` : ''}, against ${against}` +
+        (key ? `, scored against answer key ${key.slice(0, 7)}` : '') +
+        (round?.label ? ` · round ${round.round}: ${round.label.toLowerCase()}` : '');
     }
   } catch (error) {
     console.error('[arena]', error);

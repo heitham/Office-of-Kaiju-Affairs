@@ -145,12 +145,18 @@ if (roundsPresent.length > 1) {
 // only the scoring of one check differed. So a divergence must ship with its
 // explanation, and the build fails rather than publishing the number alone.
 const keys = await required(join(root, 'arena', 'answer-keys.json'), 'the answer keys');
+// Mean across passes, not the promoted one. Promotion picks the weakest run for
+// the replay, and two lanes' weakest runs can coincide while their means differ
+// sharply — which is exactly the case on task 3.
 const accOf = async (taskId, lane) => {
-  const passes = index.runs.filter((r) => r.taskId === taskId && r.lane === lane);
-  const promoted = passes.find((r) => r.promoted) || passes[0];
-  if (!promoted || !present.has(promoted.file)) return null;
-  const trace = JSON.parse(await readFile(join(dir, promoted.file), 'utf8'));
-  return trace.score?.accuracy ?? null;
+  const passes = index.runs.filter((r) => r.taskId === taskId && r.lane === lane && present.has(r.file));
+  if (!passes.length) return null;
+  const accs = [];
+  for (const p of passes) {
+    const trace = JSON.parse(await readFile(join(dir, p.file), 'utf8'));
+    if (trace.score?.accuracy != null) accs.push(trace.score.accuracy);
+  }
+  return accs.length ? accs.reduce((a, b) => a + b, 0) / accs.length : null;
 };
 
 for (const task of keys.tasks) {
@@ -159,7 +165,7 @@ for (const task of keys.tasks) {
   if (ui == null || mcp == null || ui === mcp) continue;
   if (!task.laneDivergence?.headline || !task.laneDivergence?.body) {
     note('arena/answer-keys.json',
-      `${task.id} scores ${ui} (ui) vs ${mcp} (webmcp) but has no laneDivergence explanation. ` +
+      `${task.id} means ${ui.toFixed(2)} (ui) vs ${mcp.toFixed(2)} (webmcp) but has no laneDivergence explanation. ` +
       `Publishing the gap without the mechanism misrepresents it — add laneDivergence.headline and .body.`);
   }
 }

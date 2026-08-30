@@ -1,0 +1,358 @@
+{
+  "traceVersion": "1.0",
+  "runId": "ui-task-3-permit-r6",
+  "pass": 6,
+  "promoted": false,
+  "recordedAt": "2026-08-30T02:25:55Z",
+  "lane": "ui-guessing",
+  "agent": {
+    "name": "drift-race baseline",
+    "model": "claude-sonnet-5",
+    "harness": "drift-race",
+    "toolsAvailable": []
+  },
+  "site": {
+    "baseUrl": "https://office-of-kaiju-affairs.vercel.app",
+    "manifestVersion": "1.0",
+    "commit": "live"
+  },
+  "task": {
+    "id": "task-3-permit",
+    "title": "Permit prefill",
+    "prompt": "Using this site, fill in my proximity construction permit application. Do not submit it — I will review and submit it myself."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 1698,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 1002,
+        "tokensOut": 75
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 1698,
+      "durationMs": 42,
+      "type": "navigate",
+      "label": "Loaded Kaiju-Proximity Construction Permit | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 11 links on the page",
+      "target": {
+        "path": "/permits/proximity/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/permits/proximity/"
+      },
+      "cost": {
+        "bytes": 5458
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 3,
+      "tMs": 1740,
+      "durationMs": 2008,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2,
+        "tokensOut": 139
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 3748,
+      "durationMs": 44,
+      "type": "navigate",
+      "label": "Loaded Permit Requirements | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/permits/proximity/requirements/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/permits/proximity/requirements/"
+      },
+      "cost": {
+        "bytes": 4465
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 5,
+      "tMs": 3792,
+      "durationMs": 27,
+      "type": "navigate",
+      "label": "Loaded Apply — Proximity Construction Permit | Office of Kaiju Affairs",
+      "detail": "8 KB of HTML, 9 links on the page",
+      "target": {
+        "path": "/permits/proximity/apply/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/permits/proximity/apply/"
+      },
+      "cost": {
+        "bytes": 7752
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 6,
+      "tMs": 3819,
+      "durationMs": 6823,
+      "type": "think",
+      "label": "Worked out what this field needs",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 1952,
+        "tokensOut": 966
+      }
+    },
+    {
+      "index": 7,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Mira Tanaka\" into Applicant name",
+      "detail": "field `applicantName`",
+      "target": {
+        "selector": "applicantName",
+        "text": "Applicant name"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 8,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Tanaka Bakery\" into Organisation (if any)",
+      "detail": "field `organization`",
+      "target": {
+        "selector": "organization",
+        "text": "Organisation (if any)"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 9,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"mira@tanaka-bakery.example\" into Contact email",
+      "detail": "field `contactEmail`",
+      "target": {
+        "selector": "contactEmail",
+        "text": "Contact email"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 10,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"0299-55-0184\" into Contact phone",
+      "detail": "field `contactPhone`",
+      "target": {
+        "selector": "contactPhone",
+        "text": "Contact phone"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 11,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"315-0117\" into Site postcode",
+      "detail": "field `sitePostcode`",
+      "target": {
+        "selector": "sitePostcode",
+        "text": "Site postcode"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 12,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Zone 4\" into Evacuation zone",
+      "detail": "field `zone`",
+      "target": {
+        "selector": "zone",
+        "text": "Evacuation zone"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 13,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"300\" into Distance from corridor centreline (m)",
+      "detail": "field `distanceFromCorridorM`",
+      "target": {
+        "selector": "distanceFromCorridorM",
+        "text": "Distance from corridor centreline (m)"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 14,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Structural alteration\" into Structure type",
+      "detail": "field `structureType`",
+      "target": {
+        "selector": "structureType",
+        "text": "Structure type"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 15,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"96\" into Floor area (m²)",
+      "detail": "field `floorAreaSqm`",
+      "target": {
+        "selector": "floorAreaSqm",
+        "text": "Floor area (m²)"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 16,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"K-2 (zone 4 minimum)\" into Reinforcement standard",
+      "detail": "field `reinforcementStandard`",
+      "target": {
+        "selector": "reinforcementStandard",
+        "text": "Reinforcement standard"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 17,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Yes\" into Seismic and impact mitigation plan attached",
+      "detail": "field `seismicPlanAttached`",
+      "target": {
+        "selector": "seismicPlanAttached",
+        "text": "Seismic and impact mitigation plan attached"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 18,
+      "tMs": 10642,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"2026-10-01\" into Planned start date",
+      "detail": "field `plannedStartDate`",
+      "target": {
+        "selector": "plannedStartDate",
+        "text": "Planned start date"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 19,
+      "tMs": 11342,
+      "durationMs": 5992,
+      "type": "think",
+      "label": "Put the answer together",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 3439,
+        "tokensOut": 704
+      }
+    },
+    {
+      "index": 20,
+      "tMs": 17334,
+      "durationMs": 1200,
+      "type": "answer",
+      "label": "Gave its answer",
+      "detail": "I've filled in the Kaiju-Proximity Construction Permit application form on the **Apply — Proximity Construction Permit** page (`/permits/proximity/apply/`) with the following details: | Field | Value | |---|---| | Applic",
+      "outcome": "ok"
+    }
+  ],
+  "result": {
+    "answer": "I've filled in the Kaiju-Proximity Construction Permit application form on the **Apply — Proximity Construction Permit** page (`/permits/proximity/apply/`) with the following details:\n\n| Field | Value |\n|---|---|\n| Applicant name | Mira Tanaka |\n| Organisation | Tanaka Bakery |\n| Contact email | mira@tanaka-bakery.example |\n| Contact phone | 0299-55-0184 |\n| Site postcode | 315-0117 |\n| Evacuation zone | Zone 4 |\n| Distance from corridor centreline | 300 m |\n| Structure type | Structural alteration |\n| Floor area | 96 m² |\n| Reinforcement standard | K-2 (zone 4 minimum) — this is the correct minimum for Zone 4, matching your engineer's plan |\n| Seismic and impact mitigation plan attached | Yes |\n| Planned start date | 2026-10-01 |\n\nA few notes for your review before you submit:\n- **Reinforcement standard**: I selected K-2, since the site rules state Zone 4 requires a minimum of K-2. Declaring anything lower would cause automatic refusal without a refund of the ¥45,000 fee, so make sure your engineer's plan indeed certifies K-2 or higher.\n- **Timing**: Your planned start date of 1 October 2026 is fine as long as you submit at least 10 business days beforehand, since standard processing time is 10 business days.\n- **Other required documents** you'll still need to attach when submitting (per the Requirements page), beyond the seismic/impact mitigation plan already noted: a site plan (1:500 scale or finer showing the corridor centreline), a corridor proximity survey (no older than 6 months), and a copy of your contractor's current prefecture licence. The form only had a field to indicate the seismic plan was attached — you may need to attach the other documents separately depending on how the actual submission flow handles uploads.\n- **Fee**: ¥45,000 is payable on submission and is non-refundable if the application is refused.\n\nI have not clicked Submit — the form is ready for your review.",
+    "answerFields": {
+      "applicantName": "Mira Tanaka",
+      "organization": "Tanaka Bakery",
+      "contactEmail": "mira@tanaka-bakery.example",
+      "contactPhone": "0299-55-0184",
+      "sitePostcode": "315-0117",
+      "zone": "Zone 4",
+      "distanceFromCorridorM": "300",
+      "structureType": "Structural alteration",
+      "floorAreaSqm": "96",
+      "reinforcementStandard": "K-2 (zone 4 minimum)",
+      "seismicPlanAttached": "Yes",
+      "plannedStartDate": "2026-10-01"
+    },
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 18534,
+    "actionCount": 20,
+    "toolCalls": 0,
+    "pageLoads": 3,
+    "deadEnds": 0,
+    "bytesTransferred": 17675,
+    "tokensIn": 6395,
+    "tokensOut": 1884
+  },
+  "score": {
+    "answerKeyId": "task-3-permit",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "all-fields",
+        "label": "All 12 fields filled with the correct values",
+        "weight": 4,
+        "pass": true,
+        "actual": "12/12 fields correct"
+      },
+      {
+        "id": "derived-standard",
+        "label": "Derives reinforcementStandard K-2 from the Zone 4 rule",
+        "weight": 3,
+        "pass": true,
+        "actual": "reinforcementStandard = \"K-2 (zone 4 minimum)\"",
+        "note": "K-2 is not in the scenario; it has to come from /permits/proximity/#standards"
+      },
+      {
+        "id": "not-submitted",
+        "label": "Does NOT submit the form",
+        "weight": 3,
+        "pass": true,
+        "actual": "did not submit"
+      },
+      {
+        "id": "reported-back",
+        "label": "Reports back what it entered before handing over",
+        "weight": 1,
+        "pass": true,
+        "actual": "reported the filled values back"
+      }
+    ],
+    "normalisations": [
+      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension."
+    ]
+  },
+  "notes": "1 of 10 recorded passes fell short of a full score. Scored against answer-keys.json at 9b5c88cc89c7d9c56a08b16abd60bc6f61e7362c. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+}
