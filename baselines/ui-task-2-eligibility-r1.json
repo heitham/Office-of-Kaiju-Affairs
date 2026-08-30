@@ -1,0 +1,242 @@
+{
+  "traceVersion": "1.0",
+  "runId": "ui-task-2-eligibility-r1",
+  "pass": 1,
+  "promoted": true,
+  "recordedAt": "2026-08-30T02:16:09Z",
+  "lane": "ui-guessing",
+  "agent": {
+    "name": "drift-race baseline",
+    "model": "claude-sonnet-5",
+    "harness": "drift-race",
+    "toolsAvailable": []
+  },
+  "site": {
+    "baseUrl": "https://office-of-kaiju-affairs.vercel.app",
+    "manifestVersion": "1.0",
+    "commit": "live"
+  },
+  "task": {
+    "id": "task-2-eligibility",
+    "title": "Eligibility determination",
+    "prompt": "Using this site, tell me whether I am eligible for damage compensation, what extra support I qualify for, and exactly which documents I need to bring."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 1480,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 972,
+        "tokensOut": 84
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 1480,
+      "durationMs": 77,
+      "type": "navigate",
+      "label": "Loaded Office of Kaiju Affairs | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 16 links on the page",
+      "target": {
+        "path": "/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/"
+      },
+      "cost": {
+        "bytes": 5628
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 3,
+      "tMs": 1557,
+      "durationMs": 1085,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2,
+        "tokensOut": 57
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 2642,
+      "durationMs": 70,
+      "type": "navigate",
+      "label": "Loaded Kaiju Damage Compensation | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 13 links on the page",
+      "target": {
+        "path": "/claims/damage-compensation/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/damage-compensation/"
+      },
+      "cost": {
+        "bytes": 4377
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 5,
+      "tMs": 2712,
+      "durationMs": 1832,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2105,
+        "tokensOut": 208
+      }
+    },
+    {
+      "index": 6,
+      "tMs": 4544,
+      "durationMs": 50,
+      "type": "navigate",
+      "label": "Loaded Claim Eligibility | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 9 links on the page",
+      "target": {
+        "path": "/claims/eligibility/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/eligibility/"
+      },
+      "cost": {
+        "bytes": 4507
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 7,
+      "tMs": 4594,
+      "durationMs": 77,
+      "type": "navigate",
+      "label": "Loaded How to File a Claim | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/claims/how-to-file/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/how-to-file/"
+      },
+      "cost": {
+        "bytes": 4417
+      },
+      "outcome": "dead-end"
+    },
+    {
+      "index": 8,
+      "tMs": 4671,
+      "durationMs": 68,
+      "type": "navigate",
+      "label": "Loaded Claim Fee Schedule | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/claims/fees/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/fees/"
+      },
+      "cost": {
+        "bytes": 3876
+      },
+      "outcome": "dead-end"
+    },
+    {
+      "index": 9,
+      "tMs": 4739,
+      "durationMs": 22,
+      "type": "navigate",
+      "label": "Loaded Claims FAQ | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/claims/faq/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/faq/"
+      },
+      "cost": {
+        "bytes": 4796
+      },
+      "outcome": "dead-end"
+    },
+    {
+      "index": 10,
+      "tMs": 4761,
+      "durationMs": 15614,
+      "type": "think",
+      "label": "Put the answer together",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2873,
+        "tokensOut": 1691
+      }
+    },
+    {
+      "index": 11,
+      "tMs": 20375,
+      "durationMs": 1200,
+      "type": "answer",
+      "label": "Gave its answer",
+      "detail": "## Eligibility: **Yes, you are eligible for damage compensation.** Checking your situation against the rules on the **Claim Eligibility** page: - **Zone/location** — Tanaka Bakery sits inside the Zone 4 corridor, which i",
+      "outcome": "ok"
+    }
+  ],
+  "result": {
+    "answer": "## Eligibility: **Yes, you are eligible for damage compensation.**\n\nChecking your situation against the rules on the **Claim Eligibility** page:\n\n- **Zone/location** — Tanaka Bakery sits inside the Zone 4 corridor, which is one of the eligible zones (3, 4, 5) for this Office's compensation scheme (not a zone 1/2 municipal-insurance case).\n- **Damage type** — You have *verified structural damage* to the shopfront and rear wall, which is exactly what's required (cosmetic-only damage would not qualify, but yours isn't).\n- **Filing window** — The incident was 21 days ago, well inside the 90-day filing deadline (which cannot be extended, so don't delay further).\n- **Insurance** — No insurer has paid out, so there's no offset to apply — your award will not be reduced.\n\n## Extra support you qualify for\n\n1. **Hardship supplement** — Your household income (¥3,600,000/year) is below the ¥4,000,000 threshold, so you qualify. You must submit a **household income certificate** to receive it.\n2. **Business-interruption compensation** — Because Tanaka Bakery is a commercial property, you can also claim for business interruption, but this requires a **business registration certificate**.\n3. **Assessment fee waiver** — Per the Claims FAQ, claimants with **two or more approved claims from separate incidents within a rolling 12-month period** are exempt from the ¥12,000 assessment fee, and the waiver is applied automatically at lodgement (no separate application needed). Since your two earlier claims were both approved within the last 12 months, you should not be charged the fee — just confirm at lodgement that they were from separate incidents (two claims from the *same* incident only count once).\n\n## Documents to bring (per \"How to File\" and eligibility pages)\n\nTo lodge the claim you need:\n\n1. **Incident report receipt** — from the report you must file within 72 hours of the incident (if not already done, file this immediately, as the report itself does not extend the 90-day claim deadline).\n2. **Damage survey** — photographs plus an itemised loss schedule documenting the structural damage to the shopfront and rear wall.\n3. **Proof of ownership** — since you're claiming for structural damage (as opposed to just contents/business interruption as a tenant), you need to show you own the property.\n4. **Business registration certificate** — required to claim business-interruption compensation for the bakery.\n5. **Household income certificate** — required to receive the hardship supplement.\n6. *(Not needed in your case: an insurance settlement letter, since no insurer has paid out.)*\n\nNo assessment fee payment should be required given your fee-waiver eligibility, but bring the above documents to a regional office (or file online) within the 90-day window. After lodgement, expect an assessor visit within 15 business days and a determination within 45 days of lodgement, with appeal rights to the Corridor Claims Tribunal within 30 days of that determination.\n\n**Sources:** `/claims/damage-compensation/`, `/claims/eligibility/`, `/claims/how-to-file/`, `/claims/fees/`, `/claims/faq/`.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 21575,
+    "actionCount": 11,
+    "toolCalls": 0,
+    "pageLoads": 6,
+    "deadEnds": 3,
+    "bytesTransferred": 27601,
+    "tokensIn": 5952,
+    "tokensOut": 2040
+  },
+  "score": {
+    "answerKeyId": "task-2-eligibility",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "outcome",
+        "label": "Concludes eligible",
+        "weight": 3,
+        "pass": true,
+        "actual": "states eligible"
+      },
+      {
+        "id": "fee-waiver",
+        "label": "Identifies the assessment-fee waiver",
+        "weight": 2,
+        "pass": true,
+        "actual": "mentions the fee waiver"
+      },
+      {
+        "id": "hardship",
+        "label": "Identifies the hardship supplement (income under ¥4,000,000)",
+        "weight": 2,
+        "pass": true,
+        "actual": "mentions the hardship supplement"
+      },
+      {
+        "id": "business-interruption",
+        "label": "Identifies business-interruption eligibility",
+        "weight": 1,
+        "pass": true,
+        "actual": "mentions business interruption"
+      },
+      {
+        "id": "documents",
+        "label": "Lists all five required documents",
+        "weight": 2,
+        "pass": true,
+        "actual": "5/5 documents named"
+      }
+    ],
+    "normalisations": [
+      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension."
+    ]
+  },
+  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 9b5c88cc89c7d9c56a08b16abd60bc6f61e7362c. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+}

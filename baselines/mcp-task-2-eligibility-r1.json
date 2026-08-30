@@ -1,0 +1,214 @@
+{
+  "traceVersion": "1.0",
+  "runId": "mcp-task-2-eligibility-r1",
+  "pass": 1,
+  "promoted": true,
+  "recordedAt": "2026-08-30T02:28:56Z",
+  "lane": "webmcp",
+  "agent": {
+    "name": "drift-race baseline",
+    "model": "claude-sonnet-5",
+    "harness": "drift-race",
+    "toolsAvailable": [
+      "search_site",
+      "get_page_summary",
+      "list_services",
+      "get_service_requirements",
+      "check_eligibility",
+      "prefill_permit_form",
+      "get_office_info"
+    ]
+  },
+  "site": {
+    "baseUrl": "https://office-of-kaiju-affairs.vercel.app",
+    "manifestVersion": "1.0",
+    "commit": "live"
+  },
+  "task": {
+    "id": "task-2-eligibility",
+    "title": "Eligibility determination",
+    "prompt": "Using this site, tell me whether I am eligible for damage compensation, what extra support I qualify for, and exactly which documents I need to bring."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 1800,
+      "type": "think",
+      "label": "Chose the next tool to call",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2090,
+        "tokensOut": 134
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 1800,
+      "durationMs": 94,
+      "type": "tool_call",
+      "label": "Called check_eligibility",
+      "detail": "7 question(s) to answer",
+      "toolCall": {
+        "name": "check_eligibility",
+        "arguments": {
+          "serviceId": "damage-compensation"
+        },
+        "resultSummary": "7 question(s) to answer",
+        "resultBytes": 715,
+        "isError": false
+      },
+      "cost": {
+        "bytes": 715
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 3,
+      "tMs": 1894,
+      "durationMs": 1,
+      "type": "tool_call",
+      "label": "Called get_service_requirements",
+      "detail": "6 document(s), 0 form field(s)",
+      "toolCall": {
+        "name": "get_service_requirements",
+        "arguments": {
+          "serviceId": "damage-compensation"
+        },
+        "resultSummary": "6 document(s), 0 form field(s)",
+        "resultBytes": 707,
+        "isError": false
+      },
+      "cost": {
+        "bytes": 707
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 4,
+      "tMs": 1895,
+      "durationMs": 1685,
+      "type": "think",
+      "label": "Chose the next tool to call",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2337,
+        "tokensOut": 163
+      }
+    },
+    {
+      "index": 5,
+      "tMs": 3580,
+      "durationMs": 1,
+      "type": "tool_call",
+      "label": "Called check_eligibility",
+      "detail": "eligible, 3 grant(s)",
+      "toolCall": {
+        "name": "check_eligibility",
+        "arguments": {
+          "rulesetId": "damage-compensation-v1",
+          "answers": {
+            "zone": "4",
+            "structuralDamage": true,
+            "incidentsLast12Months": 2,
+            "propertyType": "commercial",
+            "insurancePayoutReceived": false,
+            "householdIncomeYen": 3600000,
+            "daysSinceIncident": 21
+          }
+        },
+        "resultSummary": "eligible, 3 grant(s)",
+        "resultBytes": 902,
+        "isError": false
+      },
+      "cost": {
+        "bytes": 902
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 6,
+      "tMs": 3581,
+      "durationMs": 7382,
+      "type": "think",
+      "label": "Put the answer together",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 3446,
+        "tokensOut": 859
+      }
+    },
+    {
+      "index": 7,
+      "tMs": 10963,
+      "durationMs": 1200,
+      "type": "answer",
+      "label": "Gave its answer",
+      "detail": "## You are eligible for Kaiju Damage Compensation Based on the details of Tanaka Bakery's incident, the site confirms **eligible** status, plus three additional benefits: ### Why you qualify - **Zone 4 + verified structu",
+      "outcome": "ok"
+    }
+  ],
+  "result": {
+    "answer": "## You are eligible for Kaiju Damage Compensation\n\nBased on the details of Tanaka Bakery's incident, the site confirms **eligible** status, plus three additional benefits:\n\n### Why you qualify\n- **Zone 4 + verified structural damage** meets the core eligibility rule: *\"Claims require verified structural damage to a property in zones 3, 4 or 5.\"* (/claims/eligibility/#zone)\n- You're well inside the **90-day claim window** (21 days since the incident).\n\n### Extra support you qualify for\n\n| Benefit | Why | Citation |\n|---|---|---|\n| **¥12,000 assessment fee waived** | 2 approved claims in the last 12 months qualifies you as a repeat claimant | *\"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee.\"* (/claims/faq/#fee-waivers) |\n| **Hardship supplement** | Your household income (¥3.6M) is under the ¥4,000,000 threshold | *\"Households with annual income below ¥4,000,000 receive a hardship supplement.\"* (/claims/eligibility/#hardship) |\n| **Business interruption claim** | Tanaka Bakery is a commercial property | *\"Compensation covers business interruption for commercial properties.\"* (/claims/damage-compensation/#covered) |\n\nNote: since your assessment fee is waived, the \"refunded in full on awards above ¥1,000,000\" clause doesn't apply to you — you simply won't be charged the ¥12,000 to begin with.\n\n### Documents you need to bring\n1. **Incident report receipt** — must have been filed within 72 hours of the incident\n2. **Damage survey** — photographs plus an itemised loss schedule (shopfront + rear wall damage)\n3. **Proof of ownership or tenancy** for Tanaka Bakery\n4. **Household income certificate** — needed because you're claiming the hardship supplement\n5. **Business registration certificate** — needed because you're claiming business interruption\n\nYou do **not** need an insurance settlement letter, since no insurer has paid out for this incident.\n\n### Timing reminders\n- **Claim deadline:** 90 days from the incident (you're fine — only 21 days have passed)\n- **Processing:** ~15 business days until an assessor visit, up to 45 days total to a determination\n\nAll figures and rules sourced from /claims/eligibility/, /claims/faq/, /claims/damage-compensation/, and /claims/how-to-file/ on the Office of Kaiju Affairs site.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 12163,
+    "actionCount": 7,
+    "toolCalls": 3,
+    "pageLoads": 0,
+    "deadEnds": 0,
+    "bytesTransferred": 137315,
+    "tokensIn": 7873,
+    "tokensOut": 1156
+  },
+  "score": {
+    "answerKeyId": "task-2-eligibility",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "outcome",
+        "label": "Concludes eligible",
+        "weight": 3,
+        "pass": true,
+        "actual": "states eligible"
+      },
+      {
+        "id": "fee-waiver",
+        "label": "Identifies the assessment-fee waiver",
+        "weight": 2,
+        "pass": true,
+        "actual": "mentions the fee waiver"
+      },
+      {
+        "id": "hardship",
+        "label": "Identifies the hardship supplement (income under ¥4,000,000)",
+        "weight": 2,
+        "pass": true,
+        "actual": "mentions the hardship supplement"
+      },
+      {
+        "id": "business-interruption",
+        "label": "Identifies business-interruption eligibility",
+        "weight": 1,
+        "pass": true,
+        "actual": "mentions business interruption"
+      },
+      {
+        "id": "documents",
+        "label": "Lists all five required documents",
+        "weight": 2,
+        "pass": true,
+        "actual": "5/5 documents named"
+      }
+    ],
+    "normalisations": [
+      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension."
+    ]
+  },
+  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 9b5c88cc89c7d9c56a08b16abd60bc6f61e7362c. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+}
