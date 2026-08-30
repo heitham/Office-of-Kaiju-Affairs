@@ -4,8 +4,8 @@
 
 Built for [The WebMCP Challenge](https://devpost.com). MIT licensed.
 
-- **Live site:** _(added once deployed)_
-- **The Arena:** `/arena/` — a side-by-side race between an agent guessing through the UI and an agent using this site's published tools.
+- **Live site:** <https://office-of-kaiju-affairs.vercel.app>
+- **The Arena:** <https://office-of-kaiju-affairs.vercel.app/arena/> — a side-by-side race between an agent guessing through the UI and an agent using this site's published tools.
 
 ---
 
@@ -156,6 +156,53 @@ There are no dependencies. Node 18+ and a browser.
 
 Open the site in Chrome 150+ with WebMCP enabled, or in the ChatGPT in-app
 browser, and the Arena's status pill turns green with a self-test button.
+
+**If `document.modelContext` comes back undefined in Chrome, the flag hasn't
+taken effect yet.** Enabling it in `chrome://flags` is not enough on its own —
+you have to press the blue **Relaunch** button that appears at the bottom of
+that page. Quitting and reopening Chrome the normal way does not apply it. Once
+relaunched:
+
+```js
+// getTools() returns a Promise — await it.
+(await document.modelContext.getTools()).map(t => t.name)
+// → check_eligibility, get_office_info, get_page_summary, get_service_requirements,
+//   list_services, prefill_permit_form, search_site
+```
+
+### Calling a tool from the DevTools console
+
+Chrome's current implementation is fussier than you might expect, in four ways
+that are easy to trip over: `getTools()` returns a **Promise**, so it has to be
+awaited before you can filter it; `executeTool` takes the **tool object** it
+resolves to (passing the name string throws `not of type RegisteredTool`); the
+arguments must be a **JSON string** (passing an object throws
+`Failed to parse input arguments`); and results come back inconsistently
+marshalled, so type-check before using them.
+
+This snippet handles all four — paste it whole:
+
+```js
+const call = async (name, args = {}) => {
+  const tool = (await document.modelContext.getTools()).find(t => t.name === name);
+  if (!tool) throw new Error(`no such tool: ${name}`);
+  const out = await document.modelContext.executeTool(tool, JSON.stringify(args));
+  return typeof out === 'string' ? JSON.parse(out) : out;   // marshalling varies
+};
+
+await call('search_site', { query: 'fee waiver repeat damage claims' });
+await call('check_eligibility', {
+  serviceId: 'damage-compensation',
+  answers: { zone: '4', structuralDamage: true, incidentsLast12Months: 2,
+             propertyType: 'commercial', insurancePayoutReceived: false,
+             householdIncomeYen: 3600000, daysSinceIncident: 21 }
+});
+```
+
+The second call is the Arena's task 2 scenario. It returns `eligible` with three
+grants — the assessment-fee waiver, the hardship supplement and
+business-interruption eligibility — and the five documents she needs, each with
+a citation to the page that states the rule.
 
 Without a WebMCP-capable browser, the tools are still there — the runtime always
 exposes them on `window.kaijuWebMCP` so you can call one exactly as an agent
