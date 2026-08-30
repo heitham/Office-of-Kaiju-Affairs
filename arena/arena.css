@@ -357,3 +357,11 @@ code { font: .92em var(--mono); }
 .how-grid .aside { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
 
 .board-table .n { color: var(--ink-3); font: 11.5px var(--mono); }
+
+.withheld {
+  margin: 0 0 16px; padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--bad) 40%, var(--line));
+  border-radius: var(--radius); background: color-mix(in srgb, var(--bad) 6%, transparent);
+  font-size: 14.5px; color: var(--ink-2); max-width: 76ch;
+}
+.withheld strong { display: block; color: var(--bad); margin-bottom: 4px; }
