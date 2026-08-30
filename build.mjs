@@ -73,6 +73,67 @@ log('runtime/ → dist/runtime/');
 /* 4. The Arena and the recorded baselines. */
 
 await cp(join(root, 'arena'), join(dist, 'arena'), { recursive: true });
+
+/* Link the published design system into the Arena, discovered from the site
+   rather than hardcoded. The CMS names its stylesheet with a uuid that changes
+   whenever the design system is republished, so anything hardcoded here would
+   silently go stale and the Arena would drift away from the site it belongs to.
+   Found once from a published page, injected ahead of arena.css so the Arena's
+   own tokens resolve against it. */
+
+async function findDesignSystemHref() {
+  const candidates = ['index.html', join('claims', 'index.html'), join('about', 'index.html')];
+  for (const candidate of candidates) {
+    try {
+      const html = await readFile(join(dist, candidate), 'utf8');
+      const match = html.match(/href=['"]([^'"]*\/assets\/[^'"]*\.css)['"]/);
+      if (match) return match[1];
+    } catch { /* try the next candidate */ }
+  }
+  return null;
+}
+
+/* The published site header, lifted from a real page. Same reasoning as the
+   stylesheet: the nav is CMS-managed and gains items over time, so a copy
+   hand-written here would quietly fall out of date. A judge arriving at the
+   Arena from the site should not lose the site's chrome. */
+
+async function findSiteHeader() {
+  for (const candidate of ['index.html', join('claims', 'index.html'), join('about', 'index.html')]) {
+    try {
+      const html = await readFile(join(dist, candidate), 'utf8');
+      const match = html.match(/<header\b[^>]*class=['"][^'"]*site-header[^'"]*['"][\s\S]*?<\/header>/i);
+      if (match) return match[0];
+    } catch { /* try the next candidate */ }
+  }
+  return null;
+}
+
+const dsHref = sitePublished ? await findDesignSystemHref() : null;
+const siteHeader = sitePublished ? await findSiteHeader() : null;
+if (dsHref) {
+  const arenaIndex = join(dist, 'arena', 'index.html');
+  const html = await readFile(arenaIndex, 'utf8');
+  await writeFile(
+    arenaIndex,
+    html.replace(
+      '<link rel="stylesheet" href="arena.css">',
+      `<link rel="stylesheet" href="${dsHref}">\n<link rel="stylesheet" href="arena.css">`
+    )
+  );
+  log(`arena inherits the published design system: ${dsHref}`);
+} else if (sitePublished) {
+  log('WARNING: no design-system stylesheet found in the published site — the Arena will render on its fallback tokens');
+}
+
+if (siteHeader) {
+  const arenaIndex = join(dist, 'arena', 'index.html');
+  const html = await readFile(arenaIndex, 'utf8');
+  await writeFile(arenaIndex, html.replace('<!--SITE-HEADER-->', siteHeader));
+  log('arena carries the published site header');
+} else if (sitePublished) {
+  log('WARNING: no site header found in the published site — the Arena will render without site chrome');
+}
 await cp(join(root, 'baselines'), join(dist, 'baselines'), {
   recursive: true,
   filter: (src) => !src.endsWith('.mjs')
