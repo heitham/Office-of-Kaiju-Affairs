@@ -34,6 +34,34 @@ export function matches(condition, answers) {
   return Boolean(op(answers[condition.field], condition.value));
 }
 
+/** Render a condition as a short requirement a person can read. */
+const OP_WORDS = {
+  eq: 'must be', ne: 'must not be', gt: 'must be more than', gte: 'must be at least',
+  lt: 'must be under', lte: 'must be at most', in: 'must be one of', nin: 'must not be one of',
+  contains: 'must contain', between: 'must be between', exists: 'must be provided', truthy: 'must be true'
+};
+
+export function describeCondition(condition) {
+  if (!condition || typeof condition !== 'object') return '';
+  if (Array.isArray(condition.all)) return condition.all.map(describeCondition).filter(Boolean).join(' and ');
+  if (Array.isArray(condition.any)) return condition.any.map(describeCondition).filter(Boolean).join(' or ');
+  if (condition.not) return `not (${describeCondition(condition.not)})`;
+  const word = OP_WORDS[condition.op] || condition.op;
+  const value = Array.isArray(condition.value) ? condition.value.join(' or ') : condition.value;
+  return value === undefined ? `${condition.field} ${word}` : `${condition.field} ${word} ${value}`;
+}
+
+/** The answers a condition actually reads, so we can show what they were. */
+function fieldsIn(condition, out = []) {
+  if (!condition || typeof condition !== 'object') return out;
+  for (const key of ['all', 'any']) {
+    if (Array.isArray(condition[key])) condition[key].forEach((c) => fieldsIn(c, out));
+  }
+  if (condition.not) fieldsIn(condition.not, out);
+  if (condition.field) out.push(condition.field);
+  return out;
+}
+
 /** Which declared questions the caller has not answered yet. */
 export function missingAnswers(ruleset, answers) {
   return (ruleset.questions || [])
@@ -88,6 +116,22 @@ export function evaluate(ruleset, answers = {}) {
   const byOutcome = (ruleset.requiredDocumentsByOutcome || {})[outcome] || [];
   byOutcome.forEach((d) => documents.add(d));
 
+  // Rules that could have granted something and did not. Without these the tool
+  // answers "no waiver" and never says why, so the person cannot tell what would
+  // change the answer — which is the thing they most need to know.
+  const unmet = (ruleset.rules || [])
+    .filter((rule) => (rule.grants?.length || rule.requiredDocuments?.length) && !fired.some((f) => f.id === rule.id))
+    .map((rule) => ({
+      id: rule.id,
+      description: rule.description || '',
+      wouldGrant: rule.grants || [],
+      requirement: describeCondition(rule.when),
+      yourAnswers: Object.fromEntries(
+        [...new Set(fieldsIn(rule.when))].map((field) => [field, answers[field] ?? null])
+      ),
+      citation: rule.citation || null
+    }));
+
   return {
     rulesetId: ruleset.id,
     outcome,
@@ -96,6 +140,7 @@ export function evaluate(ruleset, answers = {}) {
     grants: [...grants],
     requiredDocuments: [...documents],
     matchedRules: fired,
+    unmetRules: unmet,
     citations,
     sourcePath: ruleset.sourcePath || null
   };

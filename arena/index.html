@@ -89,14 +89,29 @@
         </p>
       </div>
       <div>
-        <h3>Your data never reaches us</h3>
+        <h3>Where the citizen's facts go</h3>
         <p>
-          The personas below are pasted into <em>your</em> agent conversation. When it
-          calls <code>check_eligibility</code>, the answers are evaluated inside the
-          page against published rules. This site is static — there is no server to
-          send them to.
+          Entering a name and phone number into a form transmits them, whichever way
+          an agent works — our own runs prompted for consent on the permit task in
+          both lanes. The asymmetry is narrower than that, and it is about
+          <em>computing a verdict</em>: <code>check_eligibility</code> takes a
+          person's income, claims history and property as arguments, while reading
+          the same rules off the page takes nothing.
         </p>
-      </div>
+        <p>
+          The rules are evaluated inside this page and the site is static, so there
+          is no server to send them to — but your agent cannot verify that and is
+          right not to assume it. Asked to do this task on the ChatGPT surface, an
+          agent put it better than we did: <q>Ordinary browsing required no such
+          transmission because I applied the published rules locally.</q>
+          <span class="aside">Observed once, not measured.</span>
+        </p>
+        <p>
+          The remedy is already in our <a href="/manifest.json">manifest</a>: the
+          eligibility rules are published as data, so an agent could evaluate them
+          locally and get tool-grade precision at browsing-grade privacy. We did not
+          build that path. It is the design lesson we would act on next.
+        </div>
       <div>
         <h3>The human still presses submit</h3>
         <p>

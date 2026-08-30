@@ -445,6 +445,11 @@ function renderTask(task, runs) {
   node.querySelector('.task-prompt').textContent = task.prompt;
   renderKey(task, node.querySelector('.key-body'));
 
+  if (task.consentNote) {
+    node.querySelector('.ask').insertAdjacentHTML('afterend',
+      `<p class="consent">${escapeHtml(task.consentNote)}</p>`);
+  }
+
   const copyText = `${task.persona?.scenario || ''}\n\n${task.prompt}`;
   const copyBtn = node.querySelector('.copy');
   copyBtn.addEventListener('click', async () => {

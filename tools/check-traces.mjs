@@ -17,7 +17,22 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dir = join(root, 'baselines');
-const schema = JSON.parse(await readFile(join(dir, 'trace.schema.json'), 'utf8'));
+/** Read a required input, failing with a sentence rather than a stack trace. */
+async function required(path, what) {
+  try {
+    return JSON.parse(await readFile(path, 'utf8'));
+  } catch (error) {
+    console.error(
+      `\ncannot validate: ${what} is missing or unreadable at ${path}\n` +
+      `  ${error.code === 'ENOENT' ? 'File not found.' : error.message}\n` +
+      `  This checker expects a full repo layout: baselines/trace.schema.json,\n` +
+      `  baselines/index.json and arena/answer-keys.json alongside the traces.\n`
+    );
+    process.exit(2);
+  }
+}
+
+const schema = await required(join(dir, 'trace.schema.json'), 'the trace schema');
 
 const problems = [];
 const note = (file, message) => problems.push(`${file}: ${message}`);
@@ -54,7 +69,7 @@ function validate(value, node, path, file) {
   }
 }
 
-const index = JSON.parse(await readFile(join(dir, 'index.json'), 'utf8'));
+const index = await required(join(dir, 'index.json'), 'the baselines index');
 const files = (await readdir(dir)).filter((f) => f.endsWith('.json') && !['index.json', 'trace.schema.json'].includes(f));
 
 console.log(`\ntrace validation — ${files.length} trace file(s) against trace.schema.json v${schema.properties.traceVersion.const}\n`);
@@ -87,7 +102,7 @@ const present = new Set(files);
 const groups = new Map();
 for (const run of index.runs) {
   if (!present.has(run.file)) note('index.json', `references ${run.file}, which is not present`);
-  const key = `${run.taskId}/${run.lane}`;
+  const key = `${run.taskId}/${run.lane}/${run.tier || '-'}/r${run.round || 1}`;
   groups.set(key, (groups.get(key) || []).concat(run));
 }
 for (const [key, runs] of groups) {
@@ -109,11 +124,27 @@ for (const file of files) {
   if (!index.runs.some((r) => r.file === file)) note('index.json', `${file} exists but is not indexed — the Arena will not load it`);
 }
 
+// Rounds. Both rounds stay published — hiding round 1 would make the fix
+// unfalsifiable — so the index must say which one the figures describe.
+const roundsPresent = [...new Set(index.runs.map((r) => r.round || 1))].sort();
+if (roundsPresent.length > 1) {
+  if (!index.headlineRound) {
+    note('index.json', `runs span rounds ${roundsPresent.join(' and ')} but headlineRound is not set — the Arena would not know which round its figures describe`);
+  } else if (!roundsPresent.includes(index.headlineRound)) {
+    note('index.json', `headlineRound is ${index.headlineRound}, which has no recorded runs (present: ${roundsPresent.join(', ')})`);
+  }
+  for (const round of roundsPresent) {
+    if (!(index.rounds || []).some((r) => r.round === round && r.label)) {
+      note('index.json', `round ${round} has runs but no entry with a label in index.rounds — a before/after with no "before" and "after" is a bare number change`);
+    }
+  }
+}
+
 // A bare accuracy gap between the lanes reads as "the tools are less accurate".
 // That may not be what happened — on task 1 both lanes answered correctly and
 // only the scoring of one check differed. So a divergence must ship with its
 // explanation, and the build fails rather than publishing the number alone.
-const keys = JSON.parse(await readFile(join(root, 'arena', 'answer-keys.json'), 'utf8'));
+const keys = await required(join(root, 'arena', 'answer-keys.json'), 'the answer keys');
 const accOf = async (taskId, lane) => {
   const passes = index.runs.filter((r) => r.taskId === taskId && r.lane === lane);
   const promoted = passes.find((r) => r.promoted) || passes[0];

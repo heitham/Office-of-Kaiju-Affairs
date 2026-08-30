@@ -128,6 +128,23 @@ await test('partial answers are reported as undetermined, not guessed', () => {
   assert.ok(out.missingAnswers.length >= 3);
 });
 
+await test('task 1 fix: an ungranted waiver reports its requirement and citation', async () => {
+  const r = await call('check_eligibility', {
+    serviceId: 'damage-compensation',
+    answers: { zone: '4', structuralDamage: true, incidentsLast12Months: 1,
+               propertyType: 'commercial', insurancePayoutReceived: false,
+               householdIncomeYen: 3600000, daysSinceIncident: 21 }
+  });
+  const out = r.structuredContent;
+  assert.ok(!out.grants.includes('assessment-fee-waiver'), 'waiver should not be granted');
+  const waiver = out.unmetRules.find((u) => u.wouldGrant.includes('assessment-fee-waiver'));
+  assert.ok(waiver, 'the ungranted waiver must be reported as unmet');
+  assert.match(waiver.requirement, /incidentsLast12Months must be at least 2/);
+  assert.equal(waiver.yourAnswers.incidentsLast12Months, 1);
+  assert.equal(waiver.citation.path, '/claims/faq/');
+  assert.match(r.content[0].text, /Not granted, and what each would need/);
+});
+
 await test('prefill_permit_form refuses when the form is on another page', async () => {
   const r = await call('prefill_permit_form', { values: { applicantName: 'Mira Tanaka' } });
   assert.equal(r.isError, true);
