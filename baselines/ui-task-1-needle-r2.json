@@ -113,12 +113,12 @@
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "**You will have to pay the ¥12,000 assessment fee again for this second claim.** Here's the reasoning, based on the Claims FAQ page (\"Fee waivers\" section) and the Fee Schedule page: - The fee schedule says: \"The claim a",
+      "detail": "**You will have to pay the \u00a512,000 assessment fee again for this second claim.** Here's the reasoning, based on the Claims FAQ page (\"Fee waivers\" section) and the Fee Schedule page: - The fee schedule says: \"The claim a",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "**You will have to pay the ¥12,000 assessment fee again for this second claim.**\n\nHere's the reasoning, based on the Claims FAQ page (\"Fee waivers\" section) and the Fee Schedule page:\n\n- The fee schedule says: \"The claim assessment fee is ¥12,000, payable when the claim is lodged... The fee is waived entirely for repeat claimants — see fee waivers in the FAQ.\"\n- The FAQ spells out the actual rule: **\"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee. The waiver is applied automatically at lodgement... The waiver counts approved claims only. Refused, withdrawn and pending claims do not count toward the two-claim threshold.\"**\n\nApplying this to your situation: you currently have only **one approved claim** (the March incident). The claim you're about to lodge for the incident three weeks ago is not yet approved — it's the second claim, not yet counted — so at the moment you lodge it you do not yet meet the \"two or more approved claims\" threshold. The waiver therefore does not apply to this filing, and you must pay the ¥12,000 fee again.\n\nHowever, once this second claim is approved, you *will* have two approved claims within a rolling 12-month period. That means if kaiju activity strikes again within 12 months of either of these incidents and you file a third claim, that one should be exempt from the fee automatically at lodgement (no application needed).",
+    "answer": "**You will have to pay the \u00a512,000 assessment fee again for this second claim.**\n\nHere's the reasoning, based on the Claims FAQ page (\"Fee waivers\" section) and the Fee Schedule page:\n\n- The fee schedule says: \"The claim assessment fee is \u00a512,000, payable when the claim is lodged... The fee is waived entirely for repeat claimants \u2014 see fee waivers in the FAQ.\"\n- The FAQ spells out the actual rule: **\"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the \u00a512,000 assessment fee. The waiver is applied automatically at lodgement... The waiver counts approved claims only. Refused, withdrawn and pending claims do not count toward the two-claim threshold.\"**\n\nApplying this to your situation: you currently have only **one approved claim** (the March incident). The claim you're about to lodge for the incident three weeks ago is not yet approved \u2014 it's the second claim, not yet counted \u2014 so at the moment you lodge it you do not yet meet the \"two or more approved claims\" threshold. The waiver therefore does not apply to this filing, and you must pay the \u00a512,000 fee again.\n\nHowever, once this second claim is approved, you *will* have two approved claims within a rolling 12-month period. That means if kaiju activity strikes again within 12 months of either of these incidents and you file a third claim, that one should be exempt from the fee automatically at lodgement (no application needed).",
     "submitted": false,
     "gaveUp": false
   },
@@ -161,10 +161,10 @@
       },
       {
         "id": "amount",
-        "label": "Names the ¥12,000 assessment fee",
+        "label": "Names the \u00a512,000 assessment fee",
         "weight": 1,
         "pass": true,
-        "actual": "names ¥12,000"
+        "actual": "names \u00a512,000"
       },
       {
         "id": "citation",
@@ -182,14 +182,15 @@
       }
     ],
     "normalisations": [
-      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
-      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
-      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "A field value counts if it CONTAINS the expected value \u2014 \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative \u2014 \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed \u2014 \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
       "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
-      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12\u2011month\" or \"only **one** approved\" is making the same claim as one that does not.",
       "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
       "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "1 of 5 recorded passes fell short of a full score. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "1 of 5 recorded passes fell short of a full score. This is the pass the Arena replays \u2014 the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded.",
+  "tier": "sonnet-5"
 }

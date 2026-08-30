@@ -390,3 +390,6 @@ code { font: .92em var(--mono); }
   border-radius: var(--radius-sm, 2px); background: var(--slow-soft);
   color: var(--ink-2); font: 600 10.5px/1.7 var(--mono); letter-spacing: .03em;
 }
+
+.tiers .tier-note { margin: 18px 0 0; font-size: 15.5px; color: var(--ink); max-width: 76ch; }
+.board-table td.down { color: var(--bad); }

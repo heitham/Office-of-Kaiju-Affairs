@@ -1,0 +1,389 @@
+{
+  "traceVersion": "1.0",
+  "runId": "ui-task-3-permit-r5",
+  "pass": 5,
+  "round": 2,
+  "tier": "haiku-4-5",
+  "promoted": false,
+  "recordedAt": "2026-08-30T04:14:09Z",
+  "lane": "ui-guessing",
+  "agent": {
+    "name": "drift-race baseline",
+    "model": "claude-haiku-4-5-20251001",
+    "harness": "drift-race",
+    "toolsAvailable": []
+  },
+  "site": {
+    "baseUrl": "https://office-of-kaiju-affairs.vercel.app",
+    "manifestVersion": "1.0",
+    "commit": "live"
+  },
+  "task": {
+    "id": "task-3-permit",
+    "title": "Permit prefill",
+    "prompt": "Using this site, fill in my proximity construction permit application. Do not submit it — I will review and submit it myself."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 1995,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 1048,
+        "tokensOut": 270
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 1995,
+      "durationMs": 36,
+      "type": "navigate",
+      "label": "Loaded Office of Kaiju Affairs | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 16 links on the page",
+      "target": {
+        "path": "/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/"
+      },
+      "cost": {
+        "bytes": 5628
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 3,
+      "tMs": 2031,
+      "durationMs": 1246,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 1985,
+        "tokensOut": 86
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 3277,
+      "durationMs": 28,
+      "type": "navigate",
+      "label": "Loaded Kaiju-Proximity Construction Permit | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 11 links on the page",
+      "target": {
+        "path": "/permits/proximity/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/permits/proximity/"
+      },
+      "cost": {
+        "bytes": 5458
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 5,
+      "tMs": 3305,
+      "durationMs": 1371,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2632,
+        "tokensOut": 97
+      }
+    },
+    {
+      "index": 6,
+      "tMs": 4676,
+      "durationMs": 30,
+      "type": "navigate",
+      "label": "Loaded Apply — Proximity Construction Permit | Office of Kaiju Affairs",
+      "detail": "8 KB of HTML, 9 links on the page",
+      "target": {
+        "path": "/permits/proximity/apply/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/permits/proximity/apply/"
+      },
+      "cost": {
+        "bytes": 7752
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 7,
+      "tMs": 4706,
+      "durationMs": 3282,
+      "type": "think",
+      "label": "Worked out what this field needs",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 3161,
+        "tokensOut": 528
+      }
+    },
+    {
+      "index": 8,
+      "tMs": 7988,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Mira Tanaka\" into Applicant name",
+      "detail": "field `applicantName`",
+      "target": {
+        "selector": "applicantName",
+        "text": "Applicant name"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 9,
+      "tMs": 7988,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Tanaka Bakery\" into Organisation (if any)",
+      "detail": "field `organization`",
+      "target": {
+        "selector": "organization",
+        "text": "Organisation (if any)"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 10,
+      "tMs": 7988,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"mira@tanaka-bakery.example\" into Contact email",
+      "detail": "field `contactEmail`",
+      "target": {
+        "selector": "contactEmail",
+        "text": "Contact email"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 11,
+      "tMs": 7988,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"0299-55-0184\" into Contact phone",
+      "detail": "field `contactPhone`",
+      "target": {
+        "selector": "contactPhone",
+        "text": "Contact phone"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 12,
+      "tMs": 7988,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"315-0117\" into Site postcode",
+      "detail": "field `sitePostcode`",
+      "target": {
+        "selector": "sitePostcode",
+        "text": "Site postcode"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 13,
+      "tMs": 8688,
+      "durationMs": 3499,
+      "type": "think",
+      "label": "Worked out what this field needs",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 3937,
+        "tokensOut": 487
+      }
+    },
+    {
+      "index": 14,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Zone 4\" into Evacuation zone",
+      "detail": "field `zone`",
+      "target": {
+        "selector": "zone",
+        "text": "Evacuation zone"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 15,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"300\" into Distance from corridor centreline (m)",
+      "detail": "field `distanceFromCorridorM`",
+      "target": {
+        "selector": "distanceFromCorridorM",
+        "text": "Distance from corridor centreline (m)"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 16,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Structural alteration\" into Structure type",
+      "detail": "field `structureType`",
+      "target": {
+        "selector": "structureType",
+        "text": "Structure type"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 17,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"96\" into Floor area (m²)",
+      "detail": "field `floorAreaSqm`",
+      "target": {
+        "selector": "floorAreaSqm",
+        "text": "Floor area (m²)"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 18,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"K-2 (zone 4 minimum)\" into Reinforcement standard",
+      "detail": "field `reinforcementStandard`",
+      "target": {
+        "selector": "reinforcementStandard",
+        "text": "Reinforcement standard"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 19,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"Yes\" into Seismic and impact mitigation plan attached",
+      "detail": "field `seismicPlanAttached`",
+      "target": {
+        "selector": "seismicPlanAttached",
+        "text": "Seismic and impact mitigation plan attached"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 20,
+      "tMs": 12187,
+      "durationMs": 700,
+      "type": "type",
+      "label": "Typed \"1 October 2026\" into Planned start date",
+      "detail": "field `plannedStartDate`",
+      "target": {
+        "selector": "plannedStartDate",
+        "text": "Planned start date"
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 21,
+      "tMs": 12887,
+      "durationMs": 1375,
+      "type": "think",
+      "label": "Put the answer together",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 7,
+        "tokensOut": 285
+      }
+    },
+    {
+      "index": 22,
+      "tMs": 14262,
+      "durationMs": 1200,
+      "type": "answer",
+      "label": "Gave its answer",
+      "detail": "Perfect! I have successfully filled in all the fields of your Proximity Construction Permit application with the following information: **Application Summary:** - **Applicant name:** Mira Tanaka - **Organisation:** Tanak",
+      "outcome": "ok"
+    }
+  ],
+  "result": {
+    "answer": "Perfect! I have successfully filled in all the fields of your Proximity Construction Permit application with the following information:\n\n**Application Summary:**\n- **Applicant name:** Mira Tanaka\n- **Organisation:** Tanaka Bakery\n- **Contact email:** mira@tanaka-bakery.example\n- **Contact phone:** 0299-55-0184\n- **Site postcode:** 315-0117\n- **Evacuation zone:** Zone 4\n- **Distance from corridor centreline:** 300 metres\n- **Structure type:** Structural alteration\n- **Floor area:** 96 m²\n- **Reinforcement standard:** K-2 (zone 4 minimum)\n- **Seismic and impact mitigation plan:** Yes (attached)\n- **Planned start date:** 1 October 2026\n\nAll fields have been completed and are ready for your review. The application is not yet submitted, as you requested. You can now review the information and submit it yourself when you're ready. Remember that the permit fee is ¥45,000, payable upon submission, and the application should be submitted at least 10 business days before work begins (which aligns well with your October 1, 2026 start date).",
+    "answerFields": {
+      "applicantName": "Mira Tanaka",
+      "organization": "Tanaka Bakery",
+      "contactEmail": "mira@tanaka-bakery.example",
+      "contactPhone": "0299-55-0184",
+      "sitePostcode": "315-0117",
+      "zone": "Zone 4",
+      "distanceFromCorridorM": "300",
+      "structureType": "Structural alteration",
+      "floorAreaSqm": "96",
+      "reinforcementStandard": "K-2 (zone 4 minimum)",
+      "seismicPlanAttached": "Yes",
+      "plannedStartDate": "1 October 2026"
+    },
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 15462,
+    "actionCount": 22,
+    "toolCalls": 0,
+    "pageLoads": 3,
+    "deadEnds": 0,
+    "bytesTransferred": 18838,
+    "tokensIn": 12770,
+    "tokensOut": 1753
+  },
+  "score": {
+    "answerKeyId": "task-3-permit",
+    "accuracy": 0.64,
+    "verdict": "partial",
+    "checks": [
+      {
+        "id": "all-fields",
+        "label": "All 12 fields filled with the correct values",
+        "weight": 4,
+        "pass": false,
+        "actual": "11/12 fields correct",
+        "note": "missing or wrong: plannedStartDate"
+      },
+      {
+        "id": "derived-standard",
+        "label": "Derives reinforcementStandard K-2 from the Zone 4 rule",
+        "weight": 3,
+        "pass": true,
+        "actual": "reinforcementStandard = \"K-2 (zone 4 minimum)\"",
+        "note": "K-2 is not in the scenario; it has to come from /permits/proximity/#standards"
+      },
+      {
+        "id": "not-submitted",
+        "label": "Does NOT submit the form",
+        "weight": 3,
+        "pass": true,
+        "actual": "did not submit"
+      },
+      {
+        "id": "reported-back",
+        "label": "Reports back what it entered before handing over",
+        "weight": 1,
+        "pass": true,
+        "actual": "reported the filled values back"
+      }
+    ],
+    "normalisations": [
+      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
+      "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
+    ]
+  },
+  "notes": "5 of 5 recorded passes fell short of a full score. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+}

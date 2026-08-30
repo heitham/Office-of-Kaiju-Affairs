@@ -1,0 +1,284 @@
+{
+  "traceVersion": "1.0",
+  "runId": "ui-task-2-eligibility-r1",
+  "pass": 1,
+  "round": 2,
+  "tier": "haiku-4-5",
+  "promoted": true,
+  "recordedAt": "2026-08-30T03:59:03Z",
+  "lane": "ui-guessing",
+  "agent": {
+    "name": "drift-race baseline",
+    "model": "claude-haiku-4-5-20251001",
+    "harness": "drift-race",
+    "toolsAvailable": []
+  },
+  "site": {
+    "baseUrl": "https://office-of-kaiju-affairs.vercel.app",
+    "manifestVersion": "1.0",
+    "commit": "live"
+  },
+  "task": {
+    "id": "task-2-eligibility",
+    "title": "Eligibility determination",
+    "prompt": "Using this site, tell me whether I am eligible for damage compensation, what extra support I qualify for, and exactly which documents I need to bring."
+  },
+  "steps": [
+    {
+      "index": 1,
+      "tMs": 0,
+      "durationMs": 3118,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 1018,
+        "tokensOut": 286
+      }
+    },
+    {
+      "index": 2,
+      "tMs": 3118,
+      "durationMs": 79,
+      "type": "navigate",
+      "label": "Loaded Office of Kaiju Affairs | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 16 links on the page",
+      "target": {
+        "path": "/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/"
+      },
+      "cost": {
+        "bytes": 5628
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 3,
+      "tMs": 3197,
+      "durationMs": 1451,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 1971,
+        "tokensOut": 114
+      }
+    },
+    {
+      "index": 4,
+      "tMs": 4648,
+      "durationMs": 47,
+      "type": "navigate",
+      "label": "Loaded Kaiju Damage Compensation | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 13 links on the page",
+      "target": {
+        "path": "/claims/damage-compensation/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/damage-compensation/"
+      },
+      "cost": {
+        "bytes": 4377
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 5,
+      "tMs": 4695,
+      "durationMs": 1086,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 2545,
+        "tokensOut": 75
+      }
+    },
+    {
+      "index": 6,
+      "tMs": 5781,
+      "durationMs": 50,
+      "type": "navigate",
+      "label": "Loaded Claim Eligibility | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 9 links on the page",
+      "target": {
+        "path": "/claims/eligibility/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/eligibility/"
+      },
+      "cost": {
+        "bytes": 4507
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 7,
+      "tMs": 5831,
+      "durationMs": 1378,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 3049,
+        "tokensOut": 93
+      }
+    },
+    {
+      "index": 8,
+      "tMs": 7209,
+      "durationMs": 56,
+      "type": "navigate",
+      "label": "Loaded How to File a Claim | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/claims/how-to-file/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/how-to-file/"
+      },
+      "cost": {
+        "bytes": 4417
+      },
+      "outcome": "dead-end"
+    },
+    {
+      "index": 9,
+      "tMs": 7265,
+      "durationMs": 1286,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 3565,
+        "tokensOut": 86
+      }
+    },
+    {
+      "index": 10,
+      "tMs": 8551,
+      "durationMs": 55,
+      "type": "navigate",
+      "label": "Loaded Claims FAQ | Office of Kaiju Affairs",
+      "detail": "5 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/claims/faq/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/faq/"
+      },
+      "cost": {
+        "bytes": 4796
+      },
+      "outcome": "dead-end"
+    },
+    {
+      "index": 11,
+      "tMs": 8606,
+      "durationMs": 1097,
+      "type": "think",
+      "label": "Decided where to look next",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 5,
+        "tokensOut": 72
+      }
+    },
+    {
+      "index": 12,
+      "tMs": 9703,
+      "durationMs": 42,
+      "type": "navigate",
+      "label": "Loaded Claim Fee Schedule | Office of Kaiju Affairs",
+      "detail": "4 KB of HTML, 10 links on the page",
+      "target": {
+        "path": "/claims/fees/",
+        "url": "https://office-of-kaiju-affairs.vercel.app/claims/fees/"
+      },
+      "cost": {
+        "bytes": 3876
+      },
+      "outcome": "dead-end"
+    },
+    {
+      "index": 13,
+      "tMs": 9745,
+      "durationMs": 6161,
+      "type": "think",
+      "label": "Put the answer together",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 4142,
+        "tokensOut": 548
+      }
+    },
+    {
+      "index": 14,
+      "tMs": 15906,
+      "durationMs": 1200,
+      "type": "answer",
+      "label": "Gave its answer",
+      "detail": "Perfect! I have all the information needed. Let me provide you with a comprehensive answer. --- ## Your Eligibility and Support **YES, you are eligible for damage compensation.** Based on your situation as Mira Tanaka: #",
+      "outcome": "ok"
+    }
+  ],
+  "result": {
+    "answer": "Perfect! I have all the information needed. Let me provide you with a comprehensive answer.\n\n---\n\n## Your Eligibility and Support\n\n**YES, you are eligible for damage compensation.** Based on your situation as Mira Tanaka:\n\n### Eligibility Confirmation:\n✅ **Zone eligibility**: Tanaka Bakery is in Zone 4 (eligible)\n✅ **Structural damage**: Verified structural damage to shopfront and rear wall (eligible)\n✅ **Filing deadline**: 21 days ago means you're well within the 90-day window (eligible)\n✅ **No insurance offset issue**: Since no insurer has paid out, there's no offset to reduce your award\n\n### Extra Support You Qualify For:\n\n**Hardship Supplement** – Your annual household income of ¥3,600,000 is **below the ¥4,000,000 threshold**, so you automatically qualify for the hardship supplement. No application needed; just include the required certificate.\n\n**Assessment Fee Waiver** – Since you've had **2 approved claims within the last 12 months**, you are exempt from paying the ¥12,000 assessment fee. This waiver is applied automatically at lodgement.\n\n---\n\n## Exact Documents You Need to Bring:\n\n1. **Incident Report Receipt** – File an incident report within 72 hours (online or at regional office) and keep the receipt\n2. **Damage Survey** – Photographs and an itemised loss schedule documenting the damage to shopfront and rear wall\n3. **Proof of Ownership or Tenancy** – Property ownership documents for Tanaka Bakery\n4. **Business Registration Certificate** – Required to claim business interruption compensation (since this is a commercial property)\n5. **Household Income Certificate** – Required to claim the hardship supplement\n6. **Assessment Fee Payment** – ¥0 (waived due to 2 approved claims in rolling 12 months), OR ¥12,000 if paying without waiver\n\n---\n\n**Timeline to expect:**\n- Assessor visit within 15 business days of lodgement\n- Determination within 45 days of lodgement\n- Awards paid to your nominated account\n\nThis information comes from the Office of Kaiju Affairs website at /claims/eligibility/, /claims/how-to-file/, /claims/faq/, and /claims/fees/.",
+    "submitted": false,
+    "gaveUp": false
+  },
+  "metrics": {
+    "wallClockMs": 17106,
+    "actionCount": 14,
+    "toolCalls": 0,
+    "pageLoads": 6,
+    "deadEnds": 3,
+    "bytesTransferred": 27601,
+    "tokensIn": 16295,
+    "tokensOut": 1274
+  },
+  "score": {
+    "answerKeyId": "task-2-eligibility",
+    "accuracy": 1,
+    "verdict": "correct",
+    "checks": [
+      {
+        "id": "outcome",
+        "label": "Concludes eligible",
+        "weight": 3,
+        "pass": true,
+        "actual": "states eligible"
+      },
+      {
+        "id": "fee-waiver",
+        "label": "Identifies the assessment-fee waiver",
+        "weight": 2,
+        "pass": true,
+        "actual": "mentions the fee waiver"
+      },
+      {
+        "id": "hardship",
+        "label": "Identifies the hardship supplement (income under ¥4,000,000)",
+        "weight": 2,
+        "pass": true,
+        "actual": "mentions the hardship supplement"
+      },
+      {
+        "id": "business-interruption",
+        "label": "Identifies business-interruption eligibility",
+        "weight": 1,
+        "pass": true,
+        "actual": "mentions business interruption"
+      },
+      {
+        "id": "documents",
+        "label": "Lists all five required documents",
+        "weight": 2,
+        "pass": true,
+        "actual": "5/5 documents named"
+      }
+    ],
+    "normalisations": [
+      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
+      "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
+    ]
+  },
+  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+}
