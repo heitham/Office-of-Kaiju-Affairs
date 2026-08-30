@@ -49,46 +49,6 @@
       "round": 1
     },
     {
-      "taskId": "task-1-needle",
-      "lane": "webmcp",
-      "file": "mcp-task-1-needle-r1.json",
-      "pass": 1,
-      "promoted": false,
-      "round": 1
-    },
-    {
-      "taskId": "task-1-needle",
-      "lane": "webmcp",
-      "file": "mcp-task-1-needle-r2.json",
-      "pass": 2,
-      "promoted": false,
-      "round": 1
-    },
-    {
-      "taskId": "task-1-needle",
-      "lane": "webmcp",
-      "file": "mcp-task-1-needle-r3.json",
-      "pass": 3,
-      "promoted": true,
-      "round": 1
-    },
-    {
-      "taskId": "task-1-needle",
-      "lane": "webmcp",
-      "file": "mcp-task-1-needle-r4.json",
-      "pass": 4,
-      "promoted": false,
-      "round": 1
-    },
-    {
-      "taskId": "task-1-needle",
-      "lane": "webmcp",
-      "file": "mcp-task-1-needle-r5.json",
-      "pass": 5,
-      "promoted": false,
-      "round": 1
-    },
-    {
       "taskId": "task-2-eligibility",
       "lane": "ui-guessing",
       "file": "ui-task-2-eligibility-r1.json",
@@ -295,6 +255,14 @@
       "round": 1,
       "label": "As first published",
       "note": "The runtime as it shipped. check_eligibility returned a verdict without the rule behind it, and prefill_permit_form said nothing about declared optional fields it was given no value for. Both defects were found by these runs and fixed afterwards."
+    }
+  ],
+  "withheld": [
+    {
+      "taskId": "task-1-needle",
+      "lane": "webmcp",
+      "passes": 5,
+      "reason": "Withheld pending a rescore. The scorer's clause matcher tested for a literal string and missed it when the model emphasised a word \u2014 \"only **one** approved\" did not match \"only one approved\". Three of these five scores were too low as a result. The runs are valid; the scores are not, and a lane's mean computed from them would be wrong. They return once every pass has been rescored with the corrected instrument, which is also what round 2 will be measured with."
     }
   ]
 }

@@ -120,8 +120,17 @@ for (const [key, runs] of groups) {
       `report their average as one result.`);
   }
 }
+// A trace may be deliberately unindexed, but only if index.withheld says so and
+// gives a reason. Silence is the thing we are guarding against, not absence.
 for (const file of files) {
-  if (!index.runs.some((r) => r.file === file)) note('index.json', `${file} exists but is not indexed — the Arena will not load it`);
+  if (index.runs.some((r) => r.file === file)) continue;
+  const trace = JSON.parse(await readFile(join(dir, file), 'utf8'));
+  const cover = (index.withheld || []).find((w) => w.taskId === trace.task?.id && w.lane === trace.lane);
+  if (!cover) {
+    note('index.json', `${file} exists but is neither indexed nor covered by an index.withheld entry — the Arena would silently not load it`);
+  } else if (!cover.reason) {
+    note('index.json', `${file} is withheld with no reason given — a withheld lane must say why on the page`);
+  }
 }
 
 // Rounds. Both rounds stay published — hiding round 1 would make the fix

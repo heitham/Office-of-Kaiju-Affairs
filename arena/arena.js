@@ -453,6 +453,8 @@ function renderKey(task, host) {
     ${e.mustNotDo ? `<h5>Must not</h5><p>${escapeHtml(e.mustNotDo)}</p>` : ''}`;
 }
 
+let indexMeta = null;
+
 function renderTask(task, runs) {
   const node = document.getElementById('task-template').content.firstElementChild.cloneNode(true);
   node.id = task.id;
@@ -535,6 +537,13 @@ function renderTask(task, runs) {
     speed: node.querySelector('.speed-select')
   };
 
+  const withheld = (indexMeta?.withheld || []).filter((w) => w.taskId === task.id);
+  if (withheld.length) {
+    lanesHost.insertAdjacentHTML('beforebegin', withheld.map((w) =>
+      `<p class="withheld"><strong>${escapeHtml(LANES[w.lane]?.name || w.lane)}: ${w.passes} recorded pass${w.passes === 1 ? '' : 'es'} withheld.</strong>
+       ${escapeHtml(w.reason)}</p>`).join(''));
+  }
+
   if (!lanes.length) {
     node.querySelector('.replay').innerHTML =
       '<p class="loading">No recording for this task yet.</p>';
@@ -561,6 +570,7 @@ function escapeHtml(value) {
     const [keys, { index, runs }] = await Promise.all([getJSON('answer-keys.json'), loadRuns()]);
     const tasks = [...keys.tasks].sort((a, b) => (a.order || 0) - (b.order || 0));
 
+    indexMeta = index;
     renderFindings(tasks, runs);
     renderScoreboard(tasks, runs);
 
