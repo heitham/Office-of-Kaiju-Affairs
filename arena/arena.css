@@ -447,3 +447,10 @@ code { font: .92em var(--mono); }
 }
 
 .findings-method { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-3); max-width: 78ch; }
+
+.key-warning {
+  margin: 10px 0 0; padding: 11px 14px;
+  border-left: 3px solid var(--slow); background: var(--slow-soft);
+  border-radius: 0 var(--radius-md, 3px) var(--radius-md, 3px) 0;
+  font-size: 13.5px; color: var(--ink-2); max-width: 74ch;
+}

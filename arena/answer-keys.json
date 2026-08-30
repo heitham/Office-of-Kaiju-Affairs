@@ -7,7 +7,7 @@
       "order": 1,
       "title": "Does Mira pay the fee again?",
       "shortTitle": "Does Mira pay the fee again?",
-      "difficulty": "Mira's bakery has been damaged twice. She has one approved claim and one new claim that is still pending. The fee-waiver page says \u201ctwo or more claims\u201d, which sounds promising \u2014 until the next sentence says only approved claims count. One sentence is worth \u00a512,000. That is the task.",
+      "difficulty": "Mira's bakery has been damaged twice. She has one approved claim and one new claim that is still pending. The fee-waiver page says \u201ctwo or more claims\u201d, which sounds promising \u2014 until the very next sentence adds a condition that decides her case. One sentence is worth \u00a512,000. That is the task.",
       "persona": {
         "name": "Mira Tanaka",
         "summary": "Bakery owner in Zone 4, second claim this year.",
@@ -174,7 +174,7 @@
       "order": 3,
       "title": "Complete Mira's permit application",
       "shortTitle": "Complete the permit",
-      "difficulty": "The bakery needs rebuilding. Naturally, the kaiju did not complete the permit application before damaging it. Mira provides eleven of the values the form needs. The twelfth \u2014 the K-2 reinforcement standard \u2014 must be determined from the Zone 4 construction policy. The WebMCP tool can validate and fill the application. It exposes no submit operation: Mira reviews the result and submits it herself.",
+      "difficulty": "The bakery needs rebuilding. Naturally, the kaiju did not complete the permit application before damaging it. Mira provides eleven of the values the form needs. The twelfth \u2014 the reinforcement standard \u2014 is never stated in her scenario and has to be worked out from the construction policy for her zone. The WebMCP tool can validate and fill the application. It exposes no submit operation: Mira reviews the result and submits it herself.",
       "persona": {
         "name": "Mira Tanaka",
         "summary": "Rebuilding the damaged shopfront; needs a proximity construction permit.",
