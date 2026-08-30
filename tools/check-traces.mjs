@@ -157,8 +157,9 @@ const keys = await required(join(root, 'arena', 'answer-keys.json'), 'the answer
 // Mean across passes, not the promoted one. Promotion picks the weakest run for
 // the replay, and two lanes' weakest runs can coincide while their means differ
 // sharply — which is exactly the case on task 3.
-const accOf = async (taskId, lane) => {
-  const passes = index.runs.filter((r) => r.taskId === taskId && r.lane === lane && present.has(r.file));
+const accOf = async (taskId, lane, tier) => {
+  const passes = index.runs.filter((r) => r.taskId === taskId && r.lane === lane
+    && (tier === null ? !r.tier : r.tier === tier) && present.has(r.file));
   if (!passes.length) return null;
   const accs = [];
   for (const p of passes) {
@@ -168,14 +169,17 @@ const accOf = async (taskId, lane) => {
   return accs.length ? accs.reduce((a, b) => a + b, 0) / accs.length : null;
 };
 
+const tiers = [...new Set(index.runs.map((r) => r.tier).filter(Boolean))];
 for (const task of keys.tasks) {
-  const ui = await accOf(task.id, 'ui-guessing');
-  const mcp = await accOf(task.id, 'webmcp');
-  if (ui == null || mcp == null || ui === mcp) continue;
-  if (!task.laneDivergence?.headline || !task.laneDivergence?.body) {
-    note('arena/answer-keys.json',
-      `${task.id} means ${ui.toFixed(2)} (ui) vs ${mcp.toFixed(2)} (webmcp) but has no laneDivergence explanation. ` +
-      `Publishing the gap without the mechanism misrepresents it — add laneDivergence.headline and .body.`);
+  for (const tier of (tiers.length ? tiers : [null])) {
+    const ui = await accOf(task.id, 'ui-guessing', tier);
+    const mcp = await accOf(task.id, 'webmcp', tier);
+    if (ui == null || mcp == null || ui === mcp) continue;
+    if (!task.laneDivergence?.headline || !task.laneDivergence?.body) {
+      note('arena/answer-keys.json',
+        `${task.id}${tier ? ` (${tier})` : ''} means ${ui.toFixed(2)} (ui) vs ${mcp.toFixed(2)} (webmcp) but has ` +
+        `no laneDivergence explanation. Publishing the gap without the mechanism misrepresents it.`);
+    }
   }
 }
 

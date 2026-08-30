@@ -303,6 +303,10 @@ would make the fix unfalsifiable.
   ]
   ```
 - Promotion is one promoted pass per task+lane+**tier**+**round**.
+- When more than one tier is recorded, `index.json` also carries
+  `headlineTier` — the tier the computed figures describe. It is declared
+  rather than inferred: "whichever tier appeared first in the file" is not a
+  defensible way to choose which model a headline number is about.
 - Rounds are a different axis from tiers. Do not encode a round into a tier id:
   every tier is recorded within a round, and the tier comparison only means
   something when both tiers sit in the same one.
