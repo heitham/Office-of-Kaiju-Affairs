@@ -5,7 +5,7 @@
   "lane": "ui-guessing",
   "agent": {
     "name": "MOCK",
-    "model": "placeholder — replaced by the drift-race session",
+    "model": "placeholder \u2014 replaced by the drift-race session",
     "harness": "drift-race",
     "toolsAvailable": []
   },
@@ -78,7 +78,7 @@
       "durationMs": 3100,
       "outcome": "ok",
       "type": "navigate",
-      "label": "Loaded eligibility — 820 words",
+      "label": "Loaded eligibility \u2014 820 words",
       "target": {
         "path": "/claims/eligibility/",
         "url": "https://kaiju-affairs.example/claims/eligibility/"
@@ -280,7 +280,12 @@
         "pass": false,
         "actual": "3 of 5"
       }
+    ],
+    "normalisations": [
+      "A field counts if the entered value CONTAINS the expected value \u2014 \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if the entered value reads affirmative \u2014 \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed \u2014 a UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension."
     ]
   },
-  "notes": "PLACEHOLDER. Got the headline decision right and every conditional grant wrong — the expensive kind of wrong."
+  "notes": "PLACEHOLDER. Got the headline decision right and every conditional grant wrong \u2014 the expensive kind of wrong."
 }

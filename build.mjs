@@ -103,5 +103,12 @@ if (coupling.status !== 0) {
   process.exit(1);
 }
 
+log('validating baseline traces…');
+const traces = spawnSync(process.execPath, [join(root, 'tools', 'check-traces.mjs')], { stdio: 'inherit' });
+if (traces.status !== 0) {
+  console.error('[build] FAILED — a baseline trace does not match baselines/trace.schema.json. Nothing was deployed.');
+  process.exit(1);
+}
+
 log('done → dist/');
 if (!sitePublished) log('NOTE: this build is NOT submittable — it has placeholder pages, not the published site.');

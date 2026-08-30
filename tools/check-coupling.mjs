@@ -68,6 +68,29 @@ function pageText(page) {
   ].join(' ').toLowerCase();
 }
 
+/** Shortest click depth from the home page, over the manifest's link graph. */
+function clickDepth(manifest, target) {
+  const adjacency = new Map(manifest.pages.map((p) => [normalizePathish(p.path), (p.links?.internal || []).map(normalizePathish)]));
+  const goal = normalizePathish(target);
+  const queue = [['/', 0]];
+  const seen = new Set(['/']);
+  while (queue.length) {
+    const [path, depth] = queue.shift();
+    if (path === goal) return depth;
+    for (const next of adjacency.get(path) || []) {
+      if (!seen.has(next)) { seen.add(next); queue.push([next, depth + 1]); }
+    }
+  }
+  return Infinity;
+}
+
+const normalizePathish = (p) => {
+  let x = String(p || '').split('#')[0].split('?')[0];
+  if (!x.startsWith('/')) x = '/' + x;
+  if (x.length > 1 && !x.endsWith('/')) x += '/';
+  return x.toLowerCase();
+};
+
 const sameSet = (a, b) => {
   const x = [...new Set(a)].sort(), y = [...new Set(b)].sort();
   return x.length === y.length && x.every((v, i) => v === y[i]);
@@ -116,6 +139,36 @@ if (faq) {
   check(`search_site ranks it first for "${t1.expected.rankingQuery}"`,
     ranked[0]?.path === t1.expected.sourcePath,
     ranked.length ? `ranked: ${ranked.map((r) => r.path).join(' > ')}` : 'no results at all');
+
+  // The persona has to actually entail the answer the key claims. Prose tasks
+  // used to escape this: the key could assert an outcome the published rules
+  // never produce, and every other check would still pass.
+  const t1Ruleset = manifest.ruleset('damage-compensation-v1');
+  if (t1Ruleset && t1.persona?.answers && t1.expected.feeWaiverApplies !== undefined) {
+    const out = evaluate(t1Ruleset, t1.persona.answers);
+    const granted = out.grants.includes('assessment-fee-waiver');
+    check(`the persona's own facts produce feeWaiverApplies=${t1.expected.feeWaiverApplies}`,
+      granted === t1.expected.feeWaiverApplies,
+      `published rules give ${granted ? 'a waiver' : 'NO waiver'} for this persona ` +
+      `(incidentsLast12Months=${t1.persona.answers.incidentsLast12Months}); the key says ` +
+      `${t1.expected.feeWaiverApplies ? 'waived' : 'payable'}. The site wins — fix the persona or the key.`);
+  }
+
+  // Claims the Arena prints about how hard the task is. A judge can check these
+  // in two clicks, so we check them too.
+  const claims = t1.expected.difficultyClaims;
+  if (claims && faq) {
+    if (claims.sourceWordCountAtLeast !== undefined) {
+      check(`the Arena's "${claims.sourceWordCountAtLeast}-word page" claim holds`,
+        (faq.wordCount || 0) >= claims.sourceWordCountAtLeast,
+        `published page is ${faq.wordCount} words`);
+    }
+    if (claims.minClickDepthFromHome !== undefined) {
+      check(`the Arena's "${claims.minClickDepthFromHome} clicks deep" claim holds`,
+        clickDepth(manifest, t1.expected.sourcePath) >= claims.minClickDepthFromHome,
+        `shortest path from / is ${clickDepth(manifest, t1.expected.sourcePath)} click(s) via the published link graph`);
+    }
+  }
 }
 
 /* ------------------------------------------------------------------ task 2 */
