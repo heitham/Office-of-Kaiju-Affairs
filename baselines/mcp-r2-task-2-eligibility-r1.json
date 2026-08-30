@@ -1,10 +1,10 @@
 {
   "traceVersion": "1.0",
-  "runId": "mcp-task-2-eligibility-r2",
-  "pass": 2,
-  "round": 1,
-  "promoted": false,
-  "recordedAt": "2026-08-30T02:29:08Z",
+  "runId": "mcp-task-2-eligibility-r1",
+  "pass": 1,
+  "round": 2,
+  "promoted": true,
+  "recordedAt": "2026-08-30T03:44:21Z",
   "lane": "webmcp",
   "agent": {
     "name": "drift-race baseline",
@@ -34,19 +34,19 @@
     {
       "index": 1,
       "tMs": 0,
-      "durationMs": 1492,
+      "durationMs": 1729,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 2337,
-        "tokensOut": 134
+        "tokensIn": 2147,
+        "tokensOut": 142
       }
     },
     {
       "index": 2,
-      "tMs": 1492,
-      "durationMs": 554,
+      "tMs": 1729,
+      "durationMs": 90,
       "type": "tool_call",
       "label": "Called check_eligibility",
       "detail": "7 question(s) to answer",
@@ -66,7 +66,7 @@
     },
     {
       "index": 3,
-      "tMs": 2047,
+      "tMs": 1819,
       "durationMs": 1,
       "type": "tool_call",
       "label": "Called get_service_requirements",
@@ -87,19 +87,19 @@
     },
     {
       "index": 4,
-      "tMs": 2048,
-      "durationMs": 1551,
+      "tMs": 1820,
+      "durationMs": 1665,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 3446,
+        "tokensIn": 2394,
         "tokensOut": 163
       }
     },
     {
       "index": 5,
-      "tMs": 3599,
+      "tMs": 3485,
       "durationMs": 1,
       "type": "tool_call",
       "label": "Called check_eligibility",
@@ -119,50 +119,50 @@
           }
         },
         "resultSummary": "eligible, 3 grant(s)",
-        "resultBytes": 902,
+        "resultBytes": 1237,
         "isError": false
       },
       "cost": {
-        "bytes": 902
+        "bytes": 1237
       },
       "outcome": "ok"
     },
     {
       "index": 6,
-      "tMs": 3600,
-      "durationMs": 7196,
+      "tMs": 3486,
+      "durationMs": 8043,
       "type": "think",
       "label": "Put the answer together",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 4495,
-        "tokensOut": 853
+        "tokensIn": 3511,
+        "tokensOut": 907
       }
     },
     {
       "index": 7,
-      "tMs": 10796,
+      "tMs": 11529,
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "## You're eligible — here's the full picture **Eligibility: YES.** Your claim qualifies for damage compensation because Tanaka Bakery sits in Zone 4 with verified structural damage — the rule states *\"Claims require veri",
+      "detail": "## You are eligible for Kaiju Damage Compensation Based on the details you gave (Zone 4, commercial property, verified structural damage, filed 21 days after the incident — well inside the 90‑day window), your claim qual",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "## You're eligible — here's the full picture\n\n**Eligibility: YES.** Your claim qualifies for damage compensation because Tanaka Bakery sits in Zone 4 with verified structural damage — the rule states *\"Claims require verified structural damage to a property in zones 3, 4 or 5\"* (/claims/eligibility/#zone). You're also well inside the 90-day filing window (21 days since the incident) and already met the 72-hour incident-report deadline requirement.\n\n### Extra support you qualify for\n\n1. **Assessment fee waived (normally ¥12,000)** — Because you have two approved claims from separate incidents in the past 12 months, you're exempt: *\"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee\"* (/claims/faq/#fee-waivers).\n\n2. **Hardship supplement** — Your household income (¥3.6M) is under the ¥4,000,000 threshold: *\"Households with annual income below ¥4,000,000 receive a hardship supplement\"* (/claims/eligibility/#hardship).\n\n3. **Business interruption compensation** — Since Tanaka Bakery is a commercial property: *\"Compensation covers business interruption for commercial properties\"* (/claims/damage-compensation/#covered).\n\n*(Note: since no insurer has paid out, that's not a barrier — it just means you won't need the insurance settlement letter.)*\n\n### Documents to bring\n\nBecause of the grants above, your required document set is:\n\n| Document | Why you need it |\n|---|---|\n| **Incident report receipt** | Filed within 72 hours of the incident — standard requirement |\n| **Damage survey** | Photographs + itemised loss schedule for the shopfront and rear wall damage |\n| **Proof of ownership or tenancy** | Standard requirement for the bakery property |\n| **Household income certificate** | Needed to claim the hardship supplement |\n| **Business registration certificate** | Needed since you're pursuing the business-interruption claim |\n\nYou do **not** need an insurance settlement letter, since no insurer has paid out.\n\n### Timing reminder\n- Claim deadline: 90 days from the incident (you're at day 21, so you have time, but don't delay)\n- Processing: ~15 business days until an assessor visit, and up to 45 days to a final determination\n\nAll figures and rules above are drawn from /claims/eligibility/, /claims/faq/, /claims/damage-compensation/, and /claims/how-to-file/ on the Office of Kaiju Affairs site.",
+    "answer": "## You are eligible for Kaiju Damage Compensation\n\nBased on the details you gave (Zone 4, commercial property, verified structural damage, filed 21 days after the incident — well inside the 90‑day window), your claim qualifies. Here's the full picture:\n\n### ✅ Eligibility\nYour claim meets the core rule: *\"Claims require verified structural damage to a property in zones 3, 4 or 5\"* — Zone 4 with damage to the shopfront and rear wall satisfies this. (source: `/claims/eligibility/#zone`)\n\n### 💰 Extra support you qualify for\n1. **Assessment fee waived** — The normal ¥12,000 claim assessment fee is waived because you have 2 approved claims from separate incidents in the past 12 months. *\"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee.\"* (`/claims/faq/#fee-waivers`)\n\n2. **Hardship supplement** — Your household income (¥3,600,000) is below the ¥4,000,000 threshold. *\"Households with annual income below ¥4,000,000 receive a hardship supplement.\"* (`/claims/eligibility/#hardship`)\n\n3. **Business interruption claim eligible** — Since Tanaka Bakery is a commercial property, you can additionally claim for business interruption losses. *\"Compensation covers business interruption for commercial properties.\"* (`/claims/damage-compensation/#covered`)\n\nNote: since no insurer has paid out on this incident, the insurance-offset rule doesn't apply — if that changes later, any future insurer payout would simply reduce (not disqualify) your award.\n\n### 📄 Documents you need to bring\nBecause of the grants above, your document checklist is longer than the baseline claim:\n- **Incident report receipt** – must have been filed within 72 hours of the incident\n- **Damage survey** – photographs plus an itemised loss schedule\n- **Proof of ownership or tenancy** – for Tanaka Bakery\n- **Household income certificate** – required because you're claiming the hardship supplement\n- **Business registration certificate** – required because you're claiming business interruption\n\n(You do *not* need an insurance settlement letter, since no payout has occurred.)\n\n### ⏱ Timing & process\n- Claim deadline: **90 days from the incident** (you're at day 21, so you're fine)\n- Processing: **15 business days** to an assessor visit, then **45 days** to a final determination\n\nSource: `/claims/how-to-file/` for documents/fees/deadlines, and `/claims/eligibility/`, `/claims/faq/`, `/claims/damage-compensation/` for the eligibility rules cited above.",
     "submitted": false,
     "gaveUp": false
   },
   "metrics": {
-    "wallClockMs": 11996,
+    "wallClockMs": 12729,
     "actionCount": 7,
     "toolCalls": 3,
     "pageLoads": 0,
     "deadEnds": 0,
-    "bytesTransferred": 137315,
-    "tokensIn": 10278,
-    "tokensOut": 1150
+    "bytesTransferred": 137650,
+    "tokensIn": 8052,
+    "tokensOut": 1212
   },
   "score": {
     "answerKeyId": "task-2-eligibility",
@@ -215,5 +215,5 @@
       "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
 }

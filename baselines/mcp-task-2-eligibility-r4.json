@@ -2,6 +2,7 @@
   "traceVersion": "1.0",
   "runId": "mcp-task-2-eligibility-r4",
   "pass": 4,
+  "round": 1,
   "promoted": false,
   "recordedAt": "2026-08-30T02:29:34Z",
   "lane": "webmcp",
@@ -226,8 +227,12 @@
     "normalisations": [
       "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
       "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
-      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension."
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
+      "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. Scored against answer-keys.json at 9b5c88cc89c7d9c56a08b16abd60bc6f61e7362c. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "0 of 5 recorded passes fell short of a full score. Every pass scored 1.00. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
 }

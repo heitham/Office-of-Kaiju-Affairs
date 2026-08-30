@@ -1,10 +1,10 @@
 {
   "traceVersion": "1.0",
-  "runId": "mcp-task-2-eligibility-r2",
-  "pass": 2,
-  "round": 1,
+  "runId": "mcp-task-2-eligibility-r4",
+  "pass": 4,
+  "round": 2,
   "promoted": false,
-  "recordedAt": "2026-08-30T02:29:08Z",
+  "recordedAt": "2026-08-30T03:45:00Z",
   "lane": "webmcp",
   "agent": {
     "name": "drift-race baseline",
@@ -34,19 +34,19 @@
     {
       "index": 1,
       "tMs": 0,
-      "durationMs": 1492,
+      "durationMs": 1602,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 2337,
-        "tokensOut": 134
+        "tokensIn": 2394,
+        "tokensOut": 130
       }
     },
     {
       "index": 2,
-      "tMs": 1492,
-      "durationMs": 554,
+      "tMs": 1602,
+      "durationMs": 89,
       "type": "tool_call",
       "label": "Called check_eligibility",
       "detail": "7 question(s) to answer",
@@ -66,40 +66,40 @@
     },
     {
       "index": 3,
-      "tMs": 2047,
+      "tMs": 1691,
       "durationMs": 1,
       "type": "tool_call",
-      "label": "Called get_service_requirements",
-      "detail": "6 document(s), 0 form field(s)",
+      "label": "Called list_services",
+      "detail": "1 service(s)",
       "toolCall": {
-        "name": "get_service_requirements",
+        "name": "list_services",
         "arguments": {
-          "serviceId": "damage-compensation"
+          "category": "claims"
         },
-        "resultSummary": "6 document(s), 0 form field(s)",
-        "resultBytes": 707,
+        "resultSummary": "1 service(s)",
+        "resultBytes": 259,
         "isError": false
       },
       "cost": {
-        "bytes": 707
+        "bytes": 259
       },
       "outcome": "ok"
     },
     {
       "index": 4,
-      "tMs": 2048,
-      "durationMs": 1551,
+      "tMs": 1692,
+      "durationMs": 1914,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 3446,
-        "tokensOut": 163
+        "tokensIn": 2394,
+        "tokensOut": 219
       }
     },
     {
       "index": 5,
-      "tMs": 3599,
+      "tMs": 3606,
       "durationMs": 1,
       "type": "tool_call",
       "label": "Called check_eligibility",
@@ -119,50 +119,71 @@
           }
         },
         "resultSummary": "eligible, 3 grant(s)",
-        "resultBytes": 902,
+        "resultBytes": 1237,
         "isError": false
       },
       "cost": {
-        "bytes": 902
+        "bytes": 1237
       },
       "outcome": "ok"
     },
     {
       "index": 6,
-      "tMs": 3600,
-      "durationMs": 7196,
+      "tMs": 3606,
+      "durationMs": 1,
+      "type": "tool_call",
+      "label": "Called get_service_requirements",
+      "detail": "6 document(s), 0 form field(s)",
+      "toolCall": {
+        "name": "get_service_requirements",
+        "arguments": {
+          "serviceId": "damage-compensation"
+        },
+        "resultSummary": "6 document(s), 0 form field(s)",
+        "resultBytes": 707,
+        "isError": false
+      },
+      "cost": {
+        "bytes": 707
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 7,
+      "tMs": 3607,
+      "durationMs": 8339,
       "type": "think",
       "label": "Put the answer together",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 4495,
-        "tokensOut": 853
+        "tokensIn": 3119,
+        "tokensOut": 1120
       }
     },
     {
-      "index": 7,
-      "tMs": 10796,
+      "index": 8,
+      "tMs": 11946,
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "## You're eligible — here's the full picture **Eligibility: YES.** Your claim qualifies for damage compensation because Tanaka Bakery sits in Zone 4 with verified structural damage — the rule states *\"Claims require veri",
+      "detail": "## You are eligible for Kaiju Damage Compensation **Bottom line:** Tanaka Bakery qualifies for a damage compensation claim, plus three extra benefits, based on the facts you gave. ### Why you're eligible - Your property ",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "## You're eligible — here's the full picture\n\n**Eligibility: YES.** Your claim qualifies for damage compensation because Tanaka Bakery sits in Zone 4 with verified structural damage — the rule states *\"Claims require verified structural damage to a property in zones 3, 4 or 5\"* (/claims/eligibility/#zone). You're also well inside the 90-day filing window (21 days since the incident) and already met the 72-hour incident-report deadline requirement.\n\n### Extra support you qualify for\n\n1. **Assessment fee waived (normally ¥12,000)** — Because you have two approved claims from separate incidents in the past 12 months, you're exempt: *\"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee\"* (/claims/faq/#fee-waivers).\n\n2. **Hardship supplement** — Your household income (¥3.6M) is under the ¥4,000,000 threshold: *\"Households with annual income below ¥4,000,000 receive a hardship supplement\"* (/claims/eligibility/#hardship).\n\n3. **Business interruption compensation** — Since Tanaka Bakery is a commercial property: *\"Compensation covers business interruption for commercial properties\"* (/claims/damage-compensation/#covered).\n\n*(Note: since no insurer has paid out, that's not a barrier — it just means you won't need the insurance settlement letter.)*\n\n### Documents to bring\n\nBecause of the grants above, your required document set is:\n\n| Document | Why you need it |\n|---|---|\n| **Incident report receipt** | Filed within 72 hours of the incident — standard requirement |\n| **Damage survey** | Photographs + itemised loss schedule for the shopfront and rear wall damage |\n| **Proof of ownership or tenancy** | Standard requirement for the bakery property |\n| **Household income certificate** | Needed to claim the hardship supplement |\n| **Business registration certificate** | Needed since you're pursuing the business-interruption claim |\n\nYou do **not** need an insurance settlement letter, since no insurer has paid out.\n\n### Timing reminder\n- Claim deadline: 90 days from the incident (you're at day 21, so you have time, but don't delay)\n- Processing: ~15 business days until an assessor visit, and up to 45 days to a final determination\n\nAll figures and rules above are drawn from /claims/eligibility/, /claims/faq/, /claims/damage-compensation/, and /claims/how-to-file/ on the Office of Kaiju Affairs site.",
+    "answer": "## You are eligible for Kaiju Damage Compensation\n\n**Bottom line:** Tanaka Bakery qualifies for a damage compensation claim, plus three extra benefits, based on the facts you gave.\n\n### Why you're eligible\n- Your property has **verified structural damage** in **Zone 4**, which is a covered zone for this program ([/claims/eligibility/#zone](https://office-of-kaiju-affairs.vercel.app/claims/eligibility/): \"Claims require verified structural damage to a property in zones 3, 4 or 5.\")\n- The incident was **21 days ago**, well within the 90-day claim deadline (see below).\n\n### Extra support you qualify for\n1. **Assessment fee waiver** — Your two approved claims in the past 12 months exempt you from the ¥12,000 assessment fee ([/claims/faq/#fee-waivers](https://office-of-kaiju-affairs.vercel.app/claims/faq/): \"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee.\")\n2. **Hardship supplement** — Your household income of ¥3,600,000 is below the ¥4,000,000 threshold ([/claims/eligibility/#hardship](https://office-of-kaiju-affairs.vercel.app/claims/eligibility/): \"Households with annual income below ¥4,000,000 receive a hardship supplement.\")\n3. **Business interruption eligibility** — As a commercial property, you can additionally claim for business interruption losses ([/claims/damage-compensation/#covered](https://office-of-kaiju-affairs.vercel.app/claims/damage-compensation/): \"Compensation covers business interruption for commercial properties.\")\n\n*Note:* Since no insurer has paid out yet, the insurance-offset rule doesn't apply to you — if that changes, your award would simply be reduced by whatever the insurer pays, not disqualified.\n\n### Documents to bring\nBecause you're claiming the base compensation **plus** the hardship supplement **plus** business interruption, you'll need all of the following:\n\n| Document | Notes |\n|---|---|\n| **Incident report receipt** | Must have been filed within 72 hours of the incident |\n| **Damage survey** | Photographs and an itemised loss schedule |\n| **Proof of ownership or tenancy** | For Tanaka Bakery |\n| **Household income certificate** | Required because you're claiming the hardship supplement |\n| **Business registration certificate** | Required because you're claiming business interruption |\n\n*(An insurance settlement letter is only needed if an insurer pays out later — not required now.)*\n\n### Key deadlines & fees\n- **Claim deadline:** 90 days from the incident (you're at day 21, so plenty of time)\n- **Incident report deadline:** 72 hours from the incident (make sure this was already filed)\n- **Assessment fee:** ¥12,000, but **waived for you** due to repeat-claimant status\n- **Processing time:** ~15 business days to assessor visit; up to 45 days for a final determination\n\nSource: [Kaiju Damage Compensation service page](https://office-of-kaiju-affairs.vercel.app/claims/damage-compensation/) and [How to File](https://office-of-kaiju-affairs.vercel.app/claims/how-to-file/).",
     "submitted": false,
     "gaveUp": false
   },
   "metrics": {
-    "wallClockMs": 11996,
-    "actionCount": 7,
-    "toolCalls": 3,
+    "wallClockMs": 13146,
+    "actionCount": 8,
+    "toolCalls": 4,
     "pageLoads": 0,
     "deadEnds": 0,
-    "bytesTransferred": 137315,
-    "tokensIn": 10278,
-    "tokensOut": 1150
+    "bytesTransferred": 137909,
+    "tokensIn": 7907,
+    "tokensOut": 1469
   },
   "score": {
     "answerKeyId": "task-2-eligibility",
