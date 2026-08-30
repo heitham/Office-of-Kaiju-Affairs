@@ -13,16 +13,58 @@ const REDUCED_MOTION = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const LANES = {
   'ui-guessing': {
-    name: 'UI-guessing agent',
-    sub: 'No tools. Reads pages, clicks links, scrolls.',
+    name: 'Browsing agent',
+    sub: 'Reads and navigates the public website.',
     cls: 'ui'
   },
   webmcp: {
     name: 'WebMCP agent',
-    sub: 'Calls the tools this site publishes about itself.',
+    sub: 'Uses tools generated from the published website.',
     cls: 'mcp'
   }
 };
+
+/**
+ * THE FOUR-KEY SELECTOR. Every rollup on this page goes through it.
+ *
+ * A trace belongs to a task, a lane, a model tier and a measurement round. Any
+ * aggregate that drops one of those four silently averages things that are not
+ * comparable. That mistake has now been made — and caught — in the index, in the
+ * promotion tool, in the scoreboard, in the divergence check and in the
+ * round comparison. Five times, in five separate implementations, by two people.
+ * So there is one selector, and nothing aggregates without naming its keys.
+ */
+function cell(runs, { task, lane, tier, round } = {}) {
+  return runs.filter((r) =>
+    (task === undefined || r.taskId === task) &&
+    (lane === undefined || r.lane === lane) &&
+    (tier === undefined || r.tier === tier) &&
+    (round === undefined || (r.round || 1) === round));
+}
+
+/** The loaded index, available to renderers that need its declared fields. */
+let indexMeta = null;
+
+const accOf = (rs) => rs.map((r) => r.trace.score?.accuracy).filter((a) => a != null);
+const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+const meanBy = (rs, fn) => mean(rs.map(fn).filter((x) => x != null));
+const fullMarks = (rs) => accOf(rs).filter((a) => a === 1).length;
+const tokensOf = (r) => (r.trace.steps || []).reduce((n, s) => n + (s.cost?.tokensIn || 0), 0);
+
+/** Human-readable names for the ids the rules and forms use internally. */
+const LABELS = {
+  'assessment-fee-waiver': 'Assessment-fee waiver',
+  'hardship-supplement': 'Hardship supplement',
+  'business-interruption-eligible': 'Business-interruption support',
+  'award-reduced-by-insurance-payout': 'Award reduced by an insurance payout',
+  'incident-report': 'Incident report',
+  'damage-survey': 'Damage survey',
+  'proof-of-ownership': 'Proof of ownership',
+  'insurance-settlement-letter': 'Insurance settlement letter',
+  'income-certificate': 'Income certificate',
+  'business-registration': 'Business registration'
+};
+const human = (id) => LABELS[id] || id;
 
 const KIND_LABEL = {
   navigate: 'load', click: 'click', scroll: 'scroll', read: 'read', search: 'search',
@@ -52,31 +94,34 @@ function renderStatus() {
     if (api?.available) {
       box.className = 'status live';
       text.innerHTML =
-        `WebMCP live — <strong>${api.registered.length} tools</strong> registered on this page via ` +
-        `<code>${api.surface}.modelContext</code>. `;
+        `Good news: this browser can use WebMCP. The Office has published ` +
+        `<strong>${api.registered.length} tools</strong> your agent can call. `;
       const test = document.createElement('button');
       test.className = 'self-test';
       test.type = 'button';
-      test.textContent = 'Run a self-test';
+      test.textContent = 'Check that the tools work';
       test.addEventListener('click', async () => {
         test.disabled = true;
-        test.textContent = 'Calling search_site…';
+        test.textContent = 'Asking the Office where it buried the fee-waiver policy…';
         try {
           const out = await api.call('search_site', { query: 'fee waiver repeat damage claims' });
           const top = out.structuredContent?.results?.[0];
           test.textContent = top
-            ? `search_site → ${top.path} (${out.structuredContent.count} results)`
-            : 'search_site returned no results';
+            ? `Found it. The Office returned ${top.path} as the top result.`
+            : 'The Office returned no results, which is its own kind of answer.';
         } catch (error) {
-          test.textContent = `self-test failed: ${error.message}`;
+          test.textContent = `The check failed: ${error.message}`;
         }
       });
       text.appendChild(test);
     } else {
       box.className = 'status absent';
+      // The runtime's own reason is written for a developer console. This is the
+      // sentence a judge reads, so the Arena supplies its own.
       text.textContent =
-        api?.reason ||
-        'This browser does not expose a WebMCP model context. The recordings below still play; open the site in Chrome 150+ or the ChatGPT in-app browser to run the fast lane yourself.';
+        'This browser cannot use WebMCP yet, so your agent cannot call the Office\'s tools from here. '
+        + 'The recordings below still play. To try the tasks yourself, open this page in Chrome 150+ with '
+        + 'the WebMCP flag enabled, or in the ChatGPT in-app browser.';
     }
   };
 
@@ -112,156 +157,137 @@ const meanAccuracy = (rs) => {
 };
 
 /**
- * The before/after for one task's tool lane, when more than one round exists.
- * Direction is read from the data — a round that did not improve says so.
+ * Before/after for one task's tool lane — WITHIN ONE TIER.
+ *
+ * Averaging round 2's two model tiers together and comparing that against a
+ * single-tier round 1 produced "64% to 84%" on the permit task, where the valid
+ * sonnet-to-sonnet comparison is 64% to 93%. The tier is named beside the
+ * figures so the scope is visible, not merely correct.
  */
 function renderRounds(task, runs, host, index) {
-  const rounds = [...new Set(runs.map((r) => r.round || 1))].sort();
-  if (rounds.length < 2 || !host) return;
+  if (!host) return;
+  const tier = index.headlineTier;
+  const scoped = tier ? cell(runs, { tier }) : runs;
+  const rounds = [...new Set(scoped.map((r) => r.round || 1))].sort();
+  if (rounds.length < 2) return;
 
   const cells = rounds.map((round) => {
-    const inRound = runs.filter((r) => (r.round || 1) === round && r.lane === 'webmcp');
-    return { round, mean: meanAccuracy(inRound), n: inRound.length,
+    const rs = cell(scoped, { lane: 'webmcp', round });
+    return { round, mean: mean(accOf(rs)), n: rs.length,
              label: (index.rounds || []).find((x) => x.round === round)?.label || `Round ${round}` };
-  }).filter((c) => c.mean != null);
+  }).filter((c) => c.mean != null && c.n);
 
   if (cells.length < 2) return;
 
   const first = cells[0], last = cells.at(-1);
   const delta = last.mean - first.mean;
-
-  // At these sample sizes a couple of points is one check on one pass. Calling
-  // that a movement would report noise as a result — in either direction, which
-  // matters most when the flattering direction is the noisy one.
-  const smallest = 1 / Math.min(first.n, last.n) * 0.2;
+  const smallest = (1 / Math.min(first.n, last.n)) * 0.2;
   const moved = Math.abs(delta) >= Math.max(0.05, smallest);
+  const tierName = (index.tiers || []).find((t) => t.tier === tier)?.label || tier;
 
   host.hidden = false;
   host.innerHTML = `
-    <h4>Before and after the fix</h4>
+    <h4>Before and after we fixed the tool${tierName ? ` · ${escapeHtml(tierName)}` : ''}</h4>
     <div class="round-cells">
       ${cells.map((c) => `<div class="round-cell${c === last ? ' now' : ''}">
           <p class="round-figure">${pct(c.mean)}</p>
           <p class="round-label">${escapeHtml(c.label)}</p>
-          <p class="round-n">${c.n} pass${c.n === 1 ? '' : 'es'}, tool lane</p>
+          <p class="round-n">${c.n} attempt${c.n === 1 ? '' : 's'} with WebMCP</p>
         </div>`).join('<span class="round-arrow" aria-hidden="true">→</span>')}
     </div>
     <p class="round-note">${moved
       ? (delta > 0
-          ? `The fix moved this task by ${pct(Math.abs(delta))}. Both rounds are on this page; the earlier one is not hidden because the later one is better.`
-          : `This task got <strong>worse</strong> by ${pct(Math.abs(delta))} after the fix. We publish it because a round that goes the wrong way is a result too.`)
+          ? `The fix moved this task by ${pct(Math.abs(delta))}. Both rounds stay on this page; we did not remove the earlier one once the later one looked better.`
+          : `This task got <strong>worse</strong> by ${pct(Math.abs(delta))} after the fix. We publish it because a result that goes the wrong way is still a result.`)
       : Math.abs(delta) < 0.005
-        ? `Identical across both rounds. This task was already at ceiling before the fix, so there was nothing here for it to improve.`
-        : `No measured change on this task — the difference is ${pct(Math.abs(delta))} across ${last.n} passes, which is about one check on one run and not a result. What the fix did change is described above. A flat number is reported flat.`}</p>`;
+        ? `Identical in both rounds. This task was already answered correctly every time, so there was nothing here for the fix to improve.`
+        : `No measured change — the difference is ${pct(Math.abs(delta))} across ${last.n} attempts, which is about one checklist item on one run. What the fix did change is described above.`}</p>`;
 }
 
 /* ---------------------------------------------------------------- findings */
 
 /**
- * What the recordings actually show, derived from the recordings.
- * Nothing here is a hand-typed number, so nothing here can go stale.
+ * What the recordings show, derived from the recordings.
+ *
+ * Every card names the scope its figure was computed over. Two figures from
+ * different scopes sitting next to each other invite a comparison neither
+ * supports — browsing at one model against WebMCP across two would read as a
+ * 30-point gap that is really a difference in who was counted.
  */
-function renderFindings(tasks, runs) {
+function renderFindings(tasks, runs, index) {
   const host = document.getElementById('findings');
   if (!host) return;
-  let ui = runs.filter((r) => r.lane === 'ui-guessing');
-  if (!ui.length) { host.hidden = true; return; }
+  const tier = index?.headlineTier || null;
+  const tierName = (index?.tiers || []).find((t) => t.tier === tier)?.label || tier || 'the baseline model';
 
-  // If more than one agent tier was recorded, the figures describe the promoted
-  // tier alone. Averaging a strong model with a weak one would describe neither.
-  const promotedTier = indexMeta?.headlineTier
-    || ui.find((r) => r.promoted)?.tier
-    || ui.find((r) => r.promoted)?.trace.agent?.model;
-  if (promotedTier) {
-    const sameTier = ui.filter((r) => (r.tier || r.trace.agent?.model) === promotedTier);
-    if (sameTier.length) ui = sameTier;
-  }
+  const browse = tier ? cell(runs, { lane: 'ui-guessing', tier }) : cell(runs, { lane: 'ui-guessing' });
+  const toolsSameTier = tier ? cell(runs, { lane: 'webmcp', tier }) : cell(runs, { lane: 'webmcp' });
+  const toolsAll = cell(runs, { lane: 'webmcp' });
+  const browseAll = cell(runs, { lane: 'ui-guessing' });
+  if (!browse.length) { host.hidden = true; return; }
 
-  const acc = ui.map((r) => r.trace.score?.accuracy).filter((a) => a != null);
-  const loads = ui.map((r) => r.trace.metrics.pageLoads || 0);
-  const dead = ui.map((r) => r.trace.metrics.deadEnds || 0);
-  const bytes = ui.map((r) => r.trace.metrics.bytesTransferred || 0).filter(Boolean);
-  const tool = runs.filter((r) => r.lane === 'webmcp');
-  const toolCalls = tool.map((r) => r.trace.metrics.toolCalls || 0).filter(Boolean);
-  const toolBytes = tool.map((r) => r.trace.metrics.bytesTransferred || 0).filter(Boolean);
+  const loads = browse.map((r) => r.trace.metrics.pageLoads || 0).filter(Boolean);
+  const deadEnds = browse.reduce((n, r) => n + (r.trace.metrics.deadEnds || 0), 0);
+  const browseTok = meanBy(browse, tokensOf);
+  const toolTok = meanBy(toolsSameTier, tokensOf);
+  const ratio = browseTok && toolTok ? toolTok / browseTok : null;
 
-  const perfect = acc.filter((a) => a === 1).length;
-  const sum = (xs) => xs.reduce((a, b) => a + b, 0);
-  const range = (xs) => (Math.min(...xs) === Math.max(...xs) ? `${Math.min(...xs)}` : `${Math.min(...xs)}–${Math.max(...xs)}`);
-  const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
+  // Where the tools are cheaper, say so in the same breath as where they are not.
+  const cheaper = tasks.filter((t) => {
+    const b = meanBy(cell(runs, { task: t.id, lane: 'ui-guessing', tier }), tokensOf);
+    const w = meanBy(cell(runs, { task: t.id, lane: 'webmcp', tier }), tokensOf);
+    return b && w && w < b;
+  });
 
   const cards = [
     {
-      figure: `${perfect} of ${acc.length}`,
-      label: 'recorded UI-lane passes scored full marks',
-      body: `The agent without tools is good at this site. We are publishing that rather than hiding it — the case for WebMCP does not rest on the alternative failing.`
+      title: 'Browsing worked surprisingly well',
+      figure: `${fullMarks(browse)} of ${browse.length}`,
+      label: `${escapeHtml(tierName)} browsing attempts received full marks`,
+      body: `A strong agent can navigate this site without WebMCP. Apparently surviving government navigation is one of its talents. The case for WebMCP does not depend on pretending otherwise.`
     },
     {
-      figure: range(loads),
-      label: `page load${loads.length && Math.max(...loads) === 1 ? '' : 's'} per task, UI lane`,
-      body: toolCalls.length
-        ? `Against ${range(toolCalls)} tool call${Math.max(...toolCalls) === 1 ? '' : 's'} for the same answers. Both arrive; one costs a fraction of the other.`
-        : 'Each one a full HTML page, parsed to find a sentence.'
+      title: 'The agent still had to find the right desk',
+      figure: loads.length ? (Math.min(...loads) === Math.max(...loads) ? `${Math.min(...loads)}` : `${Math.min(...loads)}–${Math.max(...loads)}`) : '—',
+      label: 'pages opened per browsing task',
+      body: `Before answering, the browsing agent had to locate the right service, page, paragraph and exception. Like visiting a government office, but with fewer plastic chairs.`
     },
     {
-      figure: `${sum(dead)}`,
-      label: `dead end${sum(dead) === 1 ? '' : 's'} across every recorded pass`,
-      body: `Steps that led nowhere and had to be backed out of. They cost time on the way to answers that were still, in the end, correct.`
+      title: 'Bureaucratic detours remain undefeated',
+      figure: `${deadEnds}`,
+      label: `dead end${deadEnds === 1 ? '' : 's'} across the browsing attempts`,
+      body: `These were pages or actions that did not contribute to the answer. The agent usually recovered. Mira still had to wait.`
     }
   ];
 
-  // Cost. Tokens where both lanes recorded them, bytes otherwise — and stated in
-  // whichever direction the data actually runs. The tool lane pays to fetch the
-  // manifest once, so this comparison is not guaranteed to favour it, and the
-  // card must read correctly if it does not.
-  const tokensOf = (rs) => rs.flatMap((r) => (r.trace.steps || []).map((st) => (st.cost?.tokensIn || 0) + (st.cost?.tokensOut || 0)));
-  const uiTokens = sum(tokensOf(ui));
-  const toolTokens = sum(tokensOf(tool));
-
-  const cost = uiTokens && toolTokens
-    ? { unit: 'context tokens', a: uiTokens / ui.length, b: toolTokens / tool.length, fmt: (n) => `${Math.round(n).toLocaleString()}` }
-    : (bytes.length && toolBytes.length
-        ? { unit: 'bytes fetched', a: sum(bytes) / bytes.length, b: sum(toolBytes) / toolBytes.length, fmt: kb }
-        : null);
-
-  if (cost && cost.a > 0 && cost.b > 0) {
-    const uiHeavier = cost.a >= cost.b;
-    const ratio = uiHeavier ? cost.a / cost.b : cost.b / cost.a;
+  if (ratio) {
     cards.push({
-      figure: `${ratio < 10 ? ratio.toFixed(1) : Math.round(ratio)}×`,
-      label: `more ${cost.unit}, ${uiHeavier ? 'UI lane' : 'tool lane'} per task`,
-      body: uiHeavier
-        ? `${cost.fmt(cost.a)} against ${cost.fmt(cost.b)}. The pages have to be read; the tools are asked.`
-        : `${cost.fmt(cost.b)} against ${cost.fmt(cost.a)}. The tool lane fetches the whole manifest once, and on a site this small that costs more than reading the few pages an answer needs. We publish it in the direction the data runs.`
+      title: ratio >= 1 ? 'The manifest was not free' : 'The tools cost less to read',
+      figure: `${ratio >= 1 ? ratio.toFixed(1) : (1 / ratio).toFixed(1)}×`,
+      label: `${ratio >= 1 ? 'more' : 'less'} context used by WebMCP on this small site`,
+      body: ratio >= 1
+        ? `The WebMCP route loads the complete site manifest, and re-sends seven tool descriptions on every turn. On a website this small that costs more context than reading a few individual pages.${cheaper.length ? ` Not everywhere: on ${cheaper.length === 1 ? 'the ' + (cheaper[0].shortTitle || cheaper[0].title).toLowerCase() + ' task' : cheaper.length + ' of the three tasks'} the tools were the cheaper route.` : ''} A thousand-page agency may behave differently. This experiment did not test one, despite every government website's apparent ambition to become one.`
+        : `Reading structured results cost less context than reading the pages they came from, even carrying the whole manifest.`
     });
   }
 
-  // Both lanes' accuracy, so the panel cannot imply the tools were flawless.
-  const toolAcc = tool.map((r) => r.trace.score?.accuracy).filter((a) => a != null);
-  if (toolAcc.length) {
-    const toolPerfect = toolAcc.filter((a) => a === 1).length;
-    if (toolPerfect < toolAcc.length) {
-      cards.push({
-        figure: `${toolPerfect} of ${toolAcc.length}`,
-        label: 'tool-lane passes scored full marks',
-        body: `The tools are not a correctness guarantee either. Where a tool answered wrongly, the run is on this page with the rest.`
-      });
-    }
-  }
-
-  const model = ui[0]?.trace.agent?.model;
-  const foot = host.querySelector('.findings-foot');
-  if (model && foot && !foot.dataset.stamped) {
-    foot.dataset.stamped = '1';
-    foot.insertAdjacentHTML('beforeend',
-      ` <span class="provenance">Figures computed from ${ui.length} recorded pass${ui.length === 1 ? '' : 'es'} of ${escapeHtml(model)}.</span>`);
-  }
+  const toolFull = fullMarks(toolsAll), browseFull = fullMarks(browseAll);
+  cards.push({
+    title: 'Tools did not guarantee a perfect answer',
+    figure: `${toolFull} of ${toolsAll.length}`,
+    label: 'WebMCP attempts received full marks, across both models',
+    body: `Structured tools gave the agent better ingredients. The agent could still choose the wrong recipe — or forget to explain the result to Mira. WebMCP improves the publisher's contract with the agent; it does not replace the agent's judgment.` +
+      (browseAll.length === toolsAll.length
+        ? ` Measured the same way, browsing scored ${browseFull} of ${browseAll.length}${browseFull === toolFull ? ' — exactly the same' : ''}.`
+        : '')
+  });
 
   host.hidden = false;
   host.querySelector('.findings-grid').innerHTML = cards
     .map((c) => `<div class="finding">
+        <p class="finding-title">${escapeHtml(c.title)}</p>
         <p class="figure">${escapeHtml(c.figure)}</p>
-        <p class="figure-label">${escapeHtml(c.label)}</p>
+        <p class="figure-label">${c.label}</p>
         <p class="figure-body">${escapeHtml(c.body)}</p>
       </div>`)
     .join('');
@@ -305,10 +331,10 @@ function renderTiers(tasks, runs, index) {
 
   host.hidden = false;
   host.innerHTML = `
-    <h2>What happens when the agent gets weaker</h2>
+    <h2>The smaller model benefited more from tools</h2>
     <p class="sub">
-      The same three tasks on the same site, run again with a smaller model. Both
-      lanes lose accuracy. The question is whether they lose it equally.
+      We repeated the same three tasks using a smaller model. Both approaches lose
+      accuracy. The question is whether they lose it equally.
     </p>
     <div class="scoreboard"><table class="board-table">
       <thead><tr><th>Task</th><th>Lane</th><th style="text-align:right">${escapeHtml(label(base))}</th>
@@ -317,14 +343,14 @@ function renderTiers(tasks, runs, index) {
         <td class="task-cell">${r.lane === 'ui-guessing' ? escapeHtml(r.task.shortTitle || r.task.title) : ''}</td>
         <td><span class="lane-tag">${LANES[r.lane].name}</span></td>
         <td class="num">${pct(r.base)}</td><td class="num">${pct(r.other)}</td>
-        <td class="num ${r.delta < -0.005 ? 'down' : ''}">${r.base === 1 && r.other === 1 ? 'ceiling' : `${r.delta > 0 ? '+' : ''}${pct(r.delta)}`}</td>
+        <td class="num ${r.delta < -0.005 ? 'down' : ''}">${r.base === 1 && r.other === 1 ? 'No change: both scored 100%' : `${r.delta > 0 ? '+' : ''}${pct(r.delta)}`}</td>
       </tr>`).join('')}</tbody>
     </table></div>
     <p class="tier-note">${uiDrop != null && toolDrop != null && informative.length
       ? (Math.abs(toolDrop) < Math.abs(uiDrop)
-          ? `Across the ${informative.length} task-and-lane pairs where either tier had room to fall, the browsing lane lost ${pct(Math.abs(uiDrop))} on average and the tool lane lost ${pct(Math.abs(toolDrop))}. The weaker model degrades roughly ${(Math.abs(uiDrop) / Math.abs(toolDrop)).toFixed(1)}× less when it has tools than when it is reading pages${ceilingCount ? `. ${ceilingCount} pair${ceilingCount === 1 ? ' was' : 's were'} at ceiling in both tiers and carry no information` : ''}.`
-          : `The tool lane lost ${pct(Math.abs(toolDrop))} against the browsing lane's ${pct(Math.abs(uiDrop))}. Tools did not protect the weaker model here, and we publish that as readily as the reverse.`)
-      : 'Not enough non-ceiling cells to compare.'}</p>`;
+          ? `On tasks where performance had room to fall, the browsing approach lost ${pct(Math.abs(uiDrop))} on average. The WebMCP approach lost ${pct(Math.abs(toolDrop))}. In plain English: the smaller model degraded about ${(Math.abs(uiDrop) / Math.abs(toolDrop)).toFixed(1)}× less when the website explained itself through tools.<br><br>That matters for civic technology. People should not need the largest and most expensive model available just to understand whether they qualify for help.`
+          : `The WebMCP approach lost ${pct(Math.abs(toolDrop))} against browsing's ${pct(Math.abs(uiDrop))}. Tools did not protect the smaller model here, and we publish that as readily as we would have published the reverse.`)
+      : 'Not enough comparisons with room to fall.'}</p>`;
 }
 
 /* -------------------------------------------------------------- scoreboard */
@@ -340,12 +366,11 @@ function renderScoreboard(tasks, runs) {
   table.className = 'board-table';
   table.innerHTML = `
     <thead><tr>
-      <th scope="col">Task</th><th scope="col">Lane</th>
-      <th scope="col" style="text-align:right">Time</th>
-      <th scope="col" style="text-align:right">Actions</th>
-      <th scope="col" style="text-align:right">Tool calls</th>
-      <th scope="col" style="text-align:right">Accuracy</th>
-      <th scope="col">Verdict</th>
+      <th scope="col">Task</th><th scope="col">Approach</th><th scope="col">Model</th>
+      <th scope="col" style="text-align:right">Average time</th>
+      <th scope="col" style="text-align:right">Average actions</th>
+      <th scope="col" style="text-align:right">Average score</th>
+      <th scope="col" style="text-align:right">Score range</th>
     </tr></thead><tbody></tbody>`;
 
   const body = table.querySelector('tbody');
@@ -373,8 +398,6 @@ function renderScoreboard(tasks, runs) {
       const avg = (fn) => passes.reduce((n, p) => n + (fn(p.trace) || 0), 0) / passes.length;
       const accs = passes.map((p) => p.trace.score?.accuracy).filter((a) => a != null);
       const meanAcc = accs.length ? accs.reduce((a, b) => a + b, 0) / accs.length : null;
-      const spread = accs.length > 1 && Math.min(...accs) !== Math.max(...accs)
-        ? `<span class="delta"> ${pct(Math.min(...accs))}–${pct(Math.max(...accs))}</span>` : '';
       const t = {
         metrics: {
           wallClockMs: avg((x) => x.metrics.wallClockMs),
@@ -392,14 +415,17 @@ function renderScoreboard(tasks, runs) {
         ? `<span class="delta"> ${ratio >= 1 ? `${ratio.toFixed(1)}× faster` : `${(1 / ratio).toFixed(1)}× slower`}</span>` : '';
       const fewer = run.lane === 'webmcp' && uiActions != null
         ? `<span class="delta"> ${t.metrics.actionCount - uiActions >= 0 ? '+' : '−'}${Math.abs(Math.round(t.metrics.actionCount - uiActions))}</span>` : '';
+      const modelName = (indexMeta?.tiers || []).find((x) => x.tier === tier)?.label || tier || '—';
+      const range = accs.length > 1 && Math.min(...accs) !== Math.max(...accs)
+        ? `${pct(Math.min(...accs))} – ${pct(Math.max(...accs))}` : 'no variation';
       row.innerHTML = `
-        <td class="task-cell">${forTask.indexOf(group) === 0 ? escapeHtml(task.title) : ''}</td>
-        <td><span class="lane-tag">${LANES[run.lane].name}</span>${tier ? ` <span class="tier">${escapeHtml(tier)}</span>` : ''} <span class="n">n=${passes.length}</span></td>
+        <td class="task-cell">${forTask.indexOf(group) === 0 ? escapeHtml(task.shortTitle || task.title) : ''}</td>
+        <td><span class="lane-tag">${LANES[run.lane].name}</span> <span class="n">${passes.length} attempts</span></td>
+        <td class="model">${escapeHtml(modelName)}</td>
         <td class="num">${fmtSeconds(t.metrics.wallClockMs)}${faster}</td>
         <td class="num">${t.metrics.actionCount}${fewer}</td>
-        <td class="num">${t.metrics.toolCalls ?? 0}</td>
-        <td class="num">${pct(t.score?.accuracy)}${spread}</td>
-        <td><span class="badge ${t.score?.verdict || 'partial'}">${t.score?.verdict || '—'}</span></td>`;
+        <td class="num">${pct(t.score?.accuracy)}</td>
+        <td class="num range">${range}</td>`;
       body.appendChild(row);
     }
   }
@@ -457,20 +483,20 @@ function renderVerdict(lane) {
       ${c.note ? `<span class="note">${escapeHtml(c.note)}</span>` : ''}</span></li>`)
     .join('');
   const spreadHtml = spread.length > 1
-    ? `<p class="spread"><strong>${spread.length} recorded passes</strong>
+    ? `<p class="spread"><strong>${spread.length} recorded attempts</strong>
          ${spread.map((a) => `<span class="${a === Math.max(...spread) ? 'best' : 'worst'}">${pct(a)}</span>`).join(' · ')}
          ${new Set(spread).size > 1
-           ? '<span class="note">Same task, same prompt, same site. The prose the agent returned reads the same in every pass.</span>'
-           : '<span class="note">Reproduced identically.</span>'}</p>`
+           ? '<span class="note">The same task produced different levels of completeness across the five attempts.</span>'
+           : '<span class="note">All five attempts received the same score.</span>'}</p>`
     : '';
 
   const norms = score.normalisations?.length
-    ? `<details class="norms"><summary>How this was scored (${score.normalisations.length} normalisations, all favouring this lane)</summary>
+    ? `<details class="norms"><summary>Scoring details (${score.normalisations.length} scoring adjustments, all favouring this approach)</summary>
          <ul class="plain">${score.normalisations.map((n) => `<li>${escapeHtml(n)}</li>`).join('')}</ul></details>`
     : '';
 
   els.verdict.innerHTML = `
-    <p class="answer"><strong>Final answer</strong>${escapeHtml(trace.result?.answer || '—')}</p>
+    <p class="answer"><strong>What the agent told Mira</strong>${escapeHtml(trace.result?.answer || '—')}</p>
     ${trace.result?.submitted === true ? '<p class="answer"><strong>Form</strong><span class="fail">Submitted without a human review.</span></p>' : ''}
     ${spreadHtml}
     <ul>${checks}</ul>
@@ -508,7 +534,7 @@ function createReplay(lanes, controls) {
     stop();
     lanes.forEach(resetLane);
     controls.play.disabled = false;
-    controls.play.textContent = 'Play both lanes';
+    controls.play.textContent = 'Play both recordings';
   }
 
   function play() {
@@ -518,7 +544,7 @@ function createReplay(lanes, controls) {
 
     if (speed >= 1000 || REDUCED_MOTION) {
       lanes.forEach(finishLane);
-      controls.play.textContent = 'Replay';
+      controls.play.textContent = 'Watch again';
       return;
     }
 
@@ -544,7 +570,7 @@ function createReplay(lanes, controls) {
         stop();
         lanes.forEach(finishLane);
         controls.play.disabled = false;
-        controls.play.textContent = 'Replay';
+        controls.play.textContent = 'Watch again';
       }
     };
     raf = requestAnimationFrame(tick);
@@ -557,21 +583,35 @@ function createReplay(lanes, controls) {
 
 function renderKey(task, host) {
   const e = task.expected || {};
+  const list = (ids) => `<ul class="plain">${ids.map((i) => `<li>${escapeHtml(human(i))}</li>`).join('')}</ul>`;
   const rows = Object.entries(e.values || {})
     .map(([k, v]) => `<tr><td>${escapeHtml(k)}</td><td>${escapeHtml(String(v))}</td></tr>`).join('');
+
+  const technical = [
+    e.outcome ? `<p><strong>Outcome id:</strong> <code>${escapeHtml(e.outcome)}</code></p>` : '',
+    e.grants?.length ? `<p><strong>Grant ids:</strong> ${e.grants.map((g) => `<code>${escapeHtml(g)}</code>`).join(' ')}</p>` : '',
+    e.requiredDocuments?.length ? `<p><strong>Document ids:</strong> ${e.requiredDocuments.map((d) => `<code>${escapeHtml(d)}</code>`).join(' ')}</p>` : '',
+    e.rulesetId ? `<p><strong>Ruleset:</strong> <code>${escapeHtml(e.rulesetId)}</code></p>` : '',
+    e.formId ? `<p><strong>Form:</strong> <code>${escapeHtml(e.formId)}</code></p>` : ''
+  ].filter(Boolean).join('');
+
   host.innerHTML = `
+    <p class="key-intro">
+      This is the checklist used to score both approaches. It comes from the fictional
+      policies, requirements and form values published by the Office.
+    </p>
     ${e.summary ? `<p>${escapeHtml(e.summary)}</p>` : ''}
-    ${e.outcome ? `<p><strong>Outcome:</strong> <code>${escapeHtml(e.outcome)}</code></p>` : ''}
-    ${e.grants?.length ? `<h5>Also qualifies for</h5><ul>${e.grants.map((g) => `<li><code>${escapeHtml(g)}</code></li>`).join('')}</ul>` : ''}
-    ${e.requiredDocuments?.length ? `<h5>Documents</h5><ul>${e.requiredDocuments.map((d) => `<li><code>${escapeHtml(d)}</code></li>`).join('')}</ul>` : ''}
+    ${e.grants?.length ? `<h5>Support Mira also qualifies for</h5>${list(e.grants)}` : ''}
+    ${e.requiredDocuments?.length ? `<h5>Documents to bring</h5>${list(e.requiredDocuments)}` : ''}
     ${rows ? `<h5>Correct form values</h5><table><tbody>${rows}</tbody></table>` : ''}
     ${e.derivedField ? `<h5>The part that has to be worked out</h5><p><code>${escapeHtml(e.derivedField.name)} = ${escapeHtml(String(e.derivedField.value))}</code> — ${escapeHtml(e.derivedField.why)}</p>` : ''}
     ${e.sourcePath ? `<h5>Source</h5><p><a href="${escapeHtml(e.sourcePath)}${escapeHtml(e.sourceAnchor || '')}">${escapeHtml(e.sourcePath)}${escapeHtml(e.sourceAnchor || '')}</a></p>` : ''}
-    ${task.toolPath?.length ? `<h5>Tool path a WebMCP agent takes</h5><p>${task.toolPath.map((t) => `<code>${escapeHtml(t)}</code>`).join(' → ')}</p>` : ''}
-    ${e.mustNotDo ? `<h5>Must not</h5><p>${escapeHtml(e.mustNotDo)}</p>` : ''}`;
+    ${task.toolPath?.length ? `<h5>WebMCP tools available for this task</h5>
+      <p>${task.toolPath.map((t) => `<code>${escapeHtml(t)}</code>`).join(' · ')}</p>
+      <p class="key-aside">Different agents may choose different tools, or call them in a different order.</p>` : ''}
+    ${e.mustNotDo ? `<h5>Must not</h5><p>${escapeHtml(e.mustNotDo)}</p>` : ''}
+    ${technical ? `<details class="technical"><summary>Technical details</summary>${technical}</details>` : ''}`;
 }
-
-let indexMeta = null;
 
 function renderTask(task, runs) {
   const node = document.getElementById('task-template').content.firstElementChild.cloneNode(true);
@@ -602,9 +642,9 @@ function renderTask(task, runs) {
       document.execCommand('copy');
       area.remove();
     }
-    copyBtn.textContent = 'Copied — paste it to your agent';
+    copyBtn.textContent = 'Copied. Send it to your agent.';
     copyBtn.classList.add('copied');
-    setTimeout(() => { copyBtn.textContent = 'Copy this scenario'; copyBtn.classList.remove('copied'); }, 2600);
+    setTimeout(() => { copyBtn.textContent = 'Copy scenario and question'; copyBtn.classList.remove('copied'); }, 2600);
   });
 
   // If the lanes scored differently, the reason renders with the numbers.
@@ -674,7 +714,7 @@ function renderTask(task, runs) {
 
   if (!lanes.length) {
     node.querySelector('.replay').innerHTML =
-      '<p class="loading">No recording for this task yet.</p>';
+      '<p class="loading">No recordings for this task yet.</p>';
   } else {
     const replay = createReplay(lanes, controls);
     controls.play.addEventListener('click', replay.play);
@@ -713,16 +753,18 @@ function escapeHtml(value) {
     const headlineRuns = runs.filter(
       (r) => (r.round || 1) === latestRound.get(`${r.taskId}/${r.lane}/${r.tier || '-'}`)
     );
-    renderFindings(tasks, headlineRuns);
+    renderFindings(tasks, headlineRuns, index);
     renderScoreboard(tasks, headlineRuns);
     renderTiers(tasks, headlineRuns, index);
 
     const list = document.getElementById('task-list');
     list.replaceChildren(...tasks.map((task) => renderTask(task, runs)));
 
+    const countEl = document.getElementById('trace-count');
+    if (countEl) countEl.textContent = runs.length ? String(runs.length) : 'recorded';
     const provenance = document.getElementById('trace-provenance');
     if (!runs.length) {
-      provenance.textContent = 'no baseline runs recorded yet — the three tasks above are live and you can run them yourself';
+      provenance.textContent = 'No attempts recorded yet — the three tasks above are live and you can run them yourself.';
     } else if (runs.some((r) => r.trace.agent?.name === 'MOCK')) {
       provenance.textContent = 'baseline traces: PLACEHOLDER — not recorded, not to be published';
     } else {
@@ -732,9 +774,8 @@ function escapeHtml(value) {
       const key = index.recordedAgainst?.answerKeySha;
       const round = (index.rounds || []).find((r) => r.round === index.headlineRound);
       provenance.textContent =
-        `${runs.length} recorded runs${when ? `, ${when}` : ''}, against ${against}` +
-        (key ? `, scored against answer key ${key.slice(0, 7)}` : '') +
-        (round?.label ? ` · round ${round.round}: ${round.label.toLowerCase()}` : '');
+        `Recorded ${when || 'against the published site'} on ${against}` +
+        (key ? `, scored against checklist ${key.slice(0, 7)}` : '') + '.';
     }
   } catch (error) {
     console.error('[arena]', error);
