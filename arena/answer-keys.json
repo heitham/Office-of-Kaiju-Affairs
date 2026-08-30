@@ -5,9 +5,9 @@
     {
       "id": "task-1-needle",
       "order": 1,
-      "title": "Needle in the haystack",
-      "shortTitle": "Find the buried rule",
-      "difficulty": "The rule is easy to find \u2014 the FAQ card advertises it. The trap is one sentence further on: the waiver counts approved claims only, and this claimant has one approved and one pending. A skim says waived; the page says payable.",
+      "title": "Does Mira pay the fee again?",
+      "shortTitle": "Does Mira pay the fee again?",
+      "difficulty": "Mira's bakery has been damaged twice. She has one approved claim and one new claim that is still pending. The fee-waiver page says \u201ctwo or more claims\u201d, which sounds promising \u2014 until the next sentence says only approved claims count. One sentence is worth \u00a512,000. That is the task.",
       "persona": {
         "name": "Mira Tanaka",
         "summary": "Bakery owner in Zone 4, second claim this year.",
@@ -24,7 +24,7 @@
       },
       "prompt": "Using this site, find out whether I have to pay the claim assessment fee a second time, and quote the rule.",
       "expected": {
-        "summary": "Yes, the fee is payable. The waiver needs two or more APPROVED claims from separate incidents in a rolling 12-month period, and the published rule states that refused, withdrawn and pending claims do not count. This claimant has one approved claim and one about to be filed, so the \u00a512,000 assessment fee applies to it. A second approved claim would trigger the waiver automatically at lodgement.",
+        "summary": "Mira must pay the \u00a512,000 assessment fee this time. The waiver requires two approved claims from separate incidents within twelve months, and her new claim is still pending, so it does not count yet. Once a second claim is approved, the waiver applies automatically.",
         "ruleId": "repeat-claimant-fee-waiver",
         "sourcePath": "/claims/faq/",
         "sourceAnchor": "#fee-waivers",
@@ -86,18 +86,18 @@
         "get_page_summary"
       ],
       "laneDivergence": {
-        "headline": "Both lanes answered correctly. Only one carried the reason.",
-        "body": "Every recorded pass in both lanes reached the same conclusion \u2014 the fee is payable. The score differs because of the pending-clause check: the agent reading the pages had to go through the sentence that says the waiver counts approved claims only, so it could say why. The agent using check_eligibility got a verdict without the rule that produced it, because the tool explains what did apply and is silent on what did not.",
-        "whyItMatters": "Mira does not just need \u201cyou pay this time\u201d. She needs \u201cone more approved claim and you stop paying\u201d \u2014 the clause is the part that tells her what would change the answer.",
-        "remedy": "Fixed in round 2 \u2014 and round 2 measured no effect on this task. check_eligibility now returns what it did NOT grant: the requirement, the person's own answers against it, and the citation. That is better output than a bare verdict on its own merits, and it is live on this site. But the accuracy did not move (0.80 to 0.78 across five passes, which is about one check on one run), and the check that failed is measuring whether the AGENT repeats the clause to the person, not whether the TOOL supplied it. Demonstrating this fix needs a check that reads the tool's output, and inventing one after seeing the result would be tuning the benchmark, so it is not in this batch. A null result is published as a null result."
+        "headline": "What we changed",
+        "body": "The original eligibility tool correctly said that Mira still had to pay, but it did not return the decisive rule explaining why. We updated it to include the unmet requirement, Mira's facts compared with that requirement, and the supporting source.",
+        "whyItMatters": "The improved tool gave the agent the explanation. The agent still did not consistently repeat it to Mira. That taught us something important: giving an agent the reason is not the same as making sure the person hears it.",
+        "remedy": "Mira does not only need \u201cyes\u201d or \u201cno\u201d. She needs to know why she must pay today and what would change the answer tomorrow. That is the difference between processing a case and helping a person."
       }
     },
     {
       "id": "task-2-eligibility",
       "order": 2,
-      "title": "Eligibility determination",
-      "shortTitle": "Am I eligible, and what do I bring?",
-      "difficulty": "The outcome depends on four separate rules spread across three pages, and two of them are conditional grants rather than the headline decision.",
+      "title": "Is Mira eligible, and what should she bring?",
+      "shortTitle": "Is Mira eligible?",
+      "difficulty": "Mira is standing in the bureaucratic equivalent of a multi-stage boss battle. Her result depends on her location, structural damage, claims history, income, insurance, business status and filing date. If she qualifies, she also needs to know what additional support applies and which five documents to bring. Showing up with four is how sequels happen.",
       "persona": {
         "name": "Mira Tanaka",
         "summary": "Zone 4 commercial property, structural damage, low household income, two earlier claims already approved.",
@@ -167,14 +167,14 @@
         "check_eligibility",
         "get_service_requirements"
       ],
-      "consentNote": "Your agent may ask permission before calling check_eligibility, itemising the scenario's facts \u2014 income, claims history, property \u2014 and naming this site as the destination. That prompt is the surface working correctly. Mira is fictional; approving it is part of the task."
+      "consentNote": "Your agent may ask before passing Mira's fictional income, property and claims information to the eligibility tool. That is expected. In this demo the rules run inside a static page and no server receives those facts \u2014 but an agent cannot independently prove a website's privacy claim from a tool description alone. A stronger version would let the agent download the public rules and evaluate Mira's private facts locally."
     },
     {
       "id": "task-3-permit",
       "order": 3,
-      "title": "Permit prefill",
-      "shortTitle": "Fill my permit application",
-      "difficulty": "The reinforcement standard is never stated in the scenario \u2014 it has to be derived from the zone. The form is a real form, and the human presses submit.",
+      "title": "Complete Mira's permit application",
+      "shortTitle": "Complete the permit",
+      "difficulty": "The bakery needs rebuilding. Naturally, the kaiju did not complete the permit application before damaging it. Mira provides eleven of the values the form needs. The twelfth \u2014 the K-2 reinforcement standard \u2014 must be determined from the Zone 4 construction policy. The WebMCP tool can validate and fill the application. It exposes no submit operation: Mira reviews the result and submits it herself.",
       "persona": {
         "name": "Mira Tanaka",
         "summary": "Rebuilding the damaged shopfront; needs a proximity construction permit.",
@@ -244,10 +244,10 @@
       ],
       "consentNote": "Your agent will likely ask permission before filling the form \u2014 the values include a name, email and phone number, and entering them transmits them whichever way the agent works. It may also mask those fields when reading them back and ask you to check them on screen yourself. Both are the surface behaving correctly. Mira is fictional.",
       "laneDivergence": {
-        "headline": "The tool filled every field it was asked for, and never mentioned the ones it wasn't.",
-        "body": "Both lanes produced a correct, unsubmitted form. The scores differ because five of five tool passes left the applicant's own business name blank. prefill_permit_form reported which REQUIRED fields were still empty and said nothing about the declared optional ones it had been given no value for \u2014 so the agent supplied the required set, the tool accepted it silently, and nobody mentioned the gap. The tool held the field list the whole time and did not use it.",
-        "whyItMatters": "A form that is 10/12 filled looks finished. The person reviewing it has to already know what is missing to notice that it is \u2014 which is the one thing prefilling was supposed to spare them.",
-        "remedy": "Fixed in round 2, and this is the measured win. The tool now names every declared field it was given no value for. Round 1: none of five passes filled all twelve fields, every one leaving the applicant's own business name blank. Round 2: four of five fill all twelve. The comparison is structural \u2014 actual form values against the answer key \u2014 so it is immune to the text-matching defects that moved other scores. A second, narrower defect stays unfixed and is published rather than patched: the service register advertises three fields where the form declares twelve, so an agent reading requirements alone cannot know the rest exist."
+        "headline": "The benchmark found a problem",
+        "body": "The first version of the form tool reported missing required fields but stayed silent about optional fields the agent had omitted. That produced a form with 10 of 12 fields filled \u2014 and the unsettling appearance of being finished. A partially completed government form should not require expert knowledge to recognize that it is partially completed.",
+        "whyItMatters": "What we changed: the tool now names every declared field for which the agent supplied no value. The benchmark did not merely score the product. It found something we needed to fix.",
+        "remedy": "One limitation remains, and we left it visible rather than adjusting the evaluation after seeing it: the service-level requirements describe fewer fields than the application itself, so an agent that reads only the service requirements may not know every field exists. Mira has suffered enough hidden requirements for one afternoon."
       }
     }
   ]

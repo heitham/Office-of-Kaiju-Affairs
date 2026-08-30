@@ -393,3 +393,55 @@ code { font: .92em var(--mono); }
 
 .tiers .tier-note { margin: 18px 0 0; font-size: 15.5px; color: var(--ink); max-width: 76ch; }
 .board-table td.down { color: var(--bad); }
+
+/* ---------------------------------------------------- copy-rewrite additions */
+
+.lede p { margin: 0 0 14px; }
+.lede .lede-close { color: var(--ink); font-weight: 500; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 26px 0 0; }
+.cta-row .btn { text-decoration: none; display: inline-block; }
+
+.finding .finding-title {
+  margin: 0 0 10px; font: 600 14.5px/1.35 var(--head);
+  color: var(--ink); letter-spacing: -.005em;
+}
+.finding .figure { margin-top: 0; }
+
+.tools-changed {
+  margin-top: 30px; padding: 22px 24px;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2);
+}
+.tools-changed h3 { margin: 0 0 10px; font-size: 17px; }
+.tools-changed p { margin: 0 0 10px; color: var(--ink-2); font-size: 15px; max-width: 74ch; }
+.tools-changed ul { margin: 0 0 12px; padding-left: 22px; color: var(--ink-2); font-size: 15px; }
+.tools-changed li { margin-bottom: 5px; }
+.tools-changed-close { color: var(--ink) !important; }
+
+.board-table td.model { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+.board-table td.range { font-size: 13px; color: var(--ink-3); }
+
+.replay-intro { margin: 0 0 16px; font-size: 14.5px; color: var(--ink-2); max-width: 76ch; }
+
+.key-intro { margin: 0 0 14px; }
+.key-aside { color: var(--ink-3); font-size: 13.5px; }
+.key-body ul.plain { margin: 0; padding-left: 20px; list-style: disc; }
+.key-body ul.plain li { margin-bottom: 4px; }
+.key-body .technical { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.key-body .technical summary { cursor: pointer; font-size: 13.5px; color: var(--ink-3); }
+.key-body .technical p { margin: 8px 0 0; font-size: 13.5px; }
+
+.lessons { border-top: 1px solid var(--line); }
+.lesson { max-width: 78ch; margin-bottom: 40px; }
+.lesson:last-child { margin-bottom: 0; }
+.lesson h3 { margin: 0 0 10px; font-size: 19px; letter-spacing: -.01em; }
+.lesson p { margin: 0 0 12px; color: var(--ink-2); font-size: 15.5px; }
+.lesson ul { margin: 0 0 14px; padding-left: 22px; color: var(--ink-2); font-size: 15.5px; }
+.lesson li { margin-bottom: 5px; }
+.lesson .pull, .how-grid .pull {
+  color: var(--ink); font-weight: 500;
+  border-left: 3px solid var(--accent); padding-left: 14px;
+}
+
+.foot .foot-lead {
+  font: 600 19px/1.35 var(--head); color: var(--ink); margin-bottom: 10px;
+}
