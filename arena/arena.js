@@ -104,6 +104,57 @@ async function loadRuns() {
   return { index, runs: runs.filter((r) => r.trace) };
 }
 
+/* ------------------------------------------------------------------ rounds */
+
+const meanAccuracy = (rs) => {
+  const a = rs.map((r) => r.trace.score?.accuracy).filter((x) => x != null);
+  return a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+};
+
+/**
+ * The before/after for one task's tool lane, when more than one round exists.
+ * Direction is read from the data — a round that did not improve says so.
+ */
+function renderRounds(task, runs, host, index) {
+  const rounds = [...new Set(runs.map((r) => r.round || 1))].sort();
+  if (rounds.length < 2 || !host) return;
+
+  const cells = rounds.map((round) => {
+    const inRound = runs.filter((r) => (r.round || 1) === round && r.lane === 'webmcp');
+    return { round, mean: meanAccuracy(inRound), n: inRound.length,
+             label: (index.rounds || []).find((x) => x.round === round)?.label || `Round ${round}` };
+  }).filter((c) => c.mean != null);
+
+  if (cells.length < 2) return;
+
+  const first = cells[0], last = cells.at(-1);
+  const delta = last.mean - first.mean;
+
+  // At these sample sizes a couple of points is one check on one pass. Calling
+  // that a movement would report noise as a result — in either direction, which
+  // matters most when the flattering direction is the noisy one.
+  const smallest = 1 / Math.min(first.n, last.n) * 0.2;
+  const moved = Math.abs(delta) >= Math.max(0.05, smallest);
+
+  host.hidden = false;
+  host.innerHTML = `
+    <h4>Before and after the fix</h4>
+    <div class="round-cells">
+      ${cells.map((c) => `<div class="round-cell${c === last ? ' now' : ''}">
+          <p class="round-figure">${pct(c.mean)}</p>
+          <p class="round-label">${escapeHtml(c.label)}</p>
+          <p class="round-n">${c.n} pass${c.n === 1 ? '' : 'es'}, tool lane</p>
+        </div>`).join('<span class="round-arrow" aria-hidden="true">→</span>')}
+    </div>
+    <p class="round-note">${moved
+      ? (delta > 0
+          ? `The fix moved this task by ${pct(Math.abs(delta))}. Both rounds are on this page; the earlier one is not hidden because the later one is better.`
+          : `This task got <strong>worse</strong> by ${pct(Math.abs(delta))} after the fix. We publish it because a round that goes the wrong way is a result too.`)
+      : Math.abs(delta) < 0.005
+        ? `Identical across both rounds. This task was already at ceiling before the fix, so there was nothing here for it to improve.`
+        : `No measured change on this task — the difference is ${pct(Math.abs(delta))} across ${last.n} passes, which is about one check on one run and not a result. What the fix did change is described above. A flat number is reported flat.`}</p>`;
+}
+
 /* ---------------------------------------------------------------- findings */
 
 /**
@@ -513,6 +564,8 @@ function renderTask(task, runs) {
          does not say which lane was wrong, or whether either was — see the two runs below and judge for yourself.</p>`;
   }
 
+  renderRounds(task, runs.filter((r) => r.taskId === task.id), node.querySelector('.rounds'), indexMeta || {});
+
   const lanesHost = node.querySelector('.lanes');
   const order = ['ui-guessing', 'webmcp'];
   const forTask = runs.filter((r) => r.taskId === task.id);
@@ -571,8 +624,22 @@ function escapeHtml(value) {
     const tasks = [...keys.tasks].sort((a, b) => (a.order || 0) - (b.order || 0));
 
     indexMeta = index;
-    renderFindings(tasks, runs);
-    renderScoreboard(tasks, runs);
+    // The headline round is per LANE, not global. Only the tool lane is
+    // re-recorded after a tool fix — the UI lane is unaffected by it and stays
+    // at the round it was measured in. Filtering globally would silently drop
+    // the lane the whole comparison rests on.
+    const latestRound = new Map();
+    for (const r of runs) {
+      const key = `${r.taskId}/${r.lane}`;
+      const round = r.round || 1;
+      const cap = index.headlineRound || Infinity;
+      if (round <= cap) latestRound.set(key, Math.max(latestRound.get(key) || 0, round));
+    }
+    const headlineRuns = runs.filter(
+      (r) => (r.round || 1) === latestRound.get(`${r.taskId}/${r.lane}`)
+    );
+    renderFindings(tasks, headlineRuns);
+    renderScoreboard(tasks, headlineRuns);
 
     const list = document.getElementById('task-list');
     list.replaceChildren(...tasks.map((task) => renderTask(task, runs)));
