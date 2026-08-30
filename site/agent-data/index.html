@@ -65,7 +65,8 @@
 <main class="cms-main-content">
 
 <h1>Open Data — Service Register</h1>
-<p>The structured register below describes the Office’s services, eligibility rules, application forms and regional offices in machine-readable form. It is republished with the site and consumed by the site’s agent tooling.</p>
+<p>This page carries the Office&rsquo;s service register in machine-readable form: services, eligibility rules, application forms and regional offices. The register is embedded in this page, regenerated on every publish, and consumed by the site&rsquo;s agent tooling. The full page index is published separately at <a href="/manifest.json">/manifest.json</a>.</p>
+
 <script type="application/json" data-agent-data>
 {
  "services": [
@@ -781,6 +782,35 @@
   }
  ]
 }
+</script>
+
+<div id="register-view"></div>
+<script>
+(function () {
+  var el = document.querySelector('script[type="application/json"][data-agent-data]');
+  var view = document.getElementById('register-view');
+  if (!el || !view) return;
+  try {
+    var data = JSON.parse(el.textContent);
+    var counts = [
+      ['Services', (data.services || []).length],
+      ['Eligibility rulesets', (data.eligibility || []).length],
+      ['Application forms', (data.forms || []).length],
+      ['Regional offices', (data.offices || []).length]
+    ];
+    var html = '<h2 id="datasets">Datasets in this register</h2><ul>' +
+      counts.map(function (c) { return '<li>' + c[0] + ': ' + c[1] + ' record' + (c[1] === 1 ? '' : 's') + '</li>'; }).join('') +
+      '</ul>';
+    html += '<h2 id="raw">Raw register</h2>' +
+      '<details><summary>Show the raw JSON</summary>' +
+      '<pre style="overflow-x:auto; background: var(--code-bg, #101114); color: var(--code-text, #e8e7e2); padding: 1rem; border-radius: 3px;"><code>' +
+      JSON.stringify(data, null, 2).replace(/&/g, '&amp;').replace(/</g, '&lt;') +
+      '</code></pre></details>';
+    view.innerHTML = html;
+  } catch (e) {
+    view.innerHTML = '<p>The register failed to parse. This is a defect; report it to the Monitoring Division.</p>';
+  }
+})();
 </script>
 </main>
 
