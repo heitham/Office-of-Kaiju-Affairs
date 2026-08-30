@@ -461,6 +461,9 @@ function buildLane(run, passes = [run]) {
   node.querySelector('.lane-sub').textContent = meta.sub;
 
   const list = node.querySelector('.steps');
+  const fillSteps = () => {
+    if (list.dataset.built) return;
+    list.dataset.built = '1';
   for (const step of run.trace.steps) {
     const li = document.createElement('li');
     li.className = [step.type === 'tool_call' ? 'tool' : '', step.outcome === 'dead-end' ? 'dead-end' : ''].filter(Boolean).join(' ');
@@ -474,10 +477,12 @@ function buildLane(run, passes = [run]) {
       </span>`;
     list.appendChild(li);
   }
+  };
 
   return {
     node,
-    steps: [...list.children],
+    fillSteps,
+    get steps() { return [...list.children]; },
     trace: run.trace,
     passes,
     total: run.trace.metrics.wallClockMs,
@@ -523,6 +528,7 @@ function renderVerdict(lane) {
 }
 
 function resetLane(lane) {
+  lane.fillSteps?.();
   lane.node.classList.remove('done');
   lane.steps.forEach((li) => { if (!REDUCED_MOTION) li.classList.remove('shown'); });
   lane.els.time.textContent = '0.0s';
@@ -533,6 +539,7 @@ function resetLane(lane) {
 }
 
 function finishLane(lane) {
+  lane.fillSteps?.();
   lane.node.classList.add('done');
   lane.steps.forEach((li) => li.classList.add('shown'));
   lane.els.time.textContent = fmtSeconds(lane.total);
@@ -550,6 +557,7 @@ function createReplay(lanes, controls) {
 
   function reset() {
     stop();
+    lanes.forEach((l) => l.fillSteps?.());
     lanes.forEach(resetLane);
     controls.play.disabled = false;
     controls.play.textContent = 'Play both recordings';
@@ -557,6 +565,7 @@ function createReplay(lanes, controls) {
 
   function play() {
     stop();
+    lanes.forEach((l) => l.fillSteps?.());
     lanes.forEach(resetLane);
     const speed = Number(controls.speed.value) || 8;
 
@@ -639,7 +648,23 @@ function renderTask(task, runs) {
   node.querySelector('.task-difficulty').textContent = task.difficulty || '';
   node.querySelector('.scenario').textContent = task.persona?.scenario || '';
   node.querySelector('.task-prompt').textContent = task.prompt;
-  renderKey(task, node.querySelector('.key-body'));
+  const keyPanel = node.querySelector('.key');
+  const keyBody = node.querySelector('.key-body');
+  keyPanel.addEventListener('toggle', () => {
+    if (keyPanel.open && !keyBody.dataset.rendered) {
+      keyBody.dataset.rendered = '1';
+      renderKey(task, keyBody);
+    }
+  });
+
+  const keySummary = node.querySelector('.key summary');
+  if (keySummary) {
+    keySummary.insertAdjacentHTML('afterend',
+      `<p class="key-warning">This panel contains the expected answer. It loads only when you open it, so an
+       agent reading the page does not pick it up by accident — but the checklist is published at
+       <a href="answer-keys.json">answer-keys.json</a>, and an agent that wanders here mid-task could fetch it.
+       If you are testing your own agent, it is worth checking whether it visited the Arena.</p>`);
+  }
 
   if (task.consentNote) {
     node.querySelector('.ask').insertAdjacentHTML('afterend',
@@ -737,7 +762,13 @@ function renderTask(task, runs) {
     const replay = createReplay(lanes, controls);
     controls.play.addEventListener('click', replay.play);
     controls.reset.addEventListener('click', replay.reset);
-    lanes.forEach(resetLane);
+    lanes.forEach((lane) => {
+      lane.els.time.textContent = '0.0s';
+      lane.els.actions.textContent = '0';
+      lane.els.accuracy.textContent = '—';
+      lane.els.fill.style.width = '0';
+      lane.els.verdict.hidden = true;
+    });
   }
 
   return node;
