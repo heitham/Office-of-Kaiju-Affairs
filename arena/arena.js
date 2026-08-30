@@ -104,6 +104,69 @@ async function loadRuns() {
   return { index, runs: runs.filter((r) => r.trace) };
 }
 
+/* ---------------------------------------------------------------- findings */
+
+/**
+ * What the recordings actually show, derived from the recordings.
+ * Nothing here is a hand-typed number, so nothing here can go stale.
+ */
+function renderFindings(tasks, runs) {
+  const host = document.getElementById('findings');
+  if (!host) return;
+  const ui = runs.filter((r) => r.lane === 'ui-guessing');
+  if (!ui.length) { host.hidden = true; return; }
+
+  const acc = ui.map((r) => r.trace.score?.accuracy).filter((a) => a != null);
+  const loads = ui.map((r) => r.trace.metrics.pageLoads || 0);
+  const dead = ui.map((r) => r.trace.metrics.deadEnds || 0);
+  const bytes = ui.map((r) => r.trace.metrics.bytesTransferred || 0).filter(Boolean);
+  const tool = runs.filter((r) => r.lane === 'webmcp');
+  const toolCalls = tool.map((r) => r.trace.metrics.toolCalls || 0).filter(Boolean);
+  const toolBytes = tool.map((r) => r.trace.metrics.bytesTransferred || 0).filter(Boolean);
+
+  const perfect = acc.filter((a) => a === 1).length;
+  const sum = (xs) => xs.reduce((a, b) => a + b, 0);
+  const range = (xs) => (Math.min(...xs) === Math.max(...xs) ? `${Math.min(...xs)}` : `${Math.min(...xs)}–${Math.max(...xs)}`);
+  const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
+
+  const cards = [
+    {
+      figure: `${perfect} of ${acc.length}`,
+      label: 'recorded UI-lane passes scored full marks',
+      body: `The agent without tools is good at this site. We are publishing that rather than hiding it — the case for WebMCP does not rest on the alternative failing.`
+    },
+    {
+      figure: range(loads),
+      label: `page load${loads.length && Math.max(...loads) === 1 ? '' : 's'} per task, UI lane`,
+      body: toolCalls.length
+        ? `Against ${range(toolCalls)} tool call${Math.max(...toolCalls) === 1 ? '' : 's'} for the same answers. Both arrive; one costs a fraction of the other.`
+        : 'Each one a full HTML page, parsed to find a sentence.'
+    },
+    {
+      figure: `${sum(dead)}`,
+      label: `dead end${sum(dead) === 1 ? '' : 's'} across every recorded pass`,
+      body: `Steps that led nowhere and had to be backed out of. They cost time on the way to answers that were still, in the end, correct.`
+    }
+  ];
+
+  if (bytes.length && toolBytes.length) {
+    cards.push({
+      figure: `${Math.round(sum(bytes) / sum(toolBytes))}×`,
+      label: 'more bytes read by the UI lane',
+      body: `${kb(sum(bytes) / bytes.length)} of HTML per task, against ${kb(sum(toolBytes) / toolBytes.length)} of structured results.`
+    });
+  }
+
+  host.hidden = false;
+  host.querySelector('.findings-grid').innerHTML = cards
+    .map((c) => `<div class="finding">
+        <p class="figure">${escapeHtml(c.figure)}</p>
+        <p class="figure-label">${escapeHtml(c.label)}</p>
+        <p class="figure-body">${escapeHtml(c.body)}</p>
+      </div>`)
+    .join('');
+}
+
 /* -------------------------------------------------------------- scoreboard */
 
 function renderScoreboard(tasks, runs) {
@@ -127,7 +190,15 @@ function renderScoreboard(tasks, runs) {
 
   const body = table.querySelector('tbody');
   for (const task of tasks) {
-    const forTask = runs.filter((r) => r.taskId === task.id);
+    // One row per lane: the promoted pass. Other passes appear as the spread
+    // inside the replay, not as extra scoreboard rows.
+    const all = runs.filter((r) => r.taskId === task.id);
+    const forTask = ['ui-guessing', 'webmcp']
+      .map((lane) => {
+        const passes = all.filter((r) => r.lane === lane);
+        return passes.find((r) => r.promoted) || passes[0];
+      })
+      .filter(Boolean);
     const ui = forTask.find((r) => r.lane === 'ui-guessing')?.trace;
     for (const run of forTask) {
       const t = run.trace;
@@ -154,7 +225,7 @@ function renderScoreboard(tasks, runs) {
 
 /* ------------------------------------------------------------ replay lanes */
 
-function buildLane(run) {
+function buildLane(run, passes = [run]) {
   const node = document.getElementById('lane-template').content.firstElementChild.cloneNode(true);
   const meta = LANES[run.lane];
   node.classList.add(meta.cls);
@@ -180,6 +251,7 @@ function buildLane(run) {
     node,
     steps: [...list.children],
     trace: run.trace,
+    passes,
     total: run.trace.metrics.wallClockMs,
     els: {
       time: node.querySelector('.m-time'),
@@ -194,15 +266,31 @@ function buildLane(run) {
 function renderVerdict(lane) {
   const { trace, els } = lane;
   const score = trace.score || {};
+  const spread = (lane.passes || []).map((p) => p.trace?.score?.accuracy).filter((a) => a != null);
   const checks = (score.checks || [])
     .map((c) => `<li><span class="${c.pass ? 'pass' : 'fail'}">${c.pass ? '✓' : '✗'}</span>
       <span>${escapeHtml(c.label || c.id)}${c.actual ? ` — <em>${escapeHtml(c.actual)}</em>` : ''}
       ${c.note ? `<span class="note">${escapeHtml(c.note)}</span>` : ''}</span></li>`)
     .join('');
+  const spreadHtml = spread.length > 1
+    ? `<p class="spread"><strong>${spread.length} recorded passes</strong>
+         ${spread.map((a) => `<span class="${a === Math.max(...spread) ? 'best' : 'worst'}">${pct(a)}</span>`).join(' · ')}
+         ${new Set(spread).size > 1
+           ? '<span class="note">Same task, same prompt, same site. The prose the agent returned reads the same in every pass.</span>'
+           : '<span class="note">Reproduced identically.</span>'}</p>`
+    : '';
+
+  const norms = score.normalisations?.length
+    ? `<details class="norms"><summary>How this was scored (${score.normalisations.length} normalisations, all favouring this lane)</summary>
+         <ul class="plain">${score.normalisations.map((n) => `<li>${escapeHtml(n)}</li>`).join('')}</ul></details>`
+    : '';
+
   els.verdict.innerHTML = `
     <p class="answer"><strong>Final answer</strong>${escapeHtml(trace.result?.answer || '—')}</p>
     ${trace.result?.submitted === true ? '<p class="answer"><strong>Form</strong><span class="fail">Submitted without a human review.</span></p>' : ''}
-    <ul>${checks}</ul>`;
+    ${spreadHtml}
+    <ul>${checks}</ul>
+    ${norms}`;
   els.verdict.hidden = false;
 }
 
@@ -330,11 +418,18 @@ function renderTask(task, runs) {
 
   const lanesHost = node.querySelector('.lanes');
   const order = ['ui-guessing', 'webmcp'];
-  const lanes = runs
-    .filter((r) => r.taskId === task.id)
-    .sort((a, b) => order.indexOf(a.lane) - order.indexOf(b.lane))
-    .map((run) => {
-      const lane = buildLane(run);
+  const forTask = runs.filter((r) => r.taskId === task.id);
+
+  // Several passes of the same lane may be recorded. One is promoted and gets
+  // replayed; the others become the run-to-run spread, which is evidence in its
+  // own right — an agent that scores 1.00 three times and 0.64 once is not the
+  // same thing as an agent that scores 0.91.
+  const lanes = order
+    .filter((laneName) => forTask.some((r) => r.lane === laneName))
+    .map((laneName) => {
+      const passes = forTask.filter((r) => r.lane === laneName);
+      const run = passes.find((r) => r.promoted) || passes[0];
+      const lane = buildLane(run, passes);
       lanesHost.appendChild(lane.node);
       return lane;
     });
@@ -371,6 +466,7 @@ function escapeHtml(value) {
     const [keys, { index, runs }] = await Promise.all([getJSON('answer-keys.json'), loadRuns()]);
     const tasks = [...keys.tasks].sort((a, b) => (a.order || 0) - (b.order || 0));
 
+    renderFindings(tasks, runs);
     renderScoreboard(tasks, runs);
 
     const list = document.getElementById('task-list');

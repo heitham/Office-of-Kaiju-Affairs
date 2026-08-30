@@ -5,7 +5,7 @@
   "lane": "ui-guessing",
   "agent": {
     "name": "MOCK",
-    "model": "placeholder — replaced by the drift-race session",
+    "model": "placeholder \u2014 replaced by the drift-race session",
     "harness": "drift-race",
     "toolsAvailable": []
   },
@@ -151,7 +151,7 @@
       "durationMs": 4800,
       "outcome": "ok",
       "type": "read",
-      "label": "Found \"a ¥12,000 assessment fee applies to each claim\" — took it at face value"
+      "label": "Found \"a \u00a512,000 assessment fee applies to each claim\" \u2014 took it at face value"
     },
     {
       "index": 13,
@@ -196,7 +196,7 @@
       "durationMs": 8200,
       "outcome": "ok",
       "type": "read",
-      "label": "Saw \"Exemptions are listed in the claims FAQ\" — but no direct link to the section"
+      "label": "Saw \"Exemptions are listed in the claims FAQ\" \u2014 but no direct link to the section"
     },
     {
       "index": 17,
@@ -215,7 +215,7 @@
       "durationMs": 3400,
       "outcome": "ok",
       "type": "navigate",
-      "label": "Loaded the FAQ — 1,480 words",
+      "label": "Loaded the FAQ \u2014 1,480 words",
       "target": {
         "path": "/claims/faq/",
         "url": "https://kaiju-affairs.example/claims/faq/"
@@ -239,11 +239,11 @@
       "outcome": "ok",
       "type": "answer",
       "label": "Answered without the rule",
-      "detail": "Hedged: \"there may be exemptions — contact your regional office\"."
+      "detail": "Hedged: \"there may be exemptions \u2014 contact your regional office\"."
     }
   ],
   "result": {
-    "answer": "The claim assessment fee is ¥12,000 per claim. There may be exemptions in some circumstances — contact your regional office to confirm whether one applies to you.",
+    "answer": "The claim assessment fee is \u00a512,000 per claim. There may be exemptions in some circumstances \u2014 contact your regional office to confirm whether one applies to you.",
     "submitted": false,
     "gaveUp": false
   },
@@ -265,7 +265,7 @@
         "label": "States the fee is waived",
         "weight": 2,
         "pass": false,
-        "actual": "hedged — \"there may be exemptions\""
+        "actual": "hedged \u2014 \"there may be exemptions\""
       },
       {
         "id": "threshold",
@@ -276,10 +276,10 @@
       },
       {
         "id": "amount",
-        "label": "Names the ¥12,000 fee",
+        "label": "Names the \u00a512,000 fee",
         "weight": 1,
         "pass": true,
-        "actual": "¥12,000"
+        "actual": "\u00a512,000"
       },
       {
         "id": "citation",
@@ -295,7 +295,12 @@
         "pass": false,
         "actual": "told the user to phone the office"
       }
+    ],
+    "normalisations": [
+      "A field counts if the entered value CONTAINS the expected value \u2014 \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if the entered value reads affirmative \u2014 \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed \u2014 a UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension."
     ]
   },
-  "notes": "PLACEHOLDER. The rule is in the FAQ the agent actually opened — it stopped scrolling two sections short."
+  "notes": "PLACEHOLDER. The rule is in the FAQ the agent actually opened \u2014 it stopped scrolling two sections short."
 }

@@ -20,8 +20,10 @@
     <p class="lede">
       One agent reads the pages and clicks around, the way agents have to on every
       government site in the country. The other calls the tools this site publishes
-      about itself. Everything below the fold is a recording — except the fast lane,
-      which you can run yourself, right now, in this tab.
+      about itself. Both of them get the right answer most of the time — we recorded
+      it, and we publish the runs. What separates them is what it costs to get there,
+      and whether you can check the answer afterwards. Everything below is a real
+      recording, except the fast lane, which you can run yourself in this tab.
     </p>
     <div id="status" class="status" role="status" aria-live="polite">
       <span class="dot"></span><span class="status-text">Checking this browser for WebMCP…</span>
@@ -30,6 +32,22 @@
 </header>
 
 <main class="wrap">
+
+  <section id="findings" class="findings" aria-labelledby="findings-h" hidden>
+    <h2 id="findings-h">What the recordings actually show</h2>
+    <p class="sub">
+      Every figure below is computed from the trace files on this page, not written
+      by hand. The honest headline is not that the agent without tools fails — it
+      mostly succeeds. It is what success costs it, and what it cannot hand back.
+    </p>
+    <div class="findings-grid"></div>
+    <p class="findings-foot">
+      Two things the UI lane never produced, at any cost: a citation you could check
+      its answer against, and a guarantee it would stop before submitting. It did
+      stop, every recorded time. Nothing made it.
+      <code>prefill_permit_form</code> has no code path that submits.
+    </p>
+  </section>
 
   <section class="board" aria-labelledby="board-h">
     <h2 id="board-h">Scoreboard</h2>

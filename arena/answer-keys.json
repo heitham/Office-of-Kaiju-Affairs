@@ -7,39 +7,54 @@
       "order": 1,
       "title": "Needle in the haystack",
       "shortTitle": "Find the buried rule",
-      "difficulty": "The rule is four clicks deep, in the middle of a 1,500-word FAQ, and the word 'waiver' never appears in the navigation.",
+      "difficulty": "The rule is easy to find \u2014 the FAQ card advertises it. The trap is one sentence further on: the waiver counts approved claims only, and this claimant has one approved and one pending. A skim says waived; the page says payable.",
       "persona": {
         "name": "Mira Tanaka",
         "summary": "Bakery owner in Zone 4, second claim this year.",
-        "scenario": "You are Mira Tanaka. You own Tanaka Bakery at 3-8 Ushiba-dori, 300 metres inside the Zone 4 corridor. Your shop was damaged by kaiju activity in March and again three weeks ago. The March claim was approved. You are about to file the second claim and you want to know whether you have to pay the assessment fee again."
+        "scenario": "You are Mira Tanaka. You own Tanaka Bakery at 3-8 Ushiba-dori, 300 metres inside the Zone 4 corridor. Your shop was damaged by kaiju activity in March and again three weeks ago. The March claim was approved. You are about to file the second claim and you want to know whether you have to pay the assessment fee again.",
+        "answers": {
+          "zone": "4",
+          "structuralDamage": true,
+          "incidentsLast12Months": 1,
+          "propertyType": "commercial",
+          "insurancePayoutReceived": false,
+          "householdIncomeYen": 3600000,
+          "daysSinceIncident": 21
+        }
       },
       "prompt": "Using this site, find out whether I have to pay the claim assessment fee a second time, and quote the rule.",
       "expected": {
-        "summary": "No. Two or more approved claims from separate incidents in a rolling 12-month period exempt the claimant from the \u00a512,000 assessment fee on subsequent claims in that period. It is applied automatically by the regional office.",
+        "summary": "Yes, the fee is payable. The waiver needs two or more APPROVED claims from separate incidents in a rolling 12-month period, and the published rule states that refused, withdrawn and pending claims do not count. This claimant has one approved claim and one about to be filed, so the \u00a512,000 assessment fee applies to it. A second approved claim would trigger the waiver automatically at lodgement.",
         "ruleId": "repeat-claimant-fee-waiver",
         "sourcePath": "/claims/faq/",
         "sourceAnchor": "#fee-waivers",
         "feeAmount": 12000,
-        "threshold": "2 approved claims from separate incidents in any rolling 12 months",
+        "threshold": "2 APPROVED claims from separate incidents in any rolling 12 months; pending claims do not count",
         "mustAppearOnPage": [
           "12,000",
           "12-month",
-          "two or more"
+          "two or more",
+          "approved claims only"
         ],
-        "rankingQuery": "fee waiver repeat damage claims"
+        "rankingQuery": "fee waiver repeat damage claims",
+        "feeWaiverApplies": false,
+        "difficultyClaims": {
+          "sourceWordCountAtLeast": 150,
+          "minClickDepthFromHome": 2
+        }
       },
       "checks": [
         {
           "id": "answer-no-fee",
-          "label": "States the fee is waived / not payable again",
+          "label": "States the fee IS payable for this claimant",
           "weight": 2,
-          "expect": "waived"
+          "expect": "payable"
         },
         {
           "id": "threshold",
-          "label": "States the two-claims-in-12-months threshold",
+          "label": "States the two-APPROVED-claims threshold",
           "weight": 2,
-          "expect": "2 claims / 12 months"
+          "expect": "2 approved / 12 months"
         },
         {
           "id": "amount",
@@ -55,9 +70,15 @@
         },
         {
           "id": "no-application",
-          "label": "Notes that no separate application is needed",
+          "label": "Notes the waiver applies automatically once the threshold is met",
           "weight": 1,
           "expect": "applied automatically"
+        },
+        {
+          "id": "pending-clause",
+          "label": "Notices that pending claims do not count toward the threshold",
+          "weight": 3,
+          "expect": "approved only"
         }
       ],
       "toolPath": [
@@ -73,8 +94,8 @@
       "difficulty": "The outcome depends on four separate rules spread across three pages, and two of them are conditional grants rather than the headline decision.",
       "persona": {
         "name": "Mira Tanaka",
-        "summary": "Zone 4 commercial property, structural damage, low household income, second claim.",
-        "scenario": "You are Mira Tanaka. Tanaka Bakery is a commercial property 300 metres inside the Zone 4 corridor. The incident was 21 days ago and caused verified structural damage to the shopfront and the rear wall. You have had two approved claims in the last 12 months, including this one. No insurer has paid out. Your annual household income is \u00a53,600,000.",
+        "summary": "Zone 4 commercial property, structural damage, low household income, two earlier claims already approved.",
+        "scenario": "You are Mira Tanaka. Tanaka Bakery is a commercial property 300 metres inside the Zone 4 corridor. Two of your earlier claims were approved within the last 12 months. A further incident 21 days ago caused verified structural damage to the shopfront and the rear wall, and you are filing for it now. No insurer has paid out. Your annual household income is \u00a53,600,000.",
         "answers": {
           "zone": "4",
           "structuralDamage": true,

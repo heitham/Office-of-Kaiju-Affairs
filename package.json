@@ -7,9 +7,10 @@
   "license": "MIT",
   "scripts": {
     "build": "node build.mjs",
-    "test": "node runtime/test/smoke.mjs && node tools/check-coupling.mjs",
+    "test": "node runtime/test/smoke.mjs && node tools/check-coupling.mjs && node tools/check-traces.mjs",
     "dev": "node build.mjs && node --experimental-strip-types serve.mjs",
-    "check": "node tools/check-coupling.mjs"
+    "check": "node tools/check-coupling.mjs",
+    "check:traces": "node tools/check-traces.mjs"
   },
   "engines": {
     "node": ">=18"

@@ -4,40 +4,87 @@
   "title": "Kaiju Affairs race trace",
   "description": "One recorded run of one agent, on one task, in one lane. Produced by the drift-race session; replayed by the Arena. One file per run.",
   "type": "object",
-  "required": ["traceVersion", "runId", "lane", "task", "steps", "metrics"],
+  "required": [
+    "traceVersion",
+    "runId",
+    "lane",
+    "task",
+    "steps",
+    "metrics"
+  ],
   "additionalProperties": false,
   "properties": {
-    "traceVersion": { "const": "1.0" },
-    "runId": { "type": "string", "description": "Unique id for this run, e.g. 'ui-task-1-r1'." },
-    "recordedAt": { "type": "string", "format": "date-time" },
+    "traceVersion": {
+      "const": "1.0"
+    },
+    "runId": {
+      "type": "string",
+      "description": "Unique id for this run, e.g. 'ui-task-1-r1'."
+    },
+    "recordedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
     "lane": {
-      "enum": ["ui-guessing", "webmcp"],
+      "enum": [
+        "ui-guessing",
+        "webmcp"
+      ],
       "description": "ui-guessing = no tools, reads and clicks like a scraper. webmcp = page-registered tools."
     },
     "agent": {
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
-        "model": { "type": "string" },
-        "harness": { "type": "string", "description": "e.g. 'drift-race'" },
-        "toolsAvailable": { "type": "array", "items": { "type": "string" } }
+        "name": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "harness": {
+          "type": "string",
+          "description": "e.g. 'drift-race'"
+        },
+        "toolsAvailable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "site": {
       "type": "object",
       "properties": {
-        "baseUrl": { "type": "string" },
-        "manifestVersion": { "type": "string" },
-        "commit": { "type": "string", "description": "Site build the run was recorded against." }
+        "baseUrl": {
+          "type": "string"
+        },
+        "manifestVersion": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string",
+          "description": "Site build the run was recorded against."
+        }
       }
     },
     "task": {
       "type": "object",
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "properties": {
-        "id": { "type": "string", "description": "Must match a task id in arena/answer-keys.json." },
-        "title": { "type": "string" },
-        "prompt": { "type": "string", "description": "Verbatim prompt given to the agent, persona included." }
+        "id": {
+          "type": "string",
+          "description": "Must match a task id in arena/answer-keys.json."
+        },
+        "title": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string",
+          "description": "Verbatim prompt given to the agent, persona included."
+        }
       }
     },
     "steps": {
@@ -45,94 +92,234 @@
       "description": "Ordered, one entry per observable action. The Arena replays these.",
       "items": {
         "type": "object",
-        "required": ["index", "tMs", "type", "label"],
+        "required": [
+          "index",
+          "tMs",
+          "type",
+          "label"
+        ],
         "additionalProperties": false,
         "properties": {
-          "index": { "type": "integer", "minimum": 1 },
-          "tMs": { "type": "integer", "description": "Milliseconds from the start of the run." },
-          "durationMs": { "type": "integer" },
+          "index": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "tMs": {
+            "type": "integer",
+            "description": "Milliseconds from the start of the run."
+          },
+          "durationMs": {
+            "type": "integer"
+          },
           "type": {
-            "enum": ["navigate", "click", "scroll", "read", "search", "type", "tool_call", "think", "answer", "prefill"],
+            "enum": [
+              "navigate",
+              "click",
+              "scroll",
+              "read",
+              "search",
+              "type",
+              "tool_call",
+              "think",
+              "answer",
+              "prefill"
+            ],
             "description": "Only 'tool_call' counts as a tool call; everything else counts as a UI action."
           },
-          "label": { "type": "string", "description": "One line, shown in the replay. e.g. 'Clicked \"Claims\" in the main nav'." },
-          "detail": { "type": "string", "description": "Optional second line — what the agent saw or concluded." },
+          "label": {
+            "type": "string",
+            "description": "One line, shown in the replay. e.g. 'Clicked \"Claims\" in the main nav'."
+          },
+          "detail": {
+            "type": "string",
+            "description": "Optional second line \u2014 what the agent saw or concluded."
+          },
           "target": {
             "type": "object",
             "properties": {
-              "path": { "type": "string" },
-              "url": { "type": "string" },
-              "selector": { "type": "string" },
-              "text": { "type": "string" }
+              "path": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "selector": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
             }
           },
           "toolCall": {
             "type": "object",
-            "required": ["name"],
+            "required": [
+              "name"
+            ],
             "properties": {
-              "name": { "type": "string" },
-              "arguments": { "type": "object" },
-              "resultSummary": { "type": "string" },
-              "resultBytes": { "type": "integer" },
-              "isError": { "type": "boolean" }
+              "name": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "object"
+              },
+              "resultSummary": {
+                "type": "string"
+              },
+              "resultBytes": {
+                "type": "integer"
+              },
+              "isError": {
+                "type": "boolean"
+              }
             }
           },
           "cost": {
             "type": "object",
             "properties": {
-              "bytes": { "type": "integer", "description": "Bytes of page or result the agent had to take in." },
-              "tokensIn": { "type": "integer" },
-              "tokensOut": { "type": "integer" }
+              "bytes": {
+                "type": "integer",
+                "description": "Bytes of page or result the agent had to take in."
+              },
+              "tokensIn": {
+                "type": "integer"
+              },
+              "tokensOut": {
+                "type": "integer"
+              }
             }
           },
-          "outcome": { "enum": ["ok", "dead-end", "error"], "default": "ok" }
+          "outcome": {
+            "enum": [
+              "ok",
+              "dead-end",
+              "error"
+            ],
+            "default": "ok"
+          }
         }
       }
     },
     "result": {
       "type": "object",
       "properties": {
-        "answer": { "type": "string", "description": "The agent's final answer, verbatim." },
-        "answerFields": { "type": "object", "description": "Structured result where the task has one (e.g. form values)." },
-        "submitted": { "type": "boolean", "description": "Whether a form was submitted. Must be false for task-3-permit." },
-        "gaveUp": { "type": "boolean" }
+        "answer": {
+          "type": "string",
+          "description": "The agent's final answer, verbatim."
+        },
+        "answerFields": {
+          "type": "object",
+          "description": "Structured result where the task has one (e.g. form values)."
+        },
+        "submitted": {
+          "type": "boolean",
+          "description": "Whether a form was submitted. Must be false for task-3-permit."
+        },
+        "gaveUp": {
+          "type": "boolean"
+        }
       }
     },
     "metrics": {
       "type": "object",
-      "required": ["wallClockMs", "actionCount"],
+      "required": [
+        "wallClockMs",
+        "actionCount"
+      ],
       "properties": {
-        "wallClockMs": { "type": "integer" },
-        "actionCount": { "type": "integer", "description": "Total steps of any type." },
-        "toolCalls": { "type": "integer" },
-        "pageLoads": { "type": "integer" },
-        "deadEnds": { "type": "integer" },
-        "bytesTransferred": { "type": "integer" }
+        "wallClockMs": {
+          "type": "integer"
+        },
+        "actionCount": {
+          "type": "integer",
+          "description": "Total steps of any type."
+        },
+        "toolCalls": {
+          "type": "integer"
+        },
+        "pageLoads": {
+          "type": "integer"
+        },
+        "deadEnds": {
+          "type": "integer"
+        },
+        "bytesTransferred": {
+          "type": "integer"
+        }
       }
     },
     "score": {
       "type": "object",
       "properties": {
-        "answerKeyId": { "type": "string", "description": "Task id in arena/answer-keys.json this was scored against." },
-        "accuracy": { "type": "number", "minimum": 0, "maximum": 1, "description": "Weighted fraction of passing checks." },
-        "verdict": { "enum": ["correct", "partial", "incorrect", "abandoned"] },
+        "answerKeyId": {
+          "type": "string",
+          "description": "Task id in arena/answer-keys.json this was scored against."
+        },
+        "accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Weighted fraction of passing checks."
+        },
+        "verdict": {
+          "enum": [
+            "correct",
+            "partial",
+            "incorrect",
+            "abandoned"
+          ]
+        },
         "checks": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["id", "pass"],
+            "required": [
+              "id",
+              "pass"
+            ],
             "properties": {
-              "id": { "type": "string", "description": "Check id from answer-keys.json." },
-              "label": { "type": "string" },
-              "weight": { "type": "number" },
-              "pass": { "type": "boolean" },
-              "actual": { "type": "string" },
-              "note": { "type": "string" }
+              "id": {
+                "type": "string",
+                "description": "Check id from answer-keys.json."
+              },
+              "label": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number"
+              },
+              "pass": {
+                "type": "boolean"
+              },
+              "actual": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
             }
           }
+        },
+        "normalisations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Plain-English sentences describing every leniency applied when scoring, written so a reader can act on them. Rendered by the Arena under the verdict. A normalisation a reader cannot see is indistinguishable from a thumb on the scale."
         }
       }
     },
-    "notes": { "type": "string" }
+    "notes": {
+      "type": "string"
+    },
+    "pass": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Which pass of this task+lane this run is, when several were recorded. Optional; a trace without it is pass 1. baselines/index.json remains authoritative for which pass is promoted."
+    },
+    "promoted": {
+      "type": "boolean",
+      "description": "Convenience mirror of the index entry's `promoted` flag. Optional. Where the two disagree, index.json wins \u2014 promotion is a curation decision and lives with the index."
+    }
   }
 }

@@ -267,6 +267,33 @@ One file per run: one agent, one task, one lane.
 }
 ```
 
+### Multiple passes per task+lane
+
+Recording one run tells you what happened once; recording several tells you
+whether the agent is reliable, which is a different and more useful fact. The
+index represents passes as separate entries:
+
+```jsonc
+{ "taskId": "task-3-permit", "lane": "ui-guessing", "file": "ui-task-3-permit-p1.json", "pass": 1, "promoted": false },
+{ "taskId": "task-3-permit", "lane": "ui-guessing", "file": "ui-task-3-permit-p4.json", "pass": 4, "promoted": true }
+```
+
+- Exactly one entry per task+lane carries `promoted: true`. That is the run the
+  Arena replays step by step and the one that appears on the scoreboard.
+- Every other pass is still loaded. Their accuracies render as the run-to-run
+  spread beneath the replay. An agent scoring 1.00, 1.00, 1.00 and 0.64 is not
+  the same thing as one scoring 0.91, and averaging it away destroys the point.
+- `pass`/`promoted` are optional. A single trace with neither is treated as
+  pass 1, promoted.
+
+### Declared scoring normalisations
+
+`score.normalisations` is an array of plain-English sentences describing every
+leniency applied when scoring, written so a judge can act on them. The Arena
+renders them under the verdict. State them in the trace rather than only in the
+scorer's source: a normalisation a reader cannot see is indistinguishable from
+a thumb on the scale.
+
 Notes for the recording session:
 
 - `tMs` is **milliseconds from the start of the run**, and `steps` must be

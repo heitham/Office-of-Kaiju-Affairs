@@ -214,16 +214,22 @@ await kaijuWebMCP.call('search_site', { query: 'fee waiver repeat damage claims'
 
 ## Why WebMCP, specifically
 
-Agents are already using government sites. They do it by reading rendered HTML
-and guessing which link is the right one, which is slow, expensive, and — the
-part that matters — silently wrong in ways nobody catches. The Arena's recorded
-runs include an agent that submitted a permit application with the wrong
-reinforcement standard and no seismic plan attached, and told the applicant it
-was done.
+Agents are already using government sites, by reading rendered HTML and guessing
+which link is the right one. On a small, well-structured site that mostly works
+— our own recorded baselines say so, and we publish them rather than hide them.
+What it costs is time and certainty: seconds and kilobytes of parsed HTML per
+question, an answer with no citation attached, and no way for the person reading
+it to tell a right answer from a confident wrong one.
 
-WebMCP fixes the specific thing that is broken: the site declares what it can do
-in a form an agent can act on, and declares which actions a human still has to
-take. Both halves matter. The second half is the one a scraper can never respect.
+WebMCP changes what the site guarantees rather than what the agent manages. The
+tools return structured answers with a citation to the page that states each
+rule, so a claim can be checked instead of trusted. And the handover to the
+human is structural: `prefill_permit_form` has no code path that submits, so a
+form cannot be filed on someone's behalf by an agent that decides it knows best.
+
+That distinction is the point, and our own traces sharpen it. The UI-guessing
+agent did not submit the permit either — it behaved well, four runs out of four.
+But nothing made it behave well. Here, nothing has to.
 
 ## Licence
 
