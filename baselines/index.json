@@ -1,53 +1,11 @@
 {
   "indexVersion": "1.0",
-  "note": "Written by the drift-race session after each recording session. The Arena reads this file to know which traces to load; it never guesses filenames. Multiple passes of the same task+lane are separate entries distinguished by `pass`; exactly one per task+lane should carry `promoted: true` and is the run the Arena replays. The others are still loaded, and their scores are shown as the run-to-run spread \u2014 that spread is evidence, not noise.",
+  "note": "Written by the drift-race session after each recording session. The Arena reads this file to know which traces to load; it never guesses filenames. An empty `runs` array means no runs have been recorded yet, and the Arena says so rather than showing anything. Multiple passes of the same task+lane are separate entries distinguished by `pass`; exactly one per task+lane (per `tier`, where tiers are recorded) carries `promoted: true` and is the run the Arena replays. Other passes render as the run-to-run spread.",
   "recordedAgainst": {
     "baseUrl": null,
     "commit": null,
-    "manifestVersion": "1.0"
+    "manifestVersion": "1.0",
+    "answerKeySha": null
   },
-  "runs": [
-    {
-      "taskId": "task-1-needle",
-      "lane": "ui-guessing",
-      "file": "ui-task-1-needle.json",
-      "pass": 1,
-      "promoted": true
-    },
-    {
-      "taskId": "task-1-needle",
-      "lane": "webmcp",
-      "file": "mcp-task-1-needle.json",
-      "pass": 1,
-      "promoted": true
-    },
-    {
-      "taskId": "task-2-eligibility",
-      "lane": "ui-guessing",
-      "file": "ui-task-2-eligibility.json",
-      "pass": 1,
-      "promoted": true
-    },
-    {
-      "taskId": "task-2-eligibility",
-      "lane": "webmcp",
-      "file": "mcp-task-2-eligibility.json",
-      "pass": 1,
-      "promoted": true
-    },
-    {
-      "taskId": "task-3-permit",
-      "lane": "ui-guessing",
-      "file": "ui-task-3-permit.json",
-      "pass": 1,
-      "promoted": true
-    },
-    {
-      "taskId": "task-3-permit",
-      "lane": "webmcp",
-      "file": "mcp-task-3-permit.json",
-      "pass": 1,
-      "promoted": true
-    }
-  ]
+  "runs": []
 }

@@ -113,8 +113,17 @@ async function loadRuns() {
 function renderFindings(tasks, runs) {
   const host = document.getElementById('findings');
   if (!host) return;
-  const ui = runs.filter((r) => r.lane === 'ui-guessing');
+  let ui = runs.filter((r) => r.lane === 'ui-guessing');
   if (!ui.length) { host.hidden = true; return; }
+
+  // If more than one agent tier was recorded, the figures describe the promoted
+  // tier alone. Averaging a strong model with a weak one would describe neither.
+  const promotedTier = ui.find((r) => r.promoted)?.tier
+    || ui.find((r) => r.promoted)?.trace.agent?.model;
+  if (promotedTier) {
+    const sameTier = ui.filter((r) => (r.tier || r.trace.agent?.model) === promotedTier);
+    if (sameTier.length) ui = sameTier;
+  }
 
   const acc = ui.map((r) => r.trace.score?.accuracy).filter((a) => a != null);
   const loads = ui.map((r) => r.trace.metrics.pageLoads || 0);
@@ -149,12 +158,51 @@ function renderFindings(tasks, runs) {
     }
   ];
 
-  if (bytes.length && toolBytes.length) {
+  // Cost. Tokens where both lanes recorded them, bytes otherwise — and stated in
+  // whichever direction the data actually runs. The tool lane pays to fetch the
+  // manifest once, so this comparison is not guaranteed to favour it, and the
+  // card must read correctly if it does not.
+  const tokensOf = (rs) => rs.flatMap((r) => (r.trace.steps || []).map((st) => (st.cost?.tokensIn || 0) + (st.cost?.tokensOut || 0)));
+  const uiTokens = sum(tokensOf(ui));
+  const toolTokens = sum(tokensOf(tool));
+
+  const cost = uiTokens && toolTokens
+    ? { unit: 'context tokens', a: uiTokens / ui.length, b: toolTokens / tool.length, fmt: (n) => `${Math.round(n).toLocaleString()}` }
+    : (bytes.length && toolBytes.length
+        ? { unit: 'bytes fetched', a: sum(bytes) / bytes.length, b: sum(toolBytes) / toolBytes.length, fmt: kb }
+        : null);
+
+  if (cost && cost.a > 0 && cost.b > 0) {
+    const uiHeavier = cost.a >= cost.b;
+    const ratio = uiHeavier ? cost.a / cost.b : cost.b / cost.a;
     cards.push({
-      figure: `${Math.round(sum(bytes) / sum(toolBytes))}×`,
-      label: 'more bytes read by the UI lane',
-      body: `${kb(sum(bytes) / bytes.length)} of HTML per task, against ${kb(sum(toolBytes) / toolBytes.length)} of structured results.`
+      figure: `${ratio < 10 ? ratio.toFixed(1) : Math.round(ratio)}×`,
+      label: `more ${cost.unit}, ${uiHeavier ? 'UI lane' : 'tool lane'} per task`,
+      body: uiHeavier
+        ? `${cost.fmt(cost.a)} against ${cost.fmt(cost.b)}. The pages have to be read; the tools are asked.`
+        : `${cost.fmt(cost.b)} against ${cost.fmt(cost.a)}. The tool lane fetches the whole manifest once, and on a site this small that costs more than reading the few pages an answer needs. We publish it in the direction the data runs.`
     });
+  }
+
+  // Both lanes' accuracy, so the panel cannot imply the tools were flawless.
+  const toolAcc = tool.map((r) => r.trace.score?.accuracy).filter((a) => a != null);
+  if (toolAcc.length) {
+    const toolPerfect = toolAcc.filter((a) => a === 1).length;
+    if (toolPerfect < toolAcc.length) {
+      cards.push({
+        figure: `${toolPerfect} of ${toolAcc.length}`,
+        label: 'tool-lane passes scored full marks',
+        body: `The tools are not a correctness guarantee either. Where a tool answered wrongly, the run is on this page with the rest.`
+      });
+    }
+  }
+
+  const model = ui[0]?.trace.agent?.model;
+  const foot = host.querySelector('.findings-foot');
+  if (model && foot && !foot.dataset.stamped) {
+    foot.dataset.stamped = '1';
+    foot.insertAdjacentHTML('beforeend',
+      ` <span class="provenance">Figures computed from ${ui.length} recorded pass${ui.length === 1 ? '' : 'es'} of ${escapeHtml(model)}.</span>`);
   }
 
   host.hidden = false;
@@ -472,10 +520,19 @@ function escapeHtml(value) {
     const list = document.getElementById('task-list');
     list.replaceChildren(...tasks.map((task) => renderTask(task, runs)));
 
-    const mock = runs.some((r) => r.trace.agent?.name === 'MOCK');
-    document.getElementById('trace-provenance').textContent = mock
-      ? 'baseline traces: PLACEHOLDER — not yet recorded'
-      : `baseline traces recorded ${(runs[0]?.trace.recordedAt || '').slice(0, 10)} against ${index.recordedAgainst?.commit || 'the published site'}`;
+    const provenance = document.getElementById('trace-provenance');
+    if (!runs.length) {
+      provenance.textContent = 'no baseline runs recorded yet — the three tasks above are live and you can run them yourself';
+    } else if (runs.some((r) => r.trace.agent?.name === 'MOCK')) {
+      provenance.textContent = 'baseline traces: PLACEHOLDER — not recorded, not to be published';
+    } else {
+      const when = (runs[0]?.trace.recordedAt || '').slice(0, 10);
+      const against = index.recordedAgainst?.commit || runs[0]?.trace.site?.commit || 'the published site';
+      const key = index.recordedAgainst?.answerKeySha;
+      provenance.textContent =
+        `${runs.length} baseline runs recorded${when ? ` ${when}` : ''} against ${against}` +
+        (key ? `, scored against answer key ${key.slice(0, 7)}` : '');
+    }
   } catch (error) {
     console.error('[arena]', error);
     document.getElementById('task-list').innerHTML =
