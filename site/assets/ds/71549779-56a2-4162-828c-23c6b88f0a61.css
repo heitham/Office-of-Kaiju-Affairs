@@ -419,3 +419,14 @@ section:has(> .card) > h2 {
 /* stacked cards outside grid sections still get air */
 .card + .card { margin-top: var(--space-md); }
 section:has(> .card) .card + .card { margin-top: 0; }
+
+/* ---------- Kaiju mark (masked so it recolors with the theme) ---------- */
+.site-header__logo {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: var(--neutral-100);
+  -webkit-mask: url('/kaiju-mark.png') center / contain no-repeat;
+  mask: url('/kaiju-mark.png') center / contain no-repeat;
+}
+.site-header__brand:hover .site-header__logo { background-color: var(--primary-500); }
