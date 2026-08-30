@@ -324,6 +324,11 @@
     "tier": {
       "type": "string",
       "description": "Agent tier id when more than one model was recorded, e.g. \"sonnet-5\" or \"haiku-4-5\". Required only when a task+lane group holds passes from more than one model. The Arena aggregates passes within a group, so untiered mixing would report two models' average as one result."
+    },
+    "round": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Which measurement round this run belongs to. Round 1 is the runtime as first published; round 2 is after the two tool fixes the benchmark found. Optional; a trace without it is round 1. Orthogonal to `tier` \u2014 every tier is recorded within a round, so rounds must not be encoded into tier values."
     }
   }
 }

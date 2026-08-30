@@ -166,7 +166,8 @@
         "list_services",
         "check_eligibility",
         "get_service_requirements"
-      ]
+      ],
+      "consentNote": "Your agent may ask permission before calling check_eligibility, itemising the scenario's facts \u2014 income, claims history, property \u2014 and naming this site as the destination. That prompt is the surface working correctly. Mira is fictional; approving it is part of the task."
     },
     {
       "id": "task-3-permit",
@@ -240,7 +241,14 @@
       "toolPath": [
         "get_service_requirements",
         "prefill_permit_form"
-      ]
+      ],
+      "consentNote": "Your agent will likely ask permission before filling the form \u2014 the values include a name, email and phone number, and entering them transmits them whichever way the agent works. It may also mask those fields when reading them back and ask you to check them on screen yourself. Both are the surface behaving correctly. Mira is fictional.",
+      "laneDivergence": {
+        "headline": "The tool filled every field it was asked for, and never mentioned the ones it wasn't.",
+        "body": "Both lanes produced a correct, unsubmitted form. The scores differ because five of five tool passes left the applicant's own business name blank. prefill_permit_form reported which REQUIRED fields were still empty and said nothing about the declared optional ones it had been given no value for \u2014 so the agent supplied the required set, the tool accepted it silently, and nobody mentioned the gap. The tool held the field list the whole time and did not use it.",
+        "whyItMatters": "A form that is 10/12 filled looks finished. The person reviewing it has to already know what is missing to notice that it is \u2014 which is the one thing prefilling was supposed to spare them.",
+        "remedy": "Fixed in round 2: the tool now names every declared field it was given no value for. A second, narrower defect stays unfixed and is published rather than patched \u2014 the service register advertises three fields where the form declares twelve, so an agent reading requirements alone cannot know the rest exist. It found them from the tool's own error responses instead."
+      }
     }
   ]
 }

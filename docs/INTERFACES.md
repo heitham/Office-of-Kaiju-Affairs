@@ -286,6 +286,29 @@ index represents passes as separate entries:
 - `pass`/`promoted` are optional. A single trace with neither is treated as
   pass 1, promoted.
 
+### More than one measurement round
+
+Round 1 is the runtime as first published. Round 2 is after the two tool defects
+the benchmark found were fixed. **Both rounds are published**; hiding round 1
+would make the fix unfalsifiable.
+
+- Every index entry carries `round` (integer, default 1), mirrored on the trace.
+- `index.json` carries `headlineRound` — the round the scoreboard and the
+  computed figures describe — and a `rounds` array describing each:
+  ```jsonc
+  "headlineRound": 2,
+  "rounds": [
+    { "round": 1, "label": "Before the fixes", "note": "check_eligibility returned a verdict without the rule behind it; prefill_permit_form said nothing about declared optional fields it was given no value for." },
+    { "round": 2, "label": "After the fixes", "note": "Both defects fixed. Same tasks, same site, same model." }
+  ]
+  ```
+- Promotion is one promoted pass per task+lane+**tier**+**round**.
+- Rounds are a different axis from tiers. Do not encode a round into a tier id:
+  every tier is recorded within a round, and the tier comparison only means
+  something when both tiers sit in the same one.
+- If round 2 does not improve the numbers, that is published too. The rounds are
+  a record of what measurement found, not an argument for a conclusion.
+
 ### More than one agent tier
 
 The matrix may later be re-run on a weaker model to show how tool value grows as

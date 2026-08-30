@@ -343,3 +343,15 @@ code { font: .92em var(--mono); }
   text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px;
 }
 .divergence .missing { color: var(--bad); }
+
+
+/* Consent prompts a judge will meet on the tasks that transmit personal facts. */
+.consent {
+  margin: 0 0 14px; padding: 11px 14px;
+  border-left: 3px solid var(--slow); background: var(--slow-soft);
+  border-radius: 0 var(--radius-md, 3px) var(--radius-md, 3px) 0;
+  font-size: 14px; color: var(--ink-2);
+}
+
+.how-grid q { font-style: italic; }
+.how-grid .aside { color: var(--ink-3); font-size: 13px; white-space: nowrap; }

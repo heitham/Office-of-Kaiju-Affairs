@@ -197,7 +197,7 @@ export function createTools(ctx) {
       name: 'check_eligibility',
       title: 'Check eligibility against the published rules',
       description:
-        'Evaluate a person\'s situation against this agency\'s published eligibility rules and return the outcome, any fee waivers granted, the documents they will need, and a citation to the page that states each rule. Call with no answers first to receive the list of questions to ask. The answers are never stored or transmitted — they are evaluated in the page.',
+        'Evaluate a person\'s situation against this agency\'s published eligibility rules and return the outcome, any fee waivers granted, the documents they will need, a citation to the page that states each rule, and — for anything NOT granted — the requirement that was not met, so you can tell the person what would change the answer. Call with no answers first to receive the list of questions to ask. The answers are never stored or transmitted — they are evaluated in the page.',
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
       inputSchema: {
         type: 'object',
@@ -242,7 +242,12 @@ export function createTools(ctx) {
           outcome.grants.length ? `Granted: ${outcome.grants.join(', ')}` : '',
           outcome.requiredDocuments.length ? `Documents needed: ${outcome.requiredDocuments.join(', ')}` : '',
           outcome.missingAnswers.length ? `Still needed: ${outcome.missingAnswers.map((m) => m.id).join(', ')}` : '',
-          outcome.matchedRules.length ? `\nRules applied:\n${outcome.matchedRules.map((r) => `- ${r.description || r.id}${r.citation ? ` (${absolute(r.citation.path)}${r.citation.anchor || ''})` : ''}`).join('\n')}` : ''
+          outcome.matchedRules.length ? `\nRules applied:\n${outcome.matchedRules.map((r) => `- ${r.description || r.id}${r.citation ? ` (${absolute(r.citation.path)}${r.citation.anchor || ''})` : ''}`).join('\n')}` : '',
+          outcome.unmetRules?.length
+            ? `\nNot granted, and what each would need:\n${outcome.unmetRules.map((r) =>
+                `- ${r.wouldGrant.join(', ') || r.id}: ${r.requirement}. Yours: ${Object.entries(r.yourAnswers).map(([k, v]) => `${k}=${v ?? 'not answered'}`).join(', ')}.` +
+                `${r.description ? ` ${r.description}` : ''}${r.citation ? ` (${absolute(r.citation.path)}${r.citation.anchor || ''})` : ''}`).join('\n')}`
+            : ''
         ].filter(Boolean).join('\n');
         return result({ ok: true, ...outcome }, text);
       }
@@ -252,7 +257,7 @@ export function createTools(ctx) {
       name: 'prefill_permit_form',
       title: 'Fill in the form (the person submits it)',
       description:
-        'Fill the visible fields of the application form on the current page and report exactly what was entered. This tool never submits: the person reviews the highlighted fields and presses the button themselves. Call get_service_requirements first to learn the field names.',
+        'Fill the visible fields of the application form on the current page and report exactly what was entered, what was rejected, and which declared fields were left empty because no value was supplied. This tool never submits: the person reviews the highlighted fields and presses the button themselves. Call get_service_requirements first to learn the field names.',
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
       inputSchema: {
         type: 'object',
@@ -292,6 +297,7 @@ export function createTools(ctx) {
           `Filled ${report.filled.length} field(s) on ${descriptor.id}:`,
           ...report.filled.map((f) => `  ${f.label}: ${f.value}`),
           report.rejected.length ? `\nNot filled:\n${report.rejected.map((r) => `  ${r.name} — ${r.reason}`).join('\n')}` : '',
+          report.notProvided?.length ? `\nLeft empty because no value was supplied:\n${report.notProvided.map((f) => `  ${f.label} (${f.name}) — optional, but supply it if it applies`).join('\n')}` : '',
           `\n${report.humanAction}`
         ].filter(Boolean).join('\n');
         return result(report, text);

@@ -169,6 +169,21 @@ export function prefill(descriptor, values = {}) {
     })
     .map((f) => ({ name: f.name, label: f.label || f.name, type: f.type || 'text' }));
 
+  // Declared fields nobody supplied a value for and that are still empty. The
+  // required ones are reported separately; these are the optional ones, and
+  // saying nothing about them is how an applicant's own business name ends up
+  // blank on a submitted form. The tool has the field list — it should use it.
+  const notProvided = (descriptor.fields || [])
+    .filter((field) => !(field.name in values))
+    .filter((field) => !field.required)
+    .filter((field) => {
+      const control = findControl(form, field);
+      if (!control) return false;
+      if ((field.type || control.type) === 'checkbox') return !control.checked;
+      return !control.value;
+    })
+    .map((field) => ({ name: field.name, label: field.label || field.name, type: field.type || 'text' }));
+
   if (filled.length) {
     const first = findControl(form, declared.get(filled[0].name));
     first?.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -181,9 +196,12 @@ export function prefill(descriptor, values = {}) {
     filled,
     rejected,
     stillRequired,
+    notProvided,
     submitted: false,
     humanAction: stillRequired.length
       ? `${stillRequired.length} required field(s) still need a value, then the person reviews the form and presses "${descriptor.submitLabel || 'Submit'}".`
-      : `The form is ready. The person should review the highlighted fields and press "${descriptor.submitLabel || 'Submit'}" themselves — this tool never submits.`
+      : notProvided.length
+        ? `The form has every required field. ${notProvided.length} optional field(s) were left empty because no value was supplied for them — ${notProvided.map((f) => f.label).join(', ')}. Supply them and call again if they apply, then the person reviews and presses "${descriptor.submitLabel || 'Submit'}" themselves — this tool never submits.`
+        : `The form is ready. The person should review the highlighted fields and press "${descriptor.submitLabel || 'Submit'}" themselves — this tool never submits.`
   };
 }
