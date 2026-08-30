@@ -397,3 +397,25 @@ code, pre { font-family: var(--font-mono); }
 .site-footer__links { display: flex; gap: var(--space-lg); flex-wrap: wrap; }
 .site-footer__links a { color: var(--neutral-100); font-size: var(--font-size-small); }
 .site-footer__links a:hover { color: var(--primary-500); text-decoration: none; }
+
+/* ---------- Rhythm & readability pass ---------- */
+/* 1: page titles were hugging the masthead */
+.docs-content { padding: var(--space-xl) 0 var(--space-2xl); }
+.docs-content h1 { margin-bottom: var(--space-lg); }
+/* 2: vertical rhythm — section headings own their space instead of
+   crowding the cards; h2 keeps its rule line */
+.docs-content h2 { margin-top: var(--space-xl); margin-bottom: var(--space-md); }
+.docs-content section { margin: 0 0 var(--space-2xl); }
+/* card sections become a responsive grid instead of a touching stack */
+section:has(> .card) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-md);
+}
+section:has(> .card) > h2 {
+  grid-column: 1 / -1;
+  margin: var(--space-sm) 0 var(--space-xs);
+}
+/* stacked cards outside grid sections still get air */
+.card + .card { margin-top: var(--space-md); }
+section:has(> .card) .card + .card { margin-top: 0; }
