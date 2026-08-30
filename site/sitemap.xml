@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/webhooks</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/rate-limits</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/pipelines</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/index</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/events</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/error-responses</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/apis/connectors</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
     <loc>https://office-of-kaiju-affairs.vercel.app/sdks/python</loc>
     <lastmod>2026-08-29</lastmod>
   </url>
@@ -38,70 +10,6 @@
   </url>
   <url>
     <loc>https://office-of-kaiju-affairs.vercel.app/sdks/index</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/troubleshooting</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/support</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/security-and-compliance</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/release-notes-archive</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/platform</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/migration-guide-v1-to-v2</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/index</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/glossary</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/getting-started-quickstart</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/getting-started-installation</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/getting-started-authentication</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/concepts-pipelines</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/concepts-events</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/concepts-connectors</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/concepts</loc>
-    <lastmod>2026-08-29</lastmod>
-  </url>
-  <url>
-    <loc>https://office-of-kaiju-affairs.vercel.app/changelog</loc>
     <lastmod>2026-08-29</lastmod>
   </url>
   <url>
@@ -206,6 +114,98 @@
   </url>
   <url>
     <loc>https://office-of-kaiju-affairs.vercel.app/permits/proximity/apply/index</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/troubleshooting</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/support</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/security-and-compliance</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/release-notes-archive</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/platform</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/migration-guide-v1-to-v2</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/index</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/glossary</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/getting-started-quickstart</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/getting-started-installation</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/getting-started-authentication</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/concepts-pipelines</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/concepts-events</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/concepts-connectors</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/concepts</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/changelog</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/webhooks</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/rate-limits</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/pipelines</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/index</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/events</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/error-responses</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://office-of-kaiju-affairs.vercel.app/apis/connectors</loc>
     <lastmod>2026-08-29</lastmod>
   </url>
 </urlset>
