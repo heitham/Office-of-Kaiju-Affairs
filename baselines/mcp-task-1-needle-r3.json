@@ -198,12 +198,12 @@
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "## Answer: No — you do not have to pay the assessment fee again. Since your March claim was **approved**, and this new claim (three weeks ago) is a **second, separate incident within a rolling 12-month period**, you meet",
+      "detail": "## Answer: No \u2014 you do not have to pay the assessment fee again. Since your March claim was **approved**, and this new claim (three weeks ago) is a **second, separate incident within a rolling 12-month period**, you meet",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "## Answer: No — you do not have to pay the assessment fee again.\n\nSince your March claim was **approved**, and this new claim (three weeks ago) is a **second, separate incident within a rolling 12-month period**, you meet the repeat-claimant exemption.\n\n**The rule, as published on the site:**\n\n> \"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee. The waiver is applied automatically at lodgement; no separate application is required.\"\n> — *Claims FAQ*, \"Fee waivers\" section (https://office-of-kaiju-affairs.vercel.app/claims/faq/#fee-waivers)\n\nThis works alongside the standard fee rule from the **Claim Fee Schedule** page:\n\n> \"The claim assessment fee is ¥12,000, payable when the claim is lodged.\"\n> — https://office-of-kaiju-affairs.vercel.app/claims/fees/\n\nSince your March claim counts as your first approved claim and this filing would be your second approved claim from a separate incident in the same 12-month window, the ¥12,000 fee should be **waived automatically when you lodge the claim** — you don't need to submit a separate waiver request.\n\n**One practical note:** because your property is commercial and in Zone 4 with verified structural damage, the eligibility check also confirms your claim qualifies overall (citing `/claims/eligibility/#zone`), and as a commercial property you may also be eligible to additionally claim **business interruption** compensation (`/claims/damage-compensation/#covered`). Required documents for this claim: incident report, damage survey, proof of ownership, and business registration.",
+    "answer": "## Answer: No \u2014 you do not have to pay the assessment fee again.\n\nSince your March claim was **approved**, and this new claim (three weeks ago) is a **second, separate incident within a rolling 12-month period**, you meet the repeat-claimant exemption.\n\n**The rule, as published on the site:**\n\n> \"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the \u00a512,000 assessment fee. The waiver is applied automatically at lodgement; no separate application is required.\"\n> \u2014 *Claims FAQ*, \"Fee waivers\" section (https://office-of-kaiju-affairs.vercel.app/claims/faq/#fee-waivers)\n\nThis works alongside the standard fee rule from the **Claim Fee Schedule** page:\n\n> \"The claim assessment fee is \u00a512,000, payable when the claim is lodged.\"\n> \u2014 https://office-of-kaiju-affairs.vercel.app/claims/fees/\n\nSince your March claim counts as your first approved claim and this filing would be your second approved claim from a separate incident in the same 12-month window, the \u00a512,000 fee should be **waived automatically when you lodge the claim** \u2014 you don't need to submit a separate waiver request.\n\n**One practical note:** because your property is commercial and in Zone 4 with verified structural damage, the eligibility check also confirms your claim qualifies overall (citing `/claims/eligibility/#zone`), and as a commercial property you may also be eligible to additionally claim **business interruption** compensation (`/claims/damage-compensation/#covered`). Required documents for this claim: incident report, damage survey, proof of ownership, and business registration.",
     "submitted": false,
     "gaveUp": false
   },
@@ -246,10 +246,10 @@
       },
       {
         "id": "amount",
-        "label": "Names the ¥12,000 assessment fee",
+        "label": "Names the \u00a512,000 assessment fee",
         "weight": 1,
         "pass": true,
-        "actual": "names ¥12,000"
+        "actual": "names \u00a512,000"
       },
       {
         "id": "citation",
@@ -267,14 +267,15 @@
       }
     ],
     "normalisations": [
-      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
-      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
-      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "A field value counts if it CONTAINS the expected value \u2014 \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative \u2014 \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed \u2014 \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
       "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
-      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12\u2011month\" or \"only **one** approved\" is making the same claim as one that does not.",
       "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
       "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "3 of 5 recorded passes fell short of a full score. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "3 of 5 recorded passes fell short of a full score. This is the pass the Arena replays \u2014 the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded.",
+  "tier": "sonnet-5"
 }

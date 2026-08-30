@@ -218,12 +218,12 @@
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "Based on the site's own rules, **yes — you will have to pay the ¥12,000 claim assessment fee again for this second claim.** **Why:** The repeat-claimant waiver requires **two or more approved claims from separate inciden",
+      "detail": "Based on the site's own rules, **yes \u2014 you will have to pay the \u00a512,000 claim assessment fee again for this second claim.** **Why:** The repeat-claimant waiver requires **two or more approved claims from separate inciden",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "Based on the site's own rules, **yes — you will have to pay the ¥12,000 claim assessment fee again for this second claim.**\n\n**Why:** The repeat-claimant waiver requires **two or more approved claims from separate incidents within a rolling 12-month period** before the fee is waived:\n\n> \"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the ¥12,000 assessment fee. The waiver is applied automatically at lodgement; no separate application is required.\" — *Claims FAQ* (office-of-kaiju-affairs.vercel.app/claims/faq/#fee-waivers)\n\nRight now you have only **one** approved claim (the March incident) in the trailing 12 months. This upcoming claim would be your *second* filed claim, but it's only your *first* prior approval — so the \"two or more approved claims\" threshold isn't met yet. Running this through the eligibility checker confirms it explicitly:\n\n- Requirement: `incidentsLast12Months must be at least 2`\n- Your value: `incidentsLast12Months = 1`\n- Result: waiver **not granted** — fee is due.\n\n**What would change this:** If this second claim is approved, you would then have two approved claims within the rolling 12 months. At that point, any *third* claim filed within that same 12-month window would qualify for the automatic fee waiver (no separate application needed — it's applied at lodgement per the FAQ page).\n\nFor reference, the fee itself is confirmed on the **Claim Fee Schedule** page: \"The claim assessment fee is ¥12,000, payable when the claim is lodged\" (office-of-kaiju-affairs.vercel.app/claims/fees/), with a separate, unrelated refund rule that only kicks in if your final award exceeds ¥1,000,000 (full refund of the fee in that case) — that's a different mechanism from the repeat-claimant waiver.",
+    "answer": "Based on the site's own rules, **yes \u2014 you will have to pay the \u00a512,000 claim assessment fee again for this second claim.**\n\n**Why:** The repeat-claimant waiver requires **two or more approved claims from separate incidents within a rolling 12-month period** before the fee is waived:\n\n> \"Claimants with two or more approved claims from separate incidents within any rolling 12-month period are exempt from the \u00a512,000 assessment fee. The waiver is applied automatically at lodgement; no separate application is required.\" \u2014 *Claims FAQ* (office-of-kaiju-affairs.vercel.app/claims/faq/#fee-waivers)\n\nRight now you have only **one** approved claim (the March incident) in the trailing 12 months. This upcoming claim would be your *second* filed claim, but it's only your *first* prior approval \u2014 so the \"two or more approved claims\" threshold isn't met yet. Running this through the eligibility checker confirms it explicitly:\n\n- Requirement: `incidentsLast12Months must be at least 2`\n- Your value: `incidentsLast12Months = 1`\n- Result: waiver **not granted** \u2014 fee is due.\n\n**What would change this:** If this second claim is approved, you would then have two approved claims within the rolling 12 months. At that point, any *third* claim filed within that same 12-month window would qualify for the automatic fee waiver (no separate application needed \u2014 it's applied at lodgement per the FAQ page).\n\nFor reference, the fee itself is confirmed on the **Claim Fee Schedule** page: \"The claim assessment fee is \u00a512,000, payable when the claim is lodged\" (office-of-kaiju-affairs.vercel.app/claims/fees/), with a separate, unrelated refund rule that only kicks in if your final award exceeds \u00a51,000,000 (full refund of the fee in that case) \u2014 that's a different mechanism from the repeat-claimant waiver.",
     "submitted": false,
     "gaveUp": false
   },
@@ -266,10 +266,10 @@
       },
       {
         "id": "amount",
-        "label": "Names the ¥12,000 assessment fee",
+        "label": "Names the \u00a512,000 assessment fee",
         "weight": 1,
         "pass": true,
-        "actual": "names ¥12,000"
+        "actual": "names \u00a512,000"
       },
       {
         "id": "citation",
@@ -287,14 +287,15 @@
       }
     ],
     "normalisations": [
-      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
-      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
-      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "A field value counts if it CONTAINS the expected value \u2014 \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative \u2014 \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed \u2014 \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
       "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
-      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12\u2011month\" or \"only **one** approved\" is making the same claim as one that does not.",
       "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
       "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "3 of 5 recorded passes fell short of a full score. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "3 of 5 recorded passes fell short of a full score. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded.",
+  "tier": "sonnet-5"
 }

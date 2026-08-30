@@ -20,7 +20,7 @@
   "task": {
     "id": "task-3-permit",
     "title": "Permit prefill",
-    "prompt": "Using this site, fill in my proximity construction permit application. Do not submit it — I will review and submit it myself."
+    "prompt": "Using this site, fill in my proximity construction permit application. Do not submit it \u2014 I will review and submit it myself."
   },
   "steps": [
     {
@@ -84,7 +84,7 @@
       "tMs": 4027,
       "durationMs": 30,
       "type": "navigate",
-      "label": "Loaded Apply — Proximity Construction Permit | Office of Kaiju Affairs",
+      "label": "Loaded Apply \u2014 Proximity Construction Permit | Office of Kaiju Affairs",
       "detail": "8 KB of HTML, 9 links on the page",
       "target": {
         "path": "/permits/proximity/apply/",
@@ -216,11 +216,11 @@
       "tMs": 11369,
       "durationMs": 700,
       "type": "type",
-      "label": "Typed \"96\" into Floor area (m²)",
+      "label": "Typed \"96\" into Floor area (m\u00b2)",
       "detail": "field `floorAreaSqm`",
       "target": {
         "selector": "floorAreaSqm",
-        "text": "Floor area (m²)"
+        "text": "Floor area (m\u00b2)"
       },
       "outcome": "ok"
     },
@@ -281,12 +281,12 @@
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "I've filled in the Kaiju-Proximity Construction Permit application on the site's **Apply — Proximity Construction Permit** page (/permits/proximity/apply/) with the following details, as requested — without submitting it",
+      "detail": "I've filled in the Kaiju-Proximity Construction Permit application on the site's **Apply \u2014 Proximity Construction Permit** page (/permits/proximity/apply/) with the following details, as requested \u2014 without submitting it",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "I've filled in the Kaiju-Proximity Construction Permit application on the site's **Apply — Proximity Construction Permit** page (/permits/proximity/apply/) with the following details, as requested — without submitting it:\n\n- **Applicant name:** Mira Tanaka\n- **Organisation:** Tanaka Bakery\n- **Contact email:** mira@tanaka-bakery.example\n- **Contact phone:** 0299-55-0184\n- **Site postcode:** 315-0117\n- **Evacuation zone:** Zone 4\n- **Distance from corridor centreline:** 300 m\n- **Structure type:** Structural alteration\n- **Floor area:** 96 m²\n- **Reinforcement standard:** K-2 (zone 4 minimum) — this is correct since the requirements page confirms Zone 4 sites require at least K-2, and declaring anything lower would cause automatic refusal without refund.\n- **Seismic and impact mitigation plan attached:** Yes (since your structural engineer has already completed this)\n- **Planned start date:** 1 October 2026\n\nA few things worth double-checking before you submit, based on the **Requirements** page:\n1. Besides the seismic/impact mitigation plan, the application also needs a **site plan (1:500 scale)**, a **corridor proximity survey (no older than 6 months)**, and a **copy of your contractor's prefecture licence** — the form itself didn't show explicit upload fields for these, so you may want to confirm how/where those attach before submitting.\n2. The **¥45,000 fee** is due on submission and is non-refundable, and since your start date is Oct 1, 2026, make sure you submit at least 10 business days beforehand (the standard processing time is also 10 business days, so submitting well in advance is wise).\n\nThe form is ready for your review and submission whenever you're ready.",
+    "answer": "I've filled in the Kaiju-Proximity Construction Permit application on the site's **Apply \u2014 Proximity Construction Permit** page (/permits/proximity/apply/) with the following details, as requested \u2014 without submitting it:\n\n- **Applicant name:** Mira Tanaka\n- **Organisation:** Tanaka Bakery\n- **Contact email:** mira@tanaka-bakery.example\n- **Contact phone:** 0299-55-0184\n- **Site postcode:** 315-0117\n- **Evacuation zone:** Zone 4\n- **Distance from corridor centreline:** 300 m\n- **Structure type:** Structural alteration\n- **Floor area:** 96 m\u00b2\n- **Reinforcement standard:** K-2 (zone 4 minimum) \u2014 this is correct since the requirements page confirms Zone 4 sites require at least K-2, and declaring anything lower would cause automatic refusal without refund.\n- **Seismic and impact mitigation plan attached:** Yes (since your structural engineer has already completed this)\n- **Planned start date:** 1 October 2026\n\nA few things worth double-checking before you submit, based on the **Requirements** page:\n1. Besides the seismic/impact mitigation plan, the application also needs a **site plan (1:500 scale)**, a **corridor proximity survey (no older than 6 months)**, and a **copy of your contractor's prefecture licence** \u2014 the form itself didn't show explicit upload fields for these, so you may want to confirm how/where those attach before submitting.\n2. The **\u00a545,000 fee** is due on submission and is non-refundable, and since your start date is Oct 1, 2026, make sure you submit at least 10 business days beforehand (the standard processing time is also 10 business days, so submitting well in advance is wise).\n\nThe form is ready for your review and submission whenever you're ready.",
     "answerFields": {
       "applicantName": "Mira Tanaka",
       "organization": "Tanaka Bakery",
@@ -350,14 +350,15 @@
       }
     ],
     "normalisations": [
-      "A field value counts if it CONTAINS the expected value — \"Zone 4\" satisfies \"4\".",
-      "A boolean counts if it reads as affirmative — \"Yes\" satisfies true.",
-      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed — \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
+      "A field value counts if it CONTAINS the expected value \u2014 \"Zone 4\" satisfies \"4\".",
+      "A boolean counts if it reads as affirmative \u2014 \"Yes\" satisfies true.",
+      "A select counts if its visible LABEL matches the expected option value with case and punctuation collapsed \u2014 \"Structural alteration\" satisfies \"structural-alteration\". A UI agent picks the option it can read; scoring the label as a miss would measure transcription rather than comprehension.",
       "These three were ADDED AFTER defects were found in this scorer, not designed in from the start. Each one existed because a check had already scored an answer wrongly, and the last of them changed a finding that had already been handed over. They are listed so a reader can judge the instrument, including its history.",
-      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12‑month\" or \"only **one** approved\" is making the same claim as one that does not.",
+      "Answer text is normalised before matching: NFKC, Unicode dashes folded to \"-\", non-breaking spaces to \" \", curly quotes to straight, and markdown emphasis markers removed. A model that writes \"rolling 12\u2011month\" or \"only **one** approved\" is making the same claim as one that does not.",
       "A conclusion is read from position, not vocabulary: a correct answer quotes the rule it applies, so waiver wording inside a quotation does not outrank an explicit finding stated earlier.",
       "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "1 of 10 recorded passes fell short of a full score. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "1 of 10 recorded passes fell short of a full score. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded.",
+  "tier": "sonnet-5"
 }

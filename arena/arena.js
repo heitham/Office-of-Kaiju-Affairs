@@ -267,6 +267,66 @@ function renderFindings(tasks, runs) {
     .join('');
 }
 
+/* ------------------------------------------------------------------- tiers */
+
+/** How much each lane loses when the model gets weaker. Same round, same site. */
+function renderTiers(tasks, runs, index) {
+  const host = document.getElementById('tiers');
+  if (!host) return;
+  const tiers = (index.tiers || []).map((t) => t.tier).filter((t) => runs.some((r) => r.tier === t));
+  const base = index.headlineTier;
+  const others = tiers.filter((t) => t !== base);
+  if (!base || !others.length) { host.hidden = true; return; }
+  const other = others[0];
+
+  const cellMean = (taskId, lane, tier) => {
+    const a = runs.filter((r) => r.taskId === taskId && r.lane === lane && r.tier === tier)
+      .map((r) => r.trace.score?.accuracy).filter((x) => x != null);
+    return a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  };
+
+  const rows = [];
+  for (const task of tasks) {
+    for (const lane of ['ui-guessing', 'webmcp']) {
+      const b = cellMean(task.id, lane, base), o = cellMean(task.id, lane, other);
+      if (b == null || o == null) continue;
+      rows.push({ task, lane, base: b, other: o, delta: o - b });
+    }
+  }
+  if (!rows.length) { host.hidden = true; return; }
+
+  const informative = rows.filter((r) => !(r.base === 1 && r.other === 1));
+  const byLane = (lane) => informative.filter((r) => r.lane === lane).map((r) => r.delta);
+  const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+  const uiDrop = avg(byLane('ui-guessing')), toolDrop = avg(byLane('webmcp'));
+
+  const label = (t) => (index.tiers || []).find((x) => x.tier === t)?.label || t;
+  const ceilingCount = rows.length - informative.length;
+
+  host.hidden = false;
+  host.innerHTML = `
+    <h2>What happens when the agent gets weaker</h2>
+    <p class="sub">
+      The same three tasks on the same site, run again with a smaller model. Both
+      lanes lose accuracy. The question is whether they lose it equally.
+    </p>
+    <div class="scoreboard"><table class="board-table">
+      <thead><tr><th>Task</th><th>Lane</th><th style="text-align:right">${escapeHtml(label(base))}</th>
+        <th style="text-align:right">${escapeHtml(label(other))}</th><th style="text-align:right">Change</th></tr></thead>
+      <tbody>${rows.map((r) => `<tr class="${r.lane === 'webmcp' ? 'lane-mcp' : ''}">
+        <td class="task-cell">${r.lane === 'ui-guessing' ? escapeHtml(r.task.shortTitle || r.task.title) : ''}</td>
+        <td><span class="lane-tag">${LANES[r.lane].name}</span></td>
+        <td class="num">${pct(r.base)}</td><td class="num">${pct(r.other)}</td>
+        <td class="num ${r.delta < -0.005 ? 'down' : ''}">${r.base === 1 && r.other === 1 ? 'ceiling' : `${r.delta > 0 ? '+' : ''}${pct(r.delta)}`}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>
+    <p class="tier-note">${uiDrop != null && toolDrop != null && informative.length
+      ? (Math.abs(toolDrop) < Math.abs(uiDrop)
+          ? `Across the ${informative.length} task-and-lane pairs where either tier had room to fall, the browsing lane lost ${pct(Math.abs(uiDrop))} on average and the tool lane lost ${pct(Math.abs(toolDrop))}. The weaker model degrades roughly ${(Math.abs(uiDrop) / Math.abs(toolDrop)).toFixed(1)}× less when it has tools than when it is reading pages${ceilingCount ? `. ${ceilingCount} pair${ceilingCount === 1 ? ' was' : 's were'} at ceiling in both tiers and carry no information` : ''}.`
+          : `The tool lane lost ${pct(Math.abs(toolDrop))} against the browsing lane's ${pct(Math.abs(uiDrop))}. Tools did not protect the weaker model here, and we publish that as readily as the reverse.`)
+      : 'Not enough non-ceiling cells to compare.'}</p>`;
+}
+
 /* -------------------------------------------------------------- scoreboard */
 
 function renderScoreboard(tasks, runs) {
@@ -552,7 +612,9 @@ function renderTask(task, runs) {
   // neither, and would make a divergence appear or vanish for the wrong reason.
   const forThisTask = runs.filter((r) => r.taskId === task.id);
   const tierSet = [...new Set(forThisTask.map((r) => r.tier).filter(Boolean))];
-  const primaryTier = tierSet.length ? tierSet[0] : null;
+  const primaryTier = indexMeta?.headlineTier && tierSet.includes(indexMeta.headlineTier)
+    ? indexMeta.headlineTier
+    : (tierSet.length ? tierSet[0] : null);
   const laneAcc = {};
   for (const lane of ['ui-guessing', 'webmcp']) {
     const accs = forThisTask
@@ -653,6 +715,7 @@ function escapeHtml(value) {
     );
     renderFindings(tasks, headlineRuns);
     renderScoreboard(tasks, headlineRuns);
+    renderTiers(tasks, headlineRuns, index);
 
     const list = document.getElementById('task-list');
     list.replaceChildren(...tasks.map((task) => renderTask(task, runs)));

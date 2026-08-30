@@ -4,16 +4,16 @@
   "rounds": [
     {
       "round": 1,
-      "label": "Round 1 — the runtime as first published",
+      "label": "Round 1 \u2014 the runtime as first published",
       "runs": 35
     },
     {
       "round": 2,
-      "label": "Round 2 — after the two tool fixes this benchmark found",
-      "runs": 15
+      "label": "Round 2 \u2014 after the two tool fixes this benchmark found",
+      "runs": 60
     }
   ],
-  "note": "Written by the drift-race session. The Arena reads this file to know which traces to load; it never guesses filenames. Exactly one pass per taskId+lane carries promoted:true — that is the run replayed step by step; the rest render as a run-to-run spread.",
+  "note": "Written by the drift-race session. The Arena reads this file to know which traces to load; it never guesses filenames. Exactly one pass per taskId+lane carries promoted:true \u2014 that is the run replayed step by step; the rest render as a run-to-run spread.",
   "recordedAgainst": {
     "baseUrl": "https://office-of-kaiju-affairs.vercel.app",
     "commit": "live",
@@ -27,7 +27,8 @@
       "round": 1,
       "file": "ui-task-1-needle-r1.json",
       "pass": 1,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -35,7 +36,8 @@
       "round": 1,
       "file": "ui-task-1-needle-r2.json",
       "pass": 2,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -43,7 +45,8 @@
       "round": 1,
       "file": "ui-task-1-needle-r3.json",
       "pass": 3,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -51,13 +54,105 @@
       "round": 1,
       "file": "ui-task-1-needle-r4.json",
       "pass": 4,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
       "lane": "ui-guessing",
       "round": 1,
       "file": "ui-task-1-needle-r5.json",
+      "pass": 5,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-1-needle-r1.json",
+      "pass": 1,
+      "promoted": true
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-1-needle-r1.json",
+      "pass": 1,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-1-needle-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-1-needle-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-1-needle-r3.json",
+      "pass": 3,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-1-needle-r3.json",
+      "pass": 3,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-1-needle-r4.json",
+      "pass": 4,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-1-needle-r4.json",
+      "pass": 4,
+      "promoted": true
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-1-needle-r5.json",
+      "pass": 5,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-1-needle-r5.json",
       "pass": 5,
       "promoted": false
     },
@@ -67,7 +162,8 @@
       "round": 1,
       "file": "mcp-task-1-needle-r1.json",
       "pass": 1,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -75,7 +171,8 @@
       "round": 1,
       "file": "mcp-task-1-needle-r2.json",
       "pass": 2,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -83,7 +180,8 @@
       "round": 1,
       "file": "mcp-task-1-needle-r3.json",
       "pass": 3,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -91,7 +189,8 @@
       "round": 1,
       "file": "mcp-task-1-needle-r4.json",
       "pass": 4,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
@@ -99,13 +198,15 @@
       "round": 1,
       "file": "mcp-task-1-needle-r5.json",
       "pass": 5,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-1-needle",
       "lane": "webmcp",
+      "tier": "haiku-4-5",
       "round": 2,
-      "file": "mcp-r2-task-1-needle-r1.json",
+      "file": "mcp-r2-haiku-4-5-task-1-needle-r1.json",
       "pass": 1,
       "promoted": true
     },
@@ -113,8 +214,36 @@
       "taskId": "task-1-needle",
       "lane": "webmcp",
       "round": 2,
+      "file": "mcp-r2-task-1-needle-r1.json",
+      "pass": 1,
+      "promoted": true,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-1-needle-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "webmcp",
+      "round": 2,
       "file": "mcp-r2-task-1-needle-r2.json",
       "pass": 2,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-1-needle-r3.json",
+      "pass": 3,
       "promoted": false
     },
     {
@@ -123,6 +252,16 @@
       "round": 2,
       "file": "mcp-r2-task-1-needle-r3.json",
       "pass": 3,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-1-needle-r4.json",
+      "pass": 4,
       "promoted": false
     },
     {
@@ -131,6 +270,16 @@
       "round": 2,
       "file": "mcp-r2-task-1-needle-r4.json",
       "pass": 4,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-1-needle",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-1-needle-r5.json",
+      "pass": 5,
       "promoted": false
     },
     {
@@ -139,7 +288,8 @@
       "round": 2,
       "file": "mcp-r2-task-1-needle-r5.json",
       "pass": 5,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -147,7 +297,8 @@
       "round": 1,
       "file": "ui-task-2-eligibility-r1.json",
       "pass": 1,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -155,7 +306,8 @@
       "round": 1,
       "file": "ui-task-2-eligibility-r2.json",
       "pass": 2,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -163,7 +315,8 @@
       "round": 1,
       "file": "ui-task-2-eligibility-r3.json",
       "pass": 3,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -171,13 +324,105 @@
       "round": 1,
       "file": "ui-task-2-eligibility-r4.json",
       "pass": 4,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
       "lane": "ui-guessing",
       "round": 1,
       "file": "ui-task-2-eligibility-r5.json",
+      "pass": 5,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-2-eligibility-r1.json",
+      "pass": 1,
+      "promoted": true
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-2-eligibility-r1.json",
+      "pass": 1,
+      "promoted": true
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-2-eligibility-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-2-eligibility-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-2-eligibility-r3.json",
+      "pass": 3,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-2-eligibility-r3.json",
+      "pass": 3,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-2-eligibility-r4.json",
+      "pass": 4,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-2-eligibility-r4.json",
+      "pass": 4,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-2-eligibility-r5.json",
+      "pass": 5,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-2-eligibility-r5.json",
       "pass": 5,
       "promoted": false
     },
@@ -187,7 +432,8 @@
       "round": 1,
       "file": "mcp-task-2-eligibility-r1.json",
       "pass": 1,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -195,7 +441,8 @@
       "round": 1,
       "file": "mcp-task-2-eligibility-r2.json",
       "pass": 2,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -203,7 +450,8 @@
       "round": 1,
       "file": "mcp-task-2-eligibility-r3.json",
       "pass": 3,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -211,7 +459,8 @@
       "round": 1,
       "file": "mcp-task-2-eligibility-r4.json",
       "pass": 4,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
@@ -219,13 +468,15 @@
       "round": 1,
       "file": "mcp-task-2-eligibility-r5.json",
       "pass": 5,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-2-eligibility",
       "lane": "webmcp",
+      "tier": "haiku-4-5",
       "round": 2,
-      "file": "mcp-r2-task-2-eligibility-r1.json",
+      "file": "mcp-r2-haiku-4-5-task-2-eligibility-r1.json",
       "pass": 1,
       "promoted": true
     },
@@ -233,8 +484,36 @@
       "taskId": "task-2-eligibility",
       "lane": "webmcp",
       "round": 2,
+      "file": "mcp-r2-task-2-eligibility-r1.json",
+      "pass": 1,
+      "promoted": true,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-2-eligibility-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "webmcp",
+      "round": 2,
       "file": "mcp-r2-task-2-eligibility-r2.json",
       "pass": 2,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-2-eligibility-r3.json",
+      "pass": 3,
       "promoted": false
     },
     {
@@ -243,6 +522,16 @@
       "round": 2,
       "file": "mcp-r2-task-2-eligibility-r3.json",
       "pass": 3,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-2-eligibility-r4.json",
+      "pass": 4,
       "promoted": false
     },
     {
@@ -251,6 +540,16 @@
       "round": 2,
       "file": "mcp-r2-task-2-eligibility-r4.json",
       "pass": 4,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-2-eligibility",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-2-eligibility-r5.json",
+      "pass": 5,
       "promoted": false
     },
     {
@@ -259,7 +558,8 @@
       "round": 2,
       "file": "mcp-r2-task-2-eligibility-r5.json",
       "pass": 5,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -267,7 +567,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r1.json",
       "pass": 1,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -275,7 +576,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r2.json",
       "pass": 2,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -283,7 +585,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r3.json",
       "pass": 3,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -291,7 +594,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r4.json",
       "pass": 4,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -299,7 +603,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r5.json",
       "pass": 5,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -307,7 +612,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r6.json",
       "pass": 6,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -315,7 +621,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r7.json",
       "pass": 7,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -323,7 +630,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r8.json",
       "pass": 8,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -331,7 +639,8 @@
       "round": 1,
       "file": "ui-task-3-permit-r9.json",
       "pass": 9,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -339,6 +648,97 @@
       "round": 1,
       "file": "ui-task-3-permit-r10.json",
       "pass": 10,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-3-permit-r1.json",
+      "pass": 1,
+      "promoted": true
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-3-permit-r1.json",
+      "pass": 1,
+      "promoted": true
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-3-permit-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-3-permit-r2.json",
+      "pass": 2,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-3-permit-r3.json",
+      "pass": 3,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-3-permit-r3.json",
+      "pass": 3,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-3-permit-r4.json",
+      "pass": 4,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-3-permit-r4.json",
+      "pass": 4,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "ui-r2-haiku-4-5-task-3-permit-r5.json",
+      "pass": 5,
+      "promoted": false
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "ui-guessing",
+      "tier": "sonnet-5",
+      "round": 2,
+      "file": "ui-r2-sonnet-5-task-3-permit-r5.json",
+      "pass": 5,
       "promoted": false
     },
     {
@@ -347,7 +747,8 @@
       "round": 1,
       "file": "mcp-task-3-permit-r1.json",
       "pass": 1,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -355,7 +756,8 @@
       "round": 1,
       "file": "mcp-task-3-permit-r2.json",
       "pass": 2,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -363,7 +765,8 @@
       "round": 1,
       "file": "mcp-task-3-permit-r3.json",
       "pass": 3,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -371,7 +774,8 @@
       "round": 1,
       "file": "mcp-task-3-permit-r4.json",
       "pass": 4,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
     },
     {
       "taskId": "task-3-permit",
@@ -379,6 +783,16 @@
       "round": 1,
       "file": "mcp-task-3-permit-r5.json",
       "pass": 5,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-3-permit-r1.json",
+      "pass": 1,
       "promoted": false
     },
     {
@@ -387,7 +801,17 @@
       "round": 2,
       "file": "mcp-r2-task-3-permit-r1.json",
       "pass": 1,
-      "promoted": false
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-3-permit-r2.json",
+      "pass": 2,
+      "promoted": true
     },
     {
       "taskId": "task-3-permit",
@@ -395,6 +819,16 @@
       "round": 2,
       "file": "mcp-r2-task-3-permit-r2.json",
       "pass": 2,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-3-permit-r3.json",
+      "pass": 3,
       "promoted": false
     },
     {
@@ -403,6 +837,16 @@
       "round": 2,
       "file": "mcp-r2-task-3-permit-r3.json",
       "pass": 3,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-3-permit-r4.json",
+      "pass": 4,
       "promoted": false
     },
     {
@@ -411,6 +855,16 @@
       "round": 2,
       "file": "mcp-r2-task-3-permit-r4.json",
       "pass": 4,
+      "promoted": false,
+      "tier": "sonnet-5"
+    },
+    {
+      "taskId": "task-3-permit",
+      "lane": "webmcp",
+      "tier": "haiku-4-5",
+      "round": 2,
+      "file": "mcp-r2-haiku-4-5-task-3-permit-r5.json",
+      "pass": 5,
       "promoted": false
     },
     {
@@ -419,7 +873,21 @@
       "round": 2,
       "file": "mcp-r2-task-3-permit-r5.json",
       "pass": 5,
-      "promoted": true
+      "promoted": true,
+      "tier": "sonnet-5"
+    }
+  ],
+  "headlineTier": "sonnet-5",
+  "tiers": [
+    {
+      "tier": "sonnet-5",
+      "label": "Claude Sonnet 5",
+      "note": "The baseline tier. Every task and both lanes."
+    },
+    {
+      "tier": "haiku-4-5",
+      "label": "Claude Haiku 4.5",
+      "note": "A weaker model on the same tasks, same site, same instrument \u2014 recorded to see whether the tools matter more as the agent gets weaker."
     }
   ]
 }
