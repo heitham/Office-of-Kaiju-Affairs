@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <script type="module" src="/runtime/kaiju-webmcp.js" data-manifest="/manifest.json"></script>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Open Data — Service Register | Office of Kaiju Affairs</title>
   <meta name="description" content="Machine-readable register of Office services, eligibility rules, forms and offices.">
-  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <link rel="stylesheet" href="/assets/ds/71549779-56a2-4162-828c-23c6b88f0a61.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
        DSes that use position:fixed headers must set --cms-header-height on :root
@@ -52,10 +54,10 @@
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
-      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__logo' aria-hidden='true'></span>
       <span class='site-header__name'>Office of Kaiju Affairs</span>
     </a>
-    <nav class='site-header__nav'></nav>
+    <nav class='site-header__nav'><nav class="cms-main-nav" aria-label="Main navigation"><ul><li><a href="/services/">Services</a></li><li><a href="/claims/">Claims</a></li><li><a href="/permits/">Permits</a></li><li><a href="/evacuation/">Evacuation</a></li><li><a href="/offices/">Offices</a></li><li><a href="/contact/">Contact</a></li></ul></nav></nav>
   </div>
 </header>
 <div class="cms-page-container">
@@ -63,7 +65,8 @@
 <main class="cms-main-content">
 
 <h1>Open Data — Service Register</h1>
-<p>The structured register below describes the Office’s services, eligibility rules, application forms and regional offices in machine-readable form. It is republished with the site and consumed by the site’s agent tooling.</p>
+<p>This page carries the Office&rsquo;s service register in machine-readable form: services, eligibility rules, application forms and regional offices. The register is embedded in this page, regenerated on every publish, and consumed by the site&rsquo;s agent tooling. The full page index is published separately at <a href="/manifest.json">/manifest.json</a>.</p>
+
 <script type="application/json" data-agent-data>
 {
  "services": [
@@ -780,12 +783,45 @@
  ]
 }
 </script>
+
+<div id="register-view"></div>
+<script>
+(function () {
+  var el = document.querySelector('script[type="application/json"][data-agent-data]');
+  var view = document.getElementById('register-view');
+  if (!el || !view) return;
+  try {
+    var data = JSON.parse(el.textContent);
+    var counts = [
+      ['Services', (data.services || []).length],
+      ['Eligibility rulesets', (data.eligibility || []).length],
+      ['Application forms', (data.forms || []).length],
+      ['Regional offices', (data.offices || []).length]
+    ];
+    var html = '<h2 id="datasets">Datasets in this register</h2><ul>' +
+      counts.map(function (c) { return '<li>' + c[0] + ': ' + c[1] + ' record' + (c[1] === 1 ? '' : 's') + '</li>'; }).join('') +
+      '</ul>';
+    html += '<h2 id="raw">Raw register</h2>' +
+      '<details><summary>Show the raw JSON</summary>' +
+      '<pre style="overflow-x:auto; background: var(--code-bg, #101114); color: var(--code-text, #e8e7e2); padding: 1rem; border-radius: 3px;"><code>' +
+      JSON.stringify(data, null, 2).replace(/&/g, '&amp;').replace(/</g, '&lt;') +
+      '</code></pre></details>';
+    view.innerHTML = html;
+  } catch (e) {
+    view.innerHTML = '<p>The register failed to parse. This is a defect; report it to the Monitoring Division.</p>';
+  }
+})();
+</script>
 </main>
 
 </div>
 <footer class='site-footer'>
   <div class='site-footer__inner'>
     <span class='site-footer__brand'>Office of Kaiju Affairs</span>
+    <nav class='site-footer__links' aria-label='Footer'>
+      <a href='/platform.html'>Kaiju Monitoring Platform — Developer Docs</a>
+      <a href='/agent-data/'>Open Data — Service Register</a>
+    </nav>
     <span class='site-footer__copy'>&copy;  Office of Kaiju Affairs. All rights reserved.</span>
   </div>
 </footer>

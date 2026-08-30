@@ -1,6 +1,6 @@
 {
   "manifestVersion": "1.0",
-  "generatedAt": "2026-08-30T00:25:20.814Z",
+  "generatedAt": "2026-08-30T01:08:49.167Z",
   "generator": {
     "name": "RIFT CMS",
     "version": "dev"
@@ -49,13 +49,21 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/sdks/index",
           "/apis/index",
           "/apis/pipelines",
           "/guides/building-your-first-pipeline",
-          "/guides/handling-errors-and-retries"
+          "/guides/handling-errors-and-retries",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -97,13 +105,21 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/sdks/index",
           "/apis/index",
           "/apis/pipelines",
           "/guides/building-your-first-pipeline",
-          "/apis/webhooks"
+          "/apis/webhooks",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -137,10 +153,18 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/sdks/index",
-          "/apis/index"
+          "/apis/index",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:36.814Z",
@@ -178,6 +202,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -186,7 +216,9 @@
           "/guides/rate-limiting-cookbook",
           "/guides/scheduling-and-triggers",
           "/concepts-pipelines",
-          "/apis/pipelines"
+          "/apis/pipelines",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -206,13 +238,21 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
           "/guides/handling-errors-and-retries",
           "/guides/monitoring-and-alerts",
           "/guides/rate-limiting-cookbook",
-          "/guides/scheduling-and-triggers"
+          "/guides/scheduling-and-triggers",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -250,6 +290,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -259,7 +305,9 @@
           "/guides/scheduling-and-triggers",
           "/concepts-pipelines",
           "/apis/connectors",
-          "/apis/webhooks"
+          "/apis/webhooks",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -305,13 +353,21 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
           "/guides/handling-errors-and-retries",
           "/guides/monitoring-and-alerts",
           "/guides/rate-limiting-cookbook",
-          "/guides/scheduling-and-triggers"
+          "/guides/scheduling-and-triggers",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -353,6 +409,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -362,7 +424,9 @@
           "/guides/scheduling-and-triggers",
           "/concepts-events",
           "/apis/events",
-          "/apis/webhooks"
+          "/apis/webhooks",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -404,6 +468,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -413,7 +483,9 @@
           "/guides/scheduling-and-triggers",
           "/concepts-connectors",
           "/concepts-pipelines",
-          "/apis/connectors"
+          "/apis/connectors",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -455,6 +527,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -465,7 +543,9 @@
           "/concepts-pipelines",
           "/getting-started-authentication",
           "/concepts-connectors",
-          "/apis/pipelines"
+          "/apis/pipelines",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -495,7 +575,15 @@
       "links": {
         "internal": [
           "/",
-          "/tutorials/index"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/tutorials/index",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -538,10 +626,15 @@
       "links": {
         "internal": [
           "/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
           "/offices/",
+          "/contact/",
           "/claims/damage-compensation/",
           "/permits/proximity/",
-          "/evacuation/"
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -571,7 +664,14 @@
       "links": {
         "internal": [
           "/",
-          "/permits/proximity/"
+          "/services/",
+          "/claims/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/permits/proximity/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -638,11 +738,18 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/damage-compensation/",
           "/claims/eligibility/",
           "/claims/how-to-file/",
           "/claims/fees/",
-          "/claims/faq/"
+          "/claims/faq/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -690,8 +797,14 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/offices/",
+          "/contact/",
           "/evacuation/zone-4/",
-          "/offices/"
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -751,7 +864,14 @@
       "links": {
         "internal": [
           "/",
-          "/offices/kanto-north/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/contact/",
+          "/offices/kanto-north/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -792,7 +912,14 @@
       "links": {
         "internal": [
           "/",
-          "/platform.html"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -834,7 +961,13 @@
       "links": {
         "internal": [
           "/",
-          "/offices/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -895,8 +1028,16 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/permits/proximity/requirements/",
-          "/permits/proximity/apply/"
+          "/permits/proximity/apply/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -941,10 +1082,18 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/eligibility/",
           "/claims/how-to-file/",
           "/claims/fees/",
-          "/claims/faq/"
+          "/claims/faq/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1009,7 +1158,15 @@
       ],
       "links": {
         "internal": [
-          "/"
+          "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1044,7 +1201,15 @@
       "links": {
         "internal": [
           "/",
-          "/claims/fees/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/claims/fees/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:53.421Z",
@@ -1084,7 +1249,15 @@
       "links": {
         "internal": [
           "/",
-          "/claims/faq/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/claims/faq/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1152,7 +1325,15 @@
       "links": {
         "internal": [
           "/",
-          "/claims/eligibility/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/claims/eligibility/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1202,7 +1383,15 @@
       "links": {
         "internal": [
           "/",
-          "/offices/kanto-north/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/offices/kanto-north/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:53.423Z",
@@ -1267,10 +1456,17 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/damage-compensation/",
           "/permits/proximity/",
-          "/evacuation/",
-          "/evacuation/zone-4/"
+          "/evacuation/zone-4/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1319,7 +1515,15 @@
       "links": {
         "internal": [
           "/",
-          "/permits/proximity/apply/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/permits/proximity/apply/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:53.419Z",
@@ -1354,7 +1558,15 @@
       ],
       "links": {
         "internal": [
-          "/"
+          "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1402,12 +1614,20 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/connectors",
           "/guides/scheduling-and-triggers",
           "/guides/handling-errors-and-retries",
           "/apis/webhooks",
           "/apis/rate-limits",
-          "/support"
+          "/support",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1436,8 +1656,16 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/troubleshooting",
-          "/security-and-compliance"
+          "/security-and-compliance",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:36.758Z",
@@ -1478,9 +1706,17 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/getting-started-authentication",
-          "/apis/connectors"
+          "/apis/connectors",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1517,8 +1753,16 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/changelog",
-          "/migration-guide-v1-to-v2"
+          "/migration-guide-v1-to-v2",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1579,13 +1823,20 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/getting-started-quickstart",
           "/getting-started-installation",
           "/getting-started-authentication",
           "/concepts",
           "/guides/index",
           "/apis/index",
-          "/sdks/index"
+          "/sdks/index",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1634,12 +1885,20 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/changelog",
           "/apis/rate-limits",
           "/apis/webhooks",
           "/apis/error-responses",
           "/troubleshooting",
-          "/security-and-compliance"
+          "/security-and-compliance",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:36.758Z",
@@ -1696,12 +1955,16 @@
       "links": {
         "internal": [
           "/services/",
-          "/claims/damage-compensation/",
-          "/permits/proximity/",
+          "/claims/",
+          "/permits/",
           "/evacuation/",
           "/offices/",
+          "/contact/",
+          "/claims/damage-compensation/",
+          "/permits/proximity/",
           "/about/",
-          "/platform.html"
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:53.396Z",
@@ -1726,12 +1989,20 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/concepts-connectors",
           "/concepts-events",
           "/apis/webhooks",
           "/guides/handling-errors-and-retries",
-          "/apis/rate-limits"
+          "/apis/rate-limits",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1768,12 +2039,20 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/getting-started-authentication",
           "/apis/webhooks",
           "/apis/events",
           "/guides/building-your-first-pipeline",
-          "/getting-started-installation"
+          "/getting-started-installation",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -1806,11 +2085,19 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/apis/index",
           "/concepts",
-          "/getting-started-quickstart"
+          "/getting-started-quickstart",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -1847,11 +2134,19 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/rate-limits",
           "/apis/webhooks",
           "/getting-started-quickstart",
-          "/guides/building-your-first-pipeline"
+          "/guides/building-your-first-pipeline",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -1892,11 +2187,19 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-events",
           "/concepts-connectors",
           "/migration-guide-v1-to-v2",
           "/guides/building-your-first-pipeline",
-          "/apis/pipelines"
+          "/apis/pipelines",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1933,8 +2236,16 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/webhooks",
-          "/guides/handling-errors-and-retries"
+          "/guides/handling-errors-and-retries",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1975,8 +2286,16 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/connecting-a-data-source",
-          "/apis/connectors"
+          "/apis/connectors",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2017,9 +2336,17 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/concepts-connectors",
-          "/concepts-events"
+          "/concepts-events",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2056,11 +2383,19 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/migration-guide-v1-to-v2",
           "/release-notes-archive",
           "/apis/webhooks",
           "/apis/pipelines",
-          "/apis/rate-limits"
+          "/apis/rate-limits",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2096,6 +2431,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2103,7 +2444,9 @@
           "/apis/pipelines",
           "/apis/rate-limits",
           "/apis/webhooks",
-          "/migration-guide-v1-to-v2"
+          "/migration-guide-v1-to-v2",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2139,6 +2482,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2147,7 +2496,9 @@
           "/apis/rate-limits",
           "/apis/webhooks",
           "/concepts-pipelines",
-          "/concepts-events"
+          "/concepts-events",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2188,6 +2539,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2195,7 +2552,9 @@
           "/apis/pipelines",
           "/apis/rate-limits",
           "/apis/webhooks",
-          "/concepts-pipelines"
+          "/concepts-pipelines",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
@@ -2245,13 +2604,21 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
           "/apis/events",
           "/apis/pipelines",
           "/apis/rate-limits",
-          "/apis/webhooks"
+          "/apis/webhooks",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:36.758Z",
@@ -2287,6 +2654,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2294,7 +2667,9 @@
           "/apis/pipelines",
           "/apis/rate-limits",
           "/apis/webhooks",
-          "/concepts-events"
+          "/concepts-events",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2325,13 +2700,21 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
           "/apis/events",
           "/apis/pipelines",
           "/apis/rate-limits",
-          "/apis/webhooks"
+          "/apis/webhooks",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -2372,6 +2755,12 @@
       "links": {
         "internal": [
           "/",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2379,7 +2768,9 @@
           "/apis/pipelines",
           "/apis/rate-limits",
           "/apis/webhooks",
-          "/concepts-connectors"
+          "/concepts-connectors",
+          "/platform.html",
+          "/agent-data/"
         ]
       },
       "updated": "2026-08-29T23:12:10.561Z",
