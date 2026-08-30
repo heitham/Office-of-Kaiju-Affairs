@@ -1,6 +1,6 @@
 {
   "manifestVersion": "1.0",
-  "generatedAt": "2026-08-30T00:36:14.216Z",
+  "generatedAt": "2026-08-30T00:39:37.554Z",
   "generator": {
     "name": "RIFT CMS",
     "version": "dev"
@@ -49,12 +49,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/sdks/index",
@@ -103,12 +103,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/sdks/index",
@@ -149,12 +149,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/sdks/index",
@@ -196,12 +196,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -230,12 +230,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -280,12 +280,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -341,12 +341,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -395,12 +395,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -452,12 +452,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -509,12 +509,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/building-your-first-pipeline",
           "/guides/connecting-a-data-source",
           "/guides/index",
@@ -555,12 +555,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/tutorials/index"
         ]
       },
@@ -604,16 +604,13 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
           "/offices/",
+          "/contact/",
           "/claims/damage-compensation/",
-          "/permits/proximity/",
-          "/evacuation/"
+          "/permits/proximity/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -643,12 +640,11 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/permits/proximity/"
         ]
       },
@@ -716,12 +712,11 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/damage-compensation/",
           "/claims/eligibility/",
           "/claims/how-to-file/",
@@ -774,14 +769,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
-          "/evacuation/zone-4/",
-          "/offices/"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/offices/",
+          "/contact/",
+          "/evacuation/zone-4/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -841,12 +834,11 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/contact/",
           "/offices/kanto-north/"
         ]
       },
@@ -888,12 +880,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/platform.html"
         ]
       },
@@ -936,12 +928,10 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
           "/offices/"
         ]
       },
@@ -1003,12 +993,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/permits/proximity/requirements/",
           "/permits/proximity/apply/"
         ]
@@ -1055,12 +1045,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/eligibility/",
           "/claims/how-to-file/",
           "/claims/fees/",
@@ -1130,12 +1120,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1170,12 +1160,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/fees/"
         ]
       },
@@ -1216,12 +1206,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/faq/"
         ]
       },
@@ -1290,12 +1280,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/eligibility/"
         ]
       },
@@ -1346,12 +1336,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/offices/kanto-north/"
         ]
       },
@@ -1417,15 +1407,14 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/claims/damage-compensation/",
           "/permits/proximity/",
-          "/evacuation/",
           "/evacuation/zone-4/"
         ]
       },
@@ -1475,12 +1464,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/permits/proximity/apply/"
         ]
       },
@@ -1517,12 +1506,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index"
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/"
         ]
       },
       "updated": "2026-08-29T23:11:03.450Z",
@@ -1570,12 +1559,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/connectors",
           "/guides/scheduling-and-triggers",
           "/guides/handling-errors-and-retries",
@@ -1610,12 +1599,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/troubleshooting",
           "/security-and-compliance"
         ]
@@ -1658,12 +1647,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/getting-started-authentication",
           "/apis/connectors"
@@ -1703,12 +1692,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/changelog",
           "/migration-guide-v1-to-v2"
         ]
@@ -1771,12 +1760,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/getting-started-quickstart",
           "/getting-started-installation",
           "/getting-started-authentication",
@@ -1832,12 +1821,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/changelog",
           "/apis/rate-limits",
           "/apis/webhooks",
@@ -1899,17 +1888,14 @@
       ],
       "links": {
         "internal": [
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
           "/services/",
-          "/claims/damage-compensation/",
-          "/permits/proximity/",
+          "/claims/",
+          "/permits/",
           "/evacuation/",
           "/offices/",
+          "/contact/",
+          "/claims/damage-compensation/",
+          "/permits/proximity/",
           "/about/",
           "/platform.html"
         ]
@@ -1936,12 +1922,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/concepts-connectors",
           "/concepts-events",
@@ -1984,12 +1970,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/getting-started-authentication",
           "/apis/webhooks",
@@ -2028,12 +2014,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/sdks/node-js",
           "/sdks/python",
           "/apis/index",
@@ -2075,12 +2061,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/rate-limits",
           "/apis/webhooks",
@@ -2126,12 +2112,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-events",
           "/concepts-connectors",
           "/migration-guide-v1-to-v2",
@@ -2173,12 +2159,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/webhooks",
           "/guides/handling-errors-and-retries"
         ]
@@ -2221,12 +2207,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/guides/connecting-a-data-source",
           "/apis/connectors"
         ]
@@ -2269,12 +2255,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/concepts-pipelines",
           "/concepts-connectors",
           "/concepts-events"
@@ -2314,12 +2300,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/migration-guide-v1-to-v2",
           "/release-notes-archive",
           "/apis/webhooks",
@@ -2360,12 +2346,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2409,12 +2395,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2464,12 +2450,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2527,12 +2513,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2575,12 +2561,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2619,12 +2605,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",
@@ -2672,12 +2658,12 @@
       "links": {
         "internal": [
           "/",
-          "/services/index",
-          "/claims/index",
-          "/permits/index",
-          "/evacuation/index",
-          "/offices/index",
-          "/contact/index",
+          "/services/",
+          "/claims/",
+          "/permits/",
+          "/evacuation/",
+          "/offices/",
+          "/contact/",
           "/apis/index",
           "/apis/connectors",
           "/apis/error-responses",

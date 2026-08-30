@@ -375,3 +375,20 @@ code, pre { font-family: var(--font-mono); }
 /* ---------- Layout helper ---------- */
 .docs-layout { display: flex; max-width: 1280px; margin: 0 auto; gap: var(--space-xl); align-items: flex-start; }
 .docs-content { flex: 1; min-width: 0; padding: var(--space-lg) 0; }
+
+/* ---------- Main header nav (renderer emits .cms-main-nav) ---------- */
+.site-header__nav .cms-main-nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+}
+.site-header__nav .cms-main-nav a {
+  color: var(--neutral-100);
+  font-weight: 500;
+  font-size: var(--font-size-small);
+  letter-spacing: 0.01em;
+}
+.site-header__nav .cms-main-nav a:hover { color: var(--primary-500); text-decoration: none; }
