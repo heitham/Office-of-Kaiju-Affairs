@@ -84,7 +84,13 @@
       "toolPath": [
         "search_site",
         "get_page_summary"
-      ]
+      ],
+      "laneDivergence": {
+        "headline": "Both lanes answered correctly. Only one carried the reason.",
+        "body": "Every recorded pass in both lanes reached the same conclusion \u2014 the fee is payable. The score differs because of the pending-clause check: the agent reading the pages had to go through the sentence that says the waiver counts approved claims only, so it could say why. The agent using check_eligibility got a verdict without the rule that produced it, because the tool explains what did apply and is silent on what did not.",
+        "whyItMatters": "Mira does not just need \u201cyou pay this time\u201d. She needs \u201cone more approved claim and you stop paying\u201d \u2014 the clause is the part that tells her what would change the answer.",
+        "remedy": "The design lesson, which we are publishing rather than quietly patching: a verdict tool should echo the rule it applied, and the ones it did not. An unmet-rules array alongside the grants would turn \u201cno waiver\u201d into \u201cno waiver, because it needs two approved claims and pending ones do not count\u201d, with the citation."
+      }
     },
     {
       "id": "task-2-eligibility",

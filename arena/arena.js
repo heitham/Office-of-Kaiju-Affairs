@@ -464,6 +464,30 @@ function renderTask(task, runs) {
     setTimeout(() => { copyBtn.textContent = 'Copy this scenario'; copyBtn.classList.remove('copied'); }, 2600);
   });
 
+  // If the lanes scored differently, the reason renders with the numbers.
+  const laneAcc = {};
+  for (const lane of ['ui-guessing', 'webmcp']) {
+    const p = runs.filter((r) => r.taskId === task.id && r.lane === lane);
+    const promoted = p.find((r) => r.promoted) || p[0];
+    if (promoted?.trace.score?.accuracy != null) laneAcc[lane] = promoted.trace.score.accuracy;
+  }
+  const diverges = laneAcc['ui-guessing'] != null && laneAcc.webmcp != null
+    && laneAcc['ui-guessing'] !== laneAcc.webmcp;
+
+  if (diverges) {
+    const d = task.laneDivergence;
+    const host = node.querySelector('.divergence');
+    host.hidden = false;
+    host.innerHTML = d
+      ? `<h4>${escapeHtml(d.headline)}</h4>
+         <p>${escapeHtml(d.body)}</p>
+         ${d.whyItMatters ? `<p class="why">${escapeHtml(d.whyItMatters)}</p>` : ''}
+         ${d.remedy ? `<p class="remedy"><strong>What we would change</strong> ${escapeHtml(d.remedy)}</p>` : ''}`
+      : `<h4>The lanes scored differently on this task.</h4>
+         <p class="missing">No explanation has been written for this divergence yet. A score gap on its own
+         does not say which lane was wrong, or whether either was — see the two runs below and judge for yourself.</p>`;
+  }
+
   const lanesHost = node.querySelector('.lanes');
   const order = ['ui-guessing', 'webmcp'];
   const forTask = runs.filter((r) => r.taskId === task.id);
