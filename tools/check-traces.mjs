@@ -73,6 +73,15 @@ for (const file of files) {
   }
 }
 
+// Two agent tiers must never blend inside one group. The Arena's computed
+// figures aggregate passes, so a group holding both a strong and a weak model
+// would silently report their average as a single result.
+const modelOf = new Map();
+for (const file of files) {
+  const trace = JSON.parse(await readFile(join(dir, file), 'utf8'));
+  modelOf.set(file, trace.agent?.model || null);
+}
+
 // Every indexed file must exist, and each task+lane needs exactly one promoted pass.
 const present = new Set(files);
 const groups = new Map();
@@ -86,6 +95,15 @@ for (const [key, runs] of groups) {
   if (promoted.length !== 1) {
     note('index.json', `${key} has ${promoted.length} promoted passes, expected exactly 1 (of ${runs.length} recorded)`);
   }
+
+  const models = new Set(runs.map((r) => modelOf.get(r.file)).filter(Boolean));
+  const tiers = new Set(runs.map((r) => r.tier).filter(Boolean));
+  if (models.size > 1 && tiers.size < models.size) {
+    note('index.json',
+      `${key} mixes ${models.size} agent models (${[...models].join(', ')}) without distinct \`tier\` values. ` +
+      `Give each tier its own tier id — the Arena aggregates passes within a group, so mixing tiers would ` +
+      `report their average as one result.`);
+  }
 }
 for (const file of files) {
   if (!index.runs.some((r) => r.file === file)) note('index.json', `${file} exists but is not indexed — the Arena will not load it`);
@@ -95,4 +113,6 @@ if (problems.length) {
   console.error(`${problems.length} problem(s):\n` + problems.map((p) => `  - ${p}`).join('\n') + '\n');
   process.exit(1);
 }
-console.log(`all traces valid; ${groups.size} task+lane group(s), one promoted pass each\n`);
+console.log(groups.size
+  ? `all traces valid; ${groups.size} task+lane group(s), one promoted pass each\n`
+  : 'no runs indexed yet — the Arena will say so rather than render anything\n');

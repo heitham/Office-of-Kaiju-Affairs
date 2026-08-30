@@ -320,6 +320,10 @@
     "promoted": {
       "type": "boolean",
       "description": "Convenience mirror of the index entry's `promoted` flag. Optional. Where the two disagree, index.json wins \u2014 promotion is a curation decision and lives with the index."
+    },
+    "tier": {
+      "type": "string",
+      "description": "Agent tier id when more than one model was recorded, e.g. \"sonnet-5\" or \"haiku-4-5\". Required only when a task+lane group holds passes from more than one model. The Arena aggregates passes within a group, so untiered mixing would report two models' average as one result."
     }
   }
 }

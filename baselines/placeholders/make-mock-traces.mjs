@@ -1,7 +1,11 @@
 /**
- * Writes placeholder traces so the Arena can be built and reviewed before the
- * real recordings exist. The drift-race session overwrites these files with
- * real runs; every mock is stamped agent.name = "MOCK".
+ * Writes placeholder traces into THIS directory, for developing the Arena
+ * before real recordings exist. They are deliberately NOT indexed in
+ * baselines/index.json and are never rendered.
+ *
+ * Their numbers are the inverse of what was actually measured — the recorded
+ * UI lane scores near 1.00 and never submitted the permit form. They are kept
+ * only as a record of what the Arena was built against before it had data.
  *
  *   node baselines/make-mock-traces.mjs
  */
@@ -9,7 +13,7 @@ import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-const here = dirname(fileURLToPath(import.meta.url));
+const here = dirname(fileURLToPath(import.meta.url)); // baselines/placeholders/
 const BASE = 'https://kaiju-affairs.example';
 
 /** Turn [{type,label,...,d}] into timed steps. `d` is the step's duration in ms. */

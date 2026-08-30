@@ -286,6 +286,24 @@ index represents passes as separate entries:
 - `pass`/`promoted` are optional. A single trace with neither is treated as
   pass 1, promoted.
 
+### More than one agent tier
+
+The matrix may later be re-run on a weaker model to show how tool value grows as
+agent capability drops. That is a second tier, not more passes:
+
+- Every index entry in a multi-tier set carries `tier` (e.g. `"sonnet-5"`,
+  `"haiku-4-5"`), mirrored on the trace as an optional `tier` property.
+- One promoted pass per task+lane+**tier**, not per task+lane.
+- `tools/check-traces.mjs` fails the build if a task+lane group holds passes
+  from more than one `agent.model` without distinct `tier` values. The Arena
+  aggregates passes within a group, so an untiered mix would publish the
+  average of a strong and a weak model as a single result — a number describing
+  neither.
+- The Arena's computed figures describe the **promoted tier only**, and stamp
+  the model name and pass count beneath them.
+
+Single-tier sets need none of this: omit `tier` entirely.
+
 ### Declared scoring normalisations
 
 `score.normalisations` is an array of plain-English sentences describing every
