@@ -49,7 +49,16 @@ const accOf = (rs) => rs.map((r) => r.trace.score?.accuracy).filter((a) => a != 
 const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
 const meanBy = (rs, fn) => mean(rs.map(fn).filter((x) => x != null));
 const fullMarks = (rs) => accOf(rs).filter((a) => a === 1).length;
-const tokensOf = (r) => (r.trace.steps || []).reduce((n, s) => n + (s.cost?.tokensIn || 0), 0);
+/**
+ * Total tokens an attempt cost: input and output, summed over its steps.
+ *
+ * Counting input alone gives 2.8x on this site rather than 2.4x. Input is the
+ * more literal reading of "context", but the total is what an attempt actually
+ * costs, and it is the figure two independent implementations reproduced from
+ * these files. The card states the method so the number can be checked.
+ */
+const tokensOf = (r) => (r.trace.steps || [])
+  .reduce((n, s) => n + (s.cost?.tokensIn || 0) + (s.cost?.tokensOut || 0), 0);
 
 /** Human-readable names for the ids the rules and forms use internally. */
 const LABELS = {
@@ -262,11 +271,11 @@ function renderFindings(tasks, runs, index) {
 
   if (ratio) {
     cards.push({
-      title: ratio >= 1 ? 'The manifest was not free' : 'The tools cost less to read',
+      title: ratio >= 1 ? 'The manifest was not free' : 'The tools cost less to run',
       figure: `${ratio >= 1 ? ratio.toFixed(1) : (1 / ratio).toFixed(1)}×`,
-      label: `${ratio >= 1 ? 'more' : 'less'} context used by WebMCP on this small site`,
+      label: `${ratio >= 1 ? 'more' : 'fewer'} tokens used by WebMCP on this small site`,
       body: ratio >= 1
-        ? `The WebMCP route loads the complete site manifest, and re-sends seven tool descriptions on every turn. On a website this small that costs more context than reading a few individual pages.${cheaper.length ? ` Not everywhere: on ${cheaper.length === 1 ? 'the ' + (cheaper[0].shortTitle || cheaper[0].title).toLowerCase() + ' task' : cheaper.length + ' of the three tasks'} the tools were the cheaper route.` : ''} A thousand-page agency may behave differently. This experiment did not test one, despite every government website's apparent ambition to become one.`
+        ? `The WebMCP route loads the complete site manifest, and re-sends seven tool descriptions on every turn. On a website this small that costs more than reading a few individual pages.${cheaper.length ? ` Not everywhere: on ${cheaper.length === 1 ? 'the ' + (cheaper[0].shortTitle || cheaper[0].title).toLowerCase() + ' task' : cheaper.length + ' of the three tasks'} the tools were the cheaper route.` : ''} A thousand-page agency may behave differently. This experiment did not test one, despite every government website's apparent ambition to become one.`
         : `Reading structured results cost less context than reading the pages they came from, even carrying the whole manifest.`
     });
   }
@@ -281,6 +290,15 @@ function renderFindings(tasks, runs, index) {
         ? ` Measured the same way, browsing scored ${browseFull} of ${browseAll.length}${browseFull === toolFull ? ' — exactly the same' : ''}.`
         : '')
   });
+
+  const method = host.querySelector('.findings-method');
+  if (method) {
+    method.textContent =
+      `Token figures are the mean per attempt across all ${browse.length} recorded attempts per approach `
+      + `(${tierName}, after the fix), counting input and output tokens: `
+      + `${Math.round(toolTok).toLocaleString()} with WebMCP against ${Math.round(browseTok).toLocaleString()} browsing.`;
+    method.hidden = !ratio;
+  }
 
   host.hidden = false;
   host.querySelector('.findings-grid').innerHTML = cards

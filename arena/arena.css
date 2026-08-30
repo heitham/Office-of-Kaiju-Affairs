@@ -445,3 +445,5 @@ code { font: .92em var(--mono); }
 .foot .foot-lead {
   font: 600 19px/1.35 var(--head); color: var(--ink); margin-bottom: 10px;
 }
+
+.findings-method { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-3); max-width: 78ch; }
