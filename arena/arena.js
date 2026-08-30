@@ -169,7 +169,8 @@ function renderFindings(tasks, runs) {
 
   // If more than one agent tier was recorded, the figures describe the promoted
   // tier alone. Averaging a strong model with a weak one would describe neither.
-  const promotedTier = ui.find((r) => r.promoted)?.tier
+  const promotedTier = indexMeta?.headlineTier
+    || ui.find((r) => r.promoted)?.tier
     || ui.find((r) => r.promoted)?.trace.agent?.model;
   if (promotedTier) {
     const sameTier = ui.filter((r) => (r.tier || r.trace.agent?.model) === promotedTier);
@@ -292,16 +293,22 @@ function renderScoreboard(tasks, runs) {
     // One row per lane: the promoted pass. Other passes appear as the spread
     // inside the replay, not as extra scoreboard rows.
     const all = runs.filter((r) => r.taskId === task.id);
-    const forTask = ['ui-guessing', 'webmcp']
-      .map((lane) => {
-        const passes = all.filter((r) => r.lane === lane);
-        if (!passes.length) return null;
-        return { lane, passes, promoted: passes.find((r) => r.promoted) || passes[0] };
-      })
-      .filter(Boolean);
-    const ui = forTask.find((r) => r.lane === 'ui-guessing');
+    const tiersPresent = [...new Set(all.map((r) => r.tier).filter(Boolean))]
+      .sort((x, y) => (x === indexMeta?.headlineTier ? -1 : y === indexMeta?.headlineTier ? 1 : 0));
+    const cells = [];
+    for (const lane of ['ui-guessing', 'webmcp']) {
+      for (const tier of (tiersPresent.length ? tiersPresent : [null])) {
+        const passes = all.filter((r) => r.lane === lane && (tier === null || r.tier === tier));
+        if (!passes.length) continue;
+        cells.push({ lane, tier, passes, promoted: passes.find((r) => r.promoted) || passes[0] });
+      }
+    }
+    const forTask = cells;
     for (const group of forTask) {
-      const { lane, passes } = group;
+      const { lane, passes, tier } = group;
+      // Compare against the UI lane of the SAME tier — a model's tool lane is
+      // only meaningfully faster or slower than its own browsing lane.
+      const ui = forTask.find((g) => g.lane === 'ui-guessing' && g.tier === tier);
       const run = { lane, trace: group.promoted.trace };
       const avg = (fn) => passes.reduce((n, p) => n + (fn(p.trace) || 0), 0) / passes.length;
       const accs = passes.map((p) => p.trace.score?.accuracy).filter((a) => a != null);
@@ -326,8 +333,8 @@ function renderScoreboard(tasks, runs) {
       const fewer = run.lane === 'webmcp' && uiActions != null
         ? `<span class="delta"> ${t.metrics.actionCount - uiActions >= 0 ? '+' : '−'}${Math.abs(Math.round(t.metrics.actionCount - uiActions))}</span>` : '';
       row.innerHTML = `
-        <td class="task-cell">${run.lane === 'ui-guessing' ? escapeHtml(task.title) : ''}</td>
-        <td><span class="lane-tag">${LANES[run.lane].name}</span> <span class="n">n=${passes.length}</span></td>
+        <td class="task-cell">${forTask.indexOf(group) === 0 ? escapeHtml(task.title) : ''}</td>
+        <td><span class="lane-tag">${LANES[run.lane].name}</span>${tier ? ` <span class="tier">${escapeHtml(tier)}</span>` : ''} <span class="n">n=${passes.length}</span></td>
         <td class="num">${fmtSeconds(t.metrics.wallClockMs)}${faster}</td>
         <td class="num">${t.metrics.actionCount}${fewer}</td>
         <td class="num">${t.metrics.toolCalls ?? 0}</td>
@@ -541,9 +548,15 @@ function renderTask(task, runs) {
   });
 
   // If the lanes scored differently, the reason renders with the numbers.
+  // Within one tier only. A lane figure that averages two models describes
+  // neither, and would make a divergence appear or vanish for the wrong reason.
+  const forThisTask = runs.filter((r) => r.taskId === task.id);
+  const tierSet = [...new Set(forThisTask.map((r) => r.tier).filter(Boolean))];
+  const primaryTier = tierSet.length ? tierSet[0] : null;
   const laneAcc = {};
   for (const lane of ['ui-guessing', 'webmcp']) {
-    const accs = runs.filter((r) => r.taskId === task.id && r.lane === lane)
+    const accs = forThisTask
+      .filter((r) => r.lane === lane && (primaryTier === null ? !r.tier : r.tier === primaryTier))
       .map((r) => r.trace.score?.accuracy).filter((a) => a != null);
     if (accs.length) laneAcc[lane] = accs.reduce((a, b) => a + b, 0) / accs.length;
   }
@@ -630,13 +643,13 @@ function escapeHtml(value) {
     // the lane the whole comparison rests on.
     const latestRound = new Map();
     for (const r of runs) {
-      const key = `${r.taskId}/${r.lane}`;
+      const key = `${r.taskId}/${r.lane}/${r.tier || '-'}`;
       const round = r.round || 1;
       const cap = index.headlineRound || Infinity;
       if (round <= cap) latestRound.set(key, Math.max(latestRound.get(key) || 0, round));
     }
     const headlineRuns = runs.filter(
-      (r) => (r.round || 1) === latestRound.get(`${r.taskId}/${r.lane}`)
+      (r) => (r.round || 1) === latestRound.get(`${r.taskId}/${r.lane}/${r.tier || '-'}`)
     );
     renderFindings(tasks, headlineRuns);
     renderScoreboard(tasks, headlineRuns);
