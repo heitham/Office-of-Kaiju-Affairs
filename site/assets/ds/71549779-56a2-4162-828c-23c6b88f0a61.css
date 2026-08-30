@@ -392,3 +392,8 @@ code, pre { font-family: var(--font-mono); }
   letter-spacing: 0.01em;
 }
 .site-header__nav .cms-main-nav a:hover { color: var(--primary-500); text-decoration: none; }
+
+/* ---------- Footer links ---------- */
+.site-footer__links { display: flex; gap: var(--space-lg); flex-wrap: wrap; }
+.site-footer__links a { color: var(--neutral-100); font-size: var(--font-size-small); }
+.site-footer__links a:hover { color: var(--primary-500); text-decoration: none; }
