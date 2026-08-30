@@ -109,6 +109,30 @@ for (const file of files) {
   if (!index.runs.some((r) => r.file === file)) note('index.json', `${file} exists but is not indexed — the Arena will not load it`);
 }
 
+// A bare accuracy gap between the lanes reads as "the tools are less accurate".
+// That may not be what happened — on task 1 both lanes answered correctly and
+// only the scoring of one check differed. So a divergence must ship with its
+// explanation, and the build fails rather than publishing the number alone.
+const keys = JSON.parse(await readFile(join(root, 'arena', 'answer-keys.json'), 'utf8'));
+const accOf = async (taskId, lane) => {
+  const passes = index.runs.filter((r) => r.taskId === taskId && r.lane === lane);
+  const promoted = passes.find((r) => r.promoted) || passes[0];
+  if (!promoted || !present.has(promoted.file)) return null;
+  const trace = JSON.parse(await readFile(join(dir, promoted.file), 'utf8'));
+  return trace.score?.accuracy ?? null;
+};
+
+for (const task of keys.tasks) {
+  const ui = await accOf(task.id, 'ui-guessing');
+  const mcp = await accOf(task.id, 'webmcp');
+  if (ui == null || mcp == null || ui === mcp) continue;
+  if (!task.laneDivergence?.headline || !task.laneDivergence?.body) {
+    note('arena/answer-keys.json',
+      `${task.id} scores ${ui} (ui) vs ${mcp} (webmcp) but has no laneDivergence explanation. ` +
+      `Publishing the gap without the mechanism misrepresents it — add laneDivergence.headline and .body.`);
+  }
+}
+
 if (problems.length) {
   console.error(`${problems.length} problem(s):\n` + problems.map((p) => `  - ${p}`).join('\n') + '\n');
   process.exit(1);
