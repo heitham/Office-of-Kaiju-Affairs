@@ -1,10 +1,10 @@
 {
   "traceVersion": "1.0",
-  "runId": "mcp-task-3-permit-r1",
-  "pass": 1,
-  "round": 1,
+  "runId": "mcp-task-3-permit-r5",
+  "pass": 5,
+  "round": 2,
   "promoted": true,
-  "recordedAt": "2026-08-30T02:30:12Z",
+  "recordedAt": "2026-08-30T03:47:07Z",
   "lane": "webmcp",
   "agent": {
     "name": "drift-race baseline",
@@ -34,19 +34,19 @@
     {
       "index": 1,
       "tMs": 0,
-      "durationMs": 2683,
+      "durationMs": 2720,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 2090,
-        "tokensOut": 191
+        "tokensIn": 2424,
+        "tokensOut": 185
       }
     },
     {
       "index": 2,
-      "tMs": 2683,
-      "durationMs": 99,
+      "tMs": 2720,
+      "durationMs": 44,
       "type": "tool_call",
       "label": "Called get_service_requirements",
       "detail": "4 document(s), 3 form field(s)",
@@ -66,41 +66,41 @@
     },
     {
       "index": 3,
-      "tMs": 2783,
+      "tMs": 2764,
       "durationMs": 1,
       "type": "tool_call",
-      "label": "Called list_services",
-      "detail": "1 service(s)",
+      "label": "Called check_eligibility",
+      "detail": "No eligibility ruleset for \"kaiju-proximity-permit\".",
       "toolCall": {
-        "name": "list_services",
+        "name": "check_eligibility",
         "arguments": {
-          "category": "permits"
+          "serviceId": "kaiju-proximity-permit"
         },
-        "resultSummary": "1 service(s)",
-        "resultBytes": 267,
-        "isError": false
+        "resultSummary": "No eligibility ruleset for \"kaiju-proximity-permit\".",
+        "resultBytes": 127,
+        "isError": true
       },
       "cost": {
-        "bytes": 267
+        "bytes": 127
       },
-      "outcome": "ok"
+      "outcome": "error"
     },
     {
       "index": 4,
-      "tMs": 2784,
-      "durationMs": 2207,
+      "tMs": 2765,
+      "durationMs": 2352,
       "type": "think",
       "label": "Chose a page to open",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 2367,
-        "tokensOut": 136
+        "tokensIn": 2424,
+        "tokensOut": 138
       }
     },
     {
       "index": 5,
-      "tMs": 4991,
-      "durationMs": 563,
+      "tMs": 5117,
+      "durationMs": 69,
       "type": "navigate",
       "label": "Opened Apply — Proximity Construction Permit | Office of Kaiju Affairs",
       "detail": "8 KB — opened so the page's own form can be filled",
@@ -115,19 +115,19 @@
     },
     {
       "index": 6,
-      "tMs": 5554,
-      "durationMs": 1508,
+      "tMs": 5186,
+      "durationMs": 1431,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 3367,
+        "tokensIn": 3309,
         "tokensOut": 60
       }
     },
     {
       "index": 7,
-      "tMs": 7062,
+      "tMs": 6617,
       "durationMs": 1,
       "type": "tool_call",
       "label": "Called get_page_summary",
@@ -148,20 +148,20 @@
     },
     {
       "index": 8,
-      "tMs": 7063,
-      "durationMs": 3741,
+      "tMs": 6618,
+      "durationMs": 6271,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 3562,
-        "tokensOut": 298
+        "tokensIn": 3507,
+        "tokensOut": 498
       }
     },
     {
       "index": 9,
-      "tMs": 10804,
-      "durationMs": 20,
+      "tMs": 12889,
+      "durationMs": 14,
       "type": "prefill",
       "label": "Called prefill_permit_form",
       "detail": "filled 5, submitted=false",
@@ -174,157 +174,137 @@
             "zone": "4",
             "distanceFromCorridorM": 300,
             "postcode": "315-0117",
+            "projectType": "structural alteration",
             "floorAreaM2": 96,
-            "workType": "Structural alteration",
-            "projectDescription": "Rebuilding damaged shopfront at Tanaka Bakery (structural alteration, not new construction)",
+            "seismicPlanCompleted": true,
             "startDate": "2026-10-01",
             "contactEmail": "mira@tanaka-bakery.example",
             "contactPhone": "0299-55-0184"
           }
         },
         "resultSummary": "filled 5, submitted=false",
-        "resultBytes": 548,
+        "resultBytes": 677,
         "isError": false
       },
       "cost": {
-        "bytes": 548
+        "bytes": 677
       },
       "outcome": "ok"
     },
     {
       "index": 10,
-      "tMs": 10824,
-      "durationMs": 3296,
+      "tMs": 12903,
+      "durationMs": 2991,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 3922,
-        "tokensOut": 281
+        "tokensIn": 3867,
+        "tokensOut": 292
       }
     },
     {
       "index": 11,
-      "tMs": 14120,
-      "durationMs": 21,
-      "type": "tool_call",
-      "label": "Called search_site",
-      "detail": "5 result(s)",
-      "toolCall": {
-        "name": "search_site",
-        "arguments": {
-          "query": "reinforcement standard options proximity permit"
-        },
-        "resultSummary": "5 result(s)",
-        "resultBytes": 1705,
-        "isError": false
-      },
-      "cost": {
-        "bytes": 1705
-      },
-      "outcome": "ok"
-    },
-    {
-      "index": 12,
-      "tMs": 14141,
-      "durationMs": 2,
-      "type": "tool_call",
-      "label": "Called search_site",
-      "detail": "5 result(s)",
-      "toolCall": {
-        "name": "search_site",
-        "arguments": {
-          "query": "structure type options proximity permit application"
-        },
-        "resultSummary": "5 result(s)",
-        "resultBytes": 1697,
-        "isError": false
-      },
-      "cost": {
-        "bytes": 1697
-      },
-      "outcome": "ok"
-    },
-    {
-      "index": 13,
-      "tMs": 14143,
-      "durationMs": 3540,
-      "type": "think",
-      "label": "Chose the next tool to call",
-      "outcome": "ok",
-      "cost": {
-        "tokensIn": 4789,
-        "tokensOut": 216
-      }
-    },
-    {
-      "index": 14,
-      "tMs": 17683,
-      "durationMs": 6,
+      "tMs": 15894,
+      "durationMs": 4,
       "type": "prefill",
       "label": "Called prefill_permit_form",
-      "detail": "filled 5, submitted=false",
+      "detail": "filled 4, submitted=false",
       "toolCall": {
         "name": "prefill_permit_form",
         "arguments": {
           "formId": "proximity-permit-form",
           "values": {
             "sitePostcode": "315-0117",
-            "structureType": "Structural alteration",
+            "structureType": "structural alteration",
             "floorAreaSqm": 96,
-            "reinforcementStandard": "K-2",
+            "reinforcementStandard": "engineer-certified",
             "seismicPlanAttached": true,
             "plannedStartDate": "2026-10-01"
           }
         },
-        "resultSummary": "filled 5, submitted=false",
-        "resultBytes": 419,
+        "resultSummary": "filled 4, submitted=false",
+        "resultBytes": 571,
         "isError": false
       },
       "cost": {
-        "bytes": 419
+        "bytes": 571
       },
       "outcome": "ok"
     },
     {
-      "index": 15,
-      "tMs": 17689,
-      "durationMs": 1711,
+      "index": 12,
+      "tMs": 15898,
+      "durationMs": 1714,
       "type": "think",
       "label": "Chose the next tool to call",
       "outcome": "ok",
       "cost": {
-        "tokensIn": 7175,
-        "tokensOut": 95
+        "tokensIn": 4974,
+        "tokensOut": 147
       }
     },
     {
-      "index": 16,
-      "tMs": 19400,
-      "durationMs": 10,
+      "index": 13,
+      "tMs": 17612,
+      "durationMs": 5,
+      "type": "tool_call",
+      "label": "Called search_site",
+      "detail": "5 result(s)",
+      "toolCall": {
+        "name": "search_site",
+        "arguments": {
+          "query": "reinforcement standard K-1 K-2 K-3 zone corridor distance"
+        },
+        "resultSummary": "5 result(s)",
+        "resultBytes": 1712,
+        "isError": false
+      },
+      "cost": {
+        "bytes": 1712
+      },
+      "outcome": "ok"
+    },
+    {
+      "index": 14,
+      "tMs": 17617,
+      "durationMs": 1762,
+      "type": "think",
+      "label": "Chose the next tool to call",
+      "outcome": "ok",
+      "cost": {
+        "tokensIn": 5690,
+        "tokensOut": 146
+      }
+    },
+    {
+      "index": 15,
+      "tMs": 19379,
+      "durationMs": 4,
       "type": "prefill",
       "label": "Called prefill_permit_form",
-      "detail": "filled 1, submitted=false",
+      "detail": "filled 2, submitted=false",
       "toolCall": {
         "name": "prefill_permit_form",
         "arguments": {
           "formId": "proximity-permit-form",
           "values": {
-            "structureType": "structural-alteration"
+            "structureType": "structural-alteration",
+            "reinforcementStandard": "K-2"
           }
         },
-        "resultSummary": "filled 1, submitted=false",
-        "resultBytes": 222,
+        "resultSummary": "filled 2, submitted=false",
+        "resultBytes": 514,
         "isError": false
       },
       "cost": {
-        "bytes": 222
+        "bytes": 514
       },
       "outcome": "ok"
     },
     {
-      "index": 17,
-      "tMs": 24130,
+      "index": 16,
+      "tMs": 24409,
       "durationMs": 200,
       "type": "prefill",
       "label": "Finished without filling organization",
@@ -334,22 +314,22 @@
       },
       "outcome": "dead-end",
       "cost": {
-        "tokensIn": 7735,
-        "tokensOut": 540
+        "tokensIn": 6955,
+        "tokensOut": 587
       }
     },
     {
-      "index": 18,
-      "tMs": 24330,
+      "index": 17,
+      "tMs": 24609,
       "durationMs": 1200,
       "type": "answer",
       "label": "Gave its answer",
-      "detail": "All fields on the Kaiju‑Proximity Construction Permit application (/permits/proximity/apply/) are now filled in and ready for your review: - **Applicant name:** Mira Tanaka - **Evacuation zone:** 4 - **Distance from corr",
+      "detail": "All required fields on the Kaiju-Proximity Construction Permit application are now filled in and ready for your review at **/permits/proximity/apply/**. Here's what was entered: | Field | Value | |---|---| | Applicant na",
       "outcome": "ok"
     }
   ],
   "result": {
-    "answer": "All fields on the Kaiju‑Proximity Construction Permit application (/permits/proximity/apply/) are now filled in and ready for your review:\n\n- **Applicant name:** Mira Tanaka\n- **Evacuation zone:** 4\n- **Distance from corridor centreline:** 300 m\n- **Site postcode:** 315‑0117\n- **Structure type:** Structural alteration\n- **Floor area:** 96 m²\n- **Reinforcement standard:** K‑2 (this is the mandatory standard for Zone 4, per /permits/proximity/)\n- **Seismic and impact mitigation plan attached:** ✅ checked\n- **Planned start date:** 2026‑10‑01\n- **Contact email:** mira@tanaka-bakery.example\n- **Contact phone:** 0299‑55‑0184\n\nNothing was submitted — please review the highlighted fields on the page and press \"Submit application\" yourself.\n\nA few things to keep in mind before you do, all from the Permit Requirements page (/permits/proximity/requirements/):\n\n- **Fee:** ¥45,000, payable on submission, non‑refundable if refused.\n- **Required documents to attach:** site plan (1:500 scale or finer showing the corridor centreline), the seismic/impact mitigation plan you already have, a corridor proximity survey no older than 6 months, and a copy of your contractor's current prefecture licence.\n- **Deadline:** must apply at least 10 business days before breaking ground — since you want to start 1 October 2026, submit by mid‑September 2026 at the latest.\n- **Processing time:** 10 business days.",
+    "answer": "All required fields on the Kaiju-Proximity Construction Permit application are now filled in and ready for your review at **/permits/proximity/apply/**. Here's what was entered:\n\n| Field | Value |\n|---|---|\n| Applicant name | Mira Tanaka |\n| Evacuation zone | 4 |\n| Distance from corridor centreline | 300 m |\n| Site postcode | 315-0117 |\n| Structure type | Structural alteration |\n| Floor area | 96 m² |\n| Reinforcement standard | K-2 (required for Zone 4 — source: /permits/proximity/) |\n| Seismic and impact mitigation plan attached | Yes |\n| Planned start date | 2026-10-01 |\n| Contact email | mira@tanaka-bakery.example |\n| Contact phone | 0299-55-0184 |\n\n**One optional field was left blank:** \"Organisation (if any)\" — let me know if you'd like \"Tanaka Bakery\" entered there.\n\nA few things to keep in mind before you submit (from /permits/proximity/requirements/):\n- **Fee:** ¥45,000, payable on submission, non‑refundable if refused.\n- **Deadline:** Must apply at least 10 business days before breaking ground — for an Oct 1, 2026 start, submit by around Sept 17, 2026 at the latest.\n- **Processing time:** 10 business days.\n- **Documents you'll still need to attach:** site plan (1:500 scale showing the corridor centreline), the seismic and impact mitigation plan (you have this), a corridor proximity survey no older than 6 months, and a copy of your contractor's current prefecture licence.\n\nNothing has been submitted — please review the highlighted fields on the page and press \"Submit application\" yourself when ready.",
     "answerFields": {
       "applicantName": "Mira Tanaka",
       "contactEmail": "mira@tanaka-bakery.example",
@@ -367,14 +347,14 @@
     "gaveUp": false
   },
   "metrics": {
-    "wallClockMs": 25530,
-    "actionCount": 18,
-    "toolCalls": 8,
+    "wallClockMs": 25809,
+    "actionCount": 17,
+    "toolCalls": 7,
     "pageLoads": 1,
     "deadEnds": 1,
-    "bytesTransferred": 148329,
-    "tokensIn": 35007,
-    "tokensOut": 1817
+    "bytesTransferred": 147072,
+    "tokensIn": 33150,
+    "tokensOut": 2053
   },
   "score": {
     "answerKeyId": "task-3-permit",
@@ -422,5 +402,5 @@
       "Affirmative phrases are only counted when not negated within the preceding ~28 characters, so \"should not have to pay\" is not read as \"have to pay\"."
     ]
   },
-  "notes": "5 of 5 recorded passes fell short of a full score. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
+  "notes": "1 of 5 recorded passes fell short of a full score. This is the pass the Arena replays — the weakest of the 5. Scored against answer-keys.json at 2789259209f6bb544550f8c9e811cb73cac369e3. The scoring-relevant fields of that key (prompt, persona, checks, expected) are byte-identical to 9b5c88c, so both rounds were measured against the same effective key; the later sha adds presentation copy only. tokensIn counts every token the model took in, cached reads included; the webmcp lane re-sends its tool schemas on each request, as any real tool surface does, so that overhead is measured rather than excluded."
 }
