@@ -1,42 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
 /* The Arena — Office of Kaiju Affairs.
-   Government-plain on purpose, with exactly one loud colour. */
+   
+   Every value below defers to the published design system's token of the same
+   meaning, and falls back to a copy of it. build.mjs links the CMS's stylesheet
+   into this page ahead of ours, discovered from the published site rather than
+   hardcoded, so a restyle in RIFT reaches this page without anyone editing it.
+   The fallbacks keep the page readable when it is built against the local
+   scaffold, where no design system exists.
+
+   The site has no dark mode. Neither does this page — an instrumentation page
+   that themes differently from the service it instruments looks bolted on. */
 
 :root {
-  --paper: #fbfaf8;
-  --paper-2: #ffffff;
-  --sunken: #f2efea;
-  --ink: #16191f;
-  --ink-2: #4a5058;
-  --ink-3: #767d86;
-  --line: #ddd8d0;
-  --accent: #c8531b;
-  --accent-soft: #fdf0e8;
-  --slow: #6b7280;
-  --slow-soft: #eef0f3;
-  --good: #12695c;
-  --bad: #a12d1c;
-  --radius: 10px;
+  --paper:     var(--background, #f2f1ed);
+  --paper-2:   #ffffff;
+  --sunken:    var(--neutral-100, #e8e7e2);
+  --ink:       var(--neutral-900, #17181a);
+  --ink-2:     var(--neutral-500, #5c5e61);
+  --ink-3:     #7b7d80;
+  --line:      var(--border-color, #d4d3cd);
+  --accent:    var(--primary-500, #cf2318);
+  --accent-dk: var(--primary-700, #8f1710);
+  --accent-soft: #fbeceb;
+  --slow:      var(--accent-teal-500, #4a6a75);
+  --slow-soft: #eaeeef;
+  --good:      var(--success-500, #3d7a46);
+  --bad:       var(--danger-500, #a11c12);
+  --radius:    var(--radius-lg, 4px);
   --wrap: 1140px;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #14161a;
-    --paper-2: #1b1e24;
-    --sunken: #22262d;
-    --ink: #eceff3;
-    --ink-2: #b3bac3;
-    --ink-3: #858d97;
-    --line: #2f343c;
-    --accent: #f0793c;
-    --accent-soft: #2c1a10;
-    --slow: #8d949e;
-    --slow-soft: #23272e;
-    --good: #4bbfa8;
-    --bad: #f0836e;
-  }
+  --mono: var(--font-mono, 'JetBrains Mono', ui-monospace, Menlo, monospace);
+  --sans: var(--font-body, 'IBM Plex Sans', system-ui, sans-serif);
+  --head: var(--font-heading, 'Archivo', system-ui, sans-serif);
 }
 
 * { box-sizing: border-box; }
@@ -77,8 +72,9 @@ a { color: var(--accent); }
 .masthead h1 {
   margin: 0 0 14px;
   font-size: clamp(30px, 4.6vw, 47px);
-  line-height: 1.08;
-  letter-spacing: -.022em;
+  line-height: 1.06;
+  letter-spacing: -.024em;
+  font-weight: 800;
 }
 .lede { margin: 0; max-width: 66ch; font-size: 18px; color: var(--ink-2); }
 
@@ -107,7 +103,8 @@ a { color: var(--accent); }
 main > section { padding: 52px 0; border-bottom: 1px solid var(--line); }
 main > section:last-child { border-bottom: 0; }
 
-h2 { margin: 0 0 6px; font-size: 27px; letter-spacing: -.015em; }
+h1, h2, h3, h4, .lane-name, .task-title, .finding .figure { font-family: var(--head); }
+h2 { margin: 0 0 6px; font-size: 27px; letter-spacing: -.015em; font-weight: 700; }
 .sub { margin: 0 0 26px; color: var(--ink-2); max-width: 62ch; }
 .loading { color: var(--ink-3); font-style: italic; }
 
@@ -148,14 +145,14 @@ table.board-table { width: 100%; border-collapse: collapse; font-size: 15px; min
 blockquote.scenario {
   margin: 0 0 14px; padding: 16px 18px;
   background: var(--sunken); border-left: 3px solid var(--accent);
-  border-radius: 0 6px 6px 0; color: var(--ink); font-size: 15.5px;
+  border-radius: 0 var(--radius-md, 3px) var(--radius-md, 3px) 0; color: var(--ink); font-size: 15.5px;
 }
 .ask { margin: 0 0 14px; font-size: 15px; color: var(--ink-2); }
 .copy-hint { margin: 8px 0 0; font-size: 13.5px; color: var(--ink-3); }
 
 .btn {
   font: 600 14px/1 var(--sans);
-  padding: 11px 17px; border-radius: 7px;
+  padding: 11px 17px; border-radius: var(--radius-md, 3px);
   border: 1px solid var(--accent); background: var(--accent); color: #fff;
   cursor: pointer;
 }
@@ -169,7 +166,7 @@ blockquote.scenario {
 .replay-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
 .speed { font-size: 13.5px; color: var(--ink-3); display: inline-flex; align-items: center; gap: 7px; }
 .speed-select {
-  font: 13.5px var(--sans); padding: 7px 9px; border-radius: 6px;
+  font: 13.5px var(--sans); padding: 7px 9px; border-radius: var(--radius-md, 3px);
   border: 1px solid var(--line); background: var(--paper-2); color: var(--ink);
 }
 
@@ -179,7 +176,7 @@ blockquote.scenario {
 @media (max-width: 860px) { .lanes { grid-template-columns: 1fr; } }
 
 .lane {
-  border: 1px solid var(--line); border-radius: 8px;
+  border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--paper); overflow: hidden;
   display: flex; flex-direction: column;
 }
@@ -234,7 +231,7 @@ blockquote.scenario {
 .verdict .fail { color: var(--bad); font-weight: 700; }
 .verdict .note { color: var(--ink-3); font-size: 13px; display: block; }
 .badge {
-  display: inline-block; padding: 2px 9px; border-radius: 999px;
+  display: inline-block; padding: 2px 9px; border-radius: var(--radius-sm, 2px);
   font: 700 11px/1.8 var(--sans); letter-spacing: .07em; text-transform: uppercase;
 }
 .badge.correct { background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
