@@ -90,6 +90,14 @@
         "body": "The original eligibility tool correctly said that Mira still had to pay, but it did not return the decisive rule explaining why. We updated it to include the unmet requirement, Mira's facts compared with that requirement, and the supporting source.",
         "whyItMatters": "The improved tool gave the agent the explanation. The agent still did not consistently repeat it to Mira. That taught us something important: giving an agent the reason is not the same as making sure the person hears it.",
         "remedy": "Mira does not only need \u201cyes\u201d or \u201cno\u201d. She needs to know why she must pay today and what would change the answer tomorrow. That is the difference between processing a case and helping a person."
+      },
+      "roundNotes": {
+        "2": {
+          "headline": "The fix worked. The rule it needed had never been encoded.",
+          "body": "check_eligibility now returns what it did not grant \u2014 the requirement, Mira's answer against it, and the citation. It returned all of that. What it could not return is the sentence this task is scored on, because that sentence is not in the encoded rule. The published rule is numeric: incidentsLast12Months must be at least 2. The word \u201capproved\u201d survives in the question label and the rule's description. The exclusion \u2014 that refused, withdrawn and pending claims do not count \u2014 appears in no rule field, no key fact and no tool response. It exists only in the page prose.",
+          "why": "So the fix could not move a score that measures un-encoded policy. Reading the five published answers: three applied the approved-only distinction to Mira's case, one counted her pending claim as approved, and none stated the general exclusion. You can check that against the rule in the manifest and the answers in the traces.",
+          "lesson": "This is the executable-policy problem in miniature, and it is why that lesson is on this page. Encoding a policy loses the parts nobody encoded. A tool can only be as complete as the rules behind it, and the gap does not announce itself \u2014 the tool answers confidently either way. Here it took a benchmark to find one missing clause in one rule on a three-task site."
+        }
       }
     },
     {

@@ -194,6 +194,8 @@ function renderRounds(task, runs, host, index) {
   const moved = Math.abs(delta) >= Math.max(0.05, smallest);
   const tierName = (index.tiers || []).find((t) => t.tier === tier)?.label || tier;
 
+  const note = task.roundNotes?.[String(last.round)];
+
   host.hidden = false;
   host.innerHTML = `
     <h4>Before and after we fixed the tool${tierName ? ` · ${escapeHtml(tierName)}` : ''}</h4>
@@ -210,7 +212,13 @@ function renderRounds(task, runs, host, index) {
           : `This task got <strong>worse</strong> by ${pct(Math.abs(delta))} after the fix. We publish it because a result that goes the wrong way is still a result.`)
       : Math.abs(delta) < 0.005
         ? `Identical in both rounds. This task was already answered correctly every time, so there was nothing here for the fix to improve.`
-        : `No measured change — the difference is ${pct(Math.abs(delta))} across ${last.n} attempts, which is about one checklist item on one run. What the fix did change is described above.`}</p>`;
+        : `No measured change — the difference is ${pct(Math.abs(delta))} across ${last.n} attempts, which is about one checklist item on one run.`}</p>
+    ${note ? `<div class="round-story">
+        <h5>${escapeHtml(note.headline)}</h5>
+        <p>${escapeHtml(note.body)}</p>
+        ${note.why ? `<p>${escapeHtml(note.why)}</p>` : ''}
+        ${note.lesson ? `<p class="pull">${escapeHtml(note.lesson)}</p>` : ''}
+      </div>` : ''}`;
 }
 
 /* ---------------------------------------------------------------- findings */

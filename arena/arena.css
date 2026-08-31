@@ -454,3 +454,8 @@ code { font: .92em var(--mono); }
   border-radius: 0 var(--radius-md, 3px) var(--radius-md, 3px) 0;
   font-size: 13.5px; color: var(--ink-2); max-width: 74ch;
 }
+
+.round-story { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.round-story h5 { margin: 0 0 8px; font: 600 15.5px/1.35 var(--head); color: var(--ink); }
+.round-story p { margin: 0 0 10px; font-size: 14.5px; color: var(--ink-2); max-width: 76ch; }
+.round-story .pull { color: var(--ink); border-left: 3px solid var(--accent); padding-left: 14px; }
